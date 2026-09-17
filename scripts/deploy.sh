@@ -25,7 +25,8 @@ if stage.exists(): shutil.rmtree(stage)
 
 root = pathlib.Path('.')
 pages = sorted(root.glob('*.html'))
-for f in pages + [pathlib.Path('style.css'), pathlib.Path('app.js')]:
+# config.json 必须一起上线:页面的投递邮箱与表单地址都从它读
+for f in pages + [pathlib.Path('style.css'), pathlib.Path('app.js'), pathlib.Path('config.json')]:
     shutil.copy2(f, stage / f.name)
 
 missing = []

@@ -31,6 +31,13 @@ node scripts/verify-site.mjs http://127.0.0.1:8898
 # 3 从源图重放全部素材切片(确定性,会重算 sha256 与色板采样)
 python3 tools/slice_assets.py          # 只切站点用到的素材(默认)
 python3 tools/slice_assets.py --all    # 连同备用素材一起切
+
+# 4 投递后端(Cloudflare Worker)—— 收件邮箱、发信域、后端地址都在 config.json 里
+TEST=1 bash scripts/deploy-apply.sh    # 同步配置 + 部署 + 真发一封自检邮件
+SKIP_DEPLOY=1 bash scripts/deploy-apply.sh   # 只看配置,不部署
+
+# 5 站点上线(会把 config.json 一起带上;部署完自动跑一次线上真浏览器验收)
+bash scripts/deploy.sh
 ```
 
 ---
@@ -44,7 +51,9 @@ python3 tools/slice_assets.py --all    # 连同备用素材一起切
 ├── hibs.html                  HIBS 团队:三条回路 + 加入方式
 ├── progress.html              Progress:当前阶段 + 技术栏(01 时变引力场 / 02 AI 控制)
 ├── style.css                  唯一设计系统(令牌 + 全部组件)
-├── app.js                     交互:语言 / 标签 / 复制 / 滚动揭示 / 移动端导航
+├── app.js                     交互:语言 / 标签 / 复制 / 滚动揭示 / 移动端导航 / 投递表单
+├── config.json                ★ 站点唯一配置源:投递邮箱 / 后端地址 / 发信地址 / 来源白名单
+├── apply-worker/              投递后端:Cloudflare Worker(校验 + 蜜罐 + send_email 直发)
 ├── assets/
 │   ├── manifest.json          每个切片的源图裁剪框 / 尺寸 / 字节 / sha256
 │   ├── palette.json           色板实测值 + 设计板印刷 hex
@@ -61,7 +70,10 @@ python3 tools/slice_assets.py --all    # 连同备用素材一起切
 │   ├── slice_assets.py        切图(唯一入口;--all 连备用素材一起切)
 │   ├── import_covers.py       导入 bolloon 封面图素材池(复制 + 登记 sha256)
 │   └── instrument_i18n.py     给文案加 data-zh / data-en 双属性
-└── scripts/verify-site.mjs    零依赖真浏览器验收(CDP 驱动 headless Chrome)
+├── scripts/
+│   ├── verify-site.mjs        零依赖真浏览器验收(CDP 驱动 headless Chrome)
+│   ├── deploy.sh              站点上线(只打包站点需要的文件,含 config.json)
+│   └── deploy-apply.sh        投递后端上线(从 config.json 生成 Worker 配置并部署)
 ```
 
 ---
@@ -86,6 +98,8 @@ python3 tools/slice_assets.py --all    # 连同备用素材一起切
 ```text
 改 CSS / JS      → 把所有 HTML 里的 ?v=N 全部 +1(漏一页 = 那页用旧缓存)
                   grep -o 'style.css?v=[0-9]*' *.html | sort | uniq -c
+改投递邮箱       → 只改 config.json 的 apply.to,然后跑 scripts/deploy-apply.sh(后端)
+                  + scripts/deploy.sh(站点);后端配置是这个脚本从 config.json 生成的
 改文案           → 同时改 data-zh 与 data-en(或跑 python3 tools/instrument_i18n.py)
 换素材           → 保留文件名,覆盖 assets/ 里的文件,然后升 ?v=N
 动结构或版式     → 先改 docs/DESIGN-PLAN.md,再改实现(文档与实现不一致时以文档为准)
@@ -102,8 +116,9 @@ python3 tools/slice_assets.py --all    # 连同备用素材一起切
 |:--|:--|:--|
 | 1 | 待批准的设计决策(强调色取印刷码还是实测值、纸块 vs 透明底…) | `docs/DESIGN-PLAN.md` §12 |
 | 2 | 低分辨率素材的矢量 / 高清重绘(标志、app icon、插画) | `docs/DESIGN-PLAN.md` §10.3 |
-| 3 | 需方补齐「待填」内容(名单、指标、邮箱、里程碑) | `docs/CONTENT-SOURCES.md` §3 |
+| 3 | 需方补齐「待填」内容(名单、岗位、里程碑);**投递邮箱已提供**(见 §二·七) | `docs/CONTENT-SOURCES.md` §3 |
 | 4 | 口径句(反引力场 / 无噪音·无限能源 / 可控引力场飞行器)如需改措辞:落点见 `docs/CONTENT-SOURCES.md` §二·五~二·六 | `docs/CONTENT-SOURCES.md` |
 | 5 | 低分辨率转写文字的复核(自述段标点、海报批注) | `docs/CONTENT-SOURCES.md` §4 |
 | 6 | **最小信息披露纪律**:公开页不写仓库路径 / 尺寸 / 命令行 / 过程话术 —— 新增内容前先读 `docs/DESIGN-PLAN.md` §4 纪律 11 | `docs/DESIGN-PLAN.md` |
 | 7 | HIBS 团队页的成员名单 / 头像 / 机构信息仍是占位 | `docs/CONTENT-SOURCES.md` §3 |
+| 8 | 投递通道依赖 Cloudflare Email Sending 的开放测试期:发信域状态用 OAuth 的 CLI 查不到(2036),只在控制台可见;换发信域时同步改 `config.json` 的 `apply.sendingDomain` | `docs/DESIGN-PLAN.md` §7.5.3 |

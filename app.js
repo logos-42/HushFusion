@@ -11,8 +11,10 @@ document.documentElement.classList.add('js');
 
   /* ── 语言切换 ───────────────────────────────────────────────────────── */
   var LANG_KEY = 'hushfusion-lang';
+  var currentLang = 'zh';   // 仅供 JS 自己生成的提示语(投递表单状态)选语言用
 
   function applyLang(lang) {
+    currentLang = lang === 'en' ? 'en' : 'zh';
     document.querySelectorAll('[data-zh][data-en]').forEach(function (el) {
       var value = el.getAttribute(lang === 'en' ? 'data-en' : 'data-zh');
       if (value === null) return;
@@ -154,4 +156,130 @@ document.documentElement.classList.add('js');
   document.querySelectorAll('.mast-links a[href]').forEach(function (a) {
     if (norm(a.getAttribute('href')) === here) a.classList.add('is-active');
   });
+
+  /* ── 投递(config.json 是唯一配置源) ────────────────────────────────── */
+  // 页面上那份邮箱只是兜底(无 JS 时也要能读);有 JS 时一律以 config.json 为准,
+  // 所以「改邮箱只改一处」= 改 config.json 的 apply.to。
+  var applyCfg = { to: '', endpoint: '' };
+  var statusEl = document.getElementById('apply-status');
+  var form = document.querySelector('[data-apply-form]');
+
+  var STATUS = {
+    sending:  { zh: '发送中…', en: 'Sending…' },
+    sent:     { zh: '已收到,谢谢。我们会用邮件回复你。', en: 'Received, thank you. We will reply by email.' },
+    invalid:  { zh: '请把称呼、邮箱与想做的事填完整(邮箱要写对)。', en: 'Please fill in your name, email and message (with a valid email).' },
+    busy:     { zh: '刚才已经收到一次了,请稍等一会儿再投。', en: 'We just received one from you — please wait a moment and try again.' },
+    offline:  { zh: '表单通道当前不可用,请改用上面的投递邮箱(内容已为你填好)。', en: 'The form is unavailable right now — please use the address above (your text is pre-filled).' },
+    noconfig: { zh: '没有读到投递配置,请直接发信到上面的投递邮箱。', en: 'Apply settings could not be loaded — please email the address above.' }
+  };
+
+  function setStatus(key) {
+    if (!statusEl) return;
+    var msg = STATUS[key];
+    statusEl.textContent = msg ? msg[currentLang] : '';
+    statusEl.classList.toggle('is-ok', key === 'sent');
+    statusEl.classList.toggle('is-err', key === 'invalid' || key === 'busy' || key === 'offline' || key === 'noconfig');
+  }
+
+  function syncApplyUI(apply) {
+    applyCfg = {
+      to: (apply && apply.to) || '',
+      endpoint: (apply && apply.endpoint) || ''
+    };
+    if (applyCfg.to) {
+      document.querySelectorAll('[data-apply-email]').forEach(function (el) {
+        el.textContent = applyCfg.to;
+        if (el.tagName === 'A') el.setAttribute('href', 'mailto:' + applyCfg.to);
+      });
+      var to = document.getElementById('apply-mailto');
+      if (to) to.setAttribute('href', 'mailto:' + applyCfg.to);
+    }
+    if (form && applyCfg.endpoint) form.setAttribute('action', applyCfg.endpoint);
+  }
+
+  // config.json 与 app.js 同版本号(?v=N),升版本时一起变,不会读到旧缓存。
+  (function loadApplyConfig() {
+    if (!window.fetch) return;
+    var tag = document.querySelector('script[src*="app.js"]');
+    var m = tag && /[?&]v=(\d+)/.exec(tag.getAttribute('src'));
+    var url = 'config.json' + (m ? '?v=' + m[1] : '');
+    fetch(url, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (cfg) { if (cfg && cfg.apply) syncApplyUI(cfg.apply); })
+      .catch(function () { /* 读不到就用页面里的兜底邮箱 */ });
+  })();
+
+  // 表单内容 → mailto(失败时的退路,也是访客自己发信时的预填)
+  function mailtoFor(data) {
+    var body = [
+      '称呼: ' + data.name,
+      '邮箱: ' + data.email,
+      '作品 / 主页: ' + (data.links || '—'),
+      '',
+      data.message
+    ].join('\n');
+    return 'mailto:' + applyCfg.to
+      + '?subject=' + encodeURIComponent('HUSHFUSION 投递 · ' + data.name)
+      + '&body=' + encodeURIComponent(body);
+  }
+
+  function fieldValue(id) {
+    var el = document.getElementById(id);
+    return el ? String(el.value || '').trim() : '';
+  }
+
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var data = {
+        name: fieldValue('apply-name'),
+        email: fieldValue('apply-email'),
+        links: fieldValue('apply-links'),
+        message: fieldValue('apply-message'),
+        company: fieldValue('apply-company'),
+        lang: currentLang,
+        origin: location.origin
+      };
+
+      var ok = data.name && data.message && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email);
+      if (!ok) { setStatus('invalid'); return; }
+
+      var fallback = document.getElementById('apply-mailto');
+      if (fallback) fallback.setAttribute('href', mailtoFor(data));
+
+      if (!applyCfg.endpoint) { setStatus('noconfig'); if (fallback) fallback.hidden = false; return; }
+      if (!window.fetch) {
+        if (fallback) { fallback.hidden = false; }
+        window.location.href = mailtoFor(data);
+        return;
+      }
+
+      setStatus('sending');
+      var btn = document.getElementById('apply-submit');
+      if (btn) btn.disabled = true;
+
+      fetch(applyCfg.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+        .then(function (r) { return r.json().catch(function () { return { ok: false, code: 'bad_response' }; }); })
+        .then(function (res) {
+          if (res && res.ok) {
+            form.reset();
+            setStatus('sent');
+            return;
+          }
+          var code = (res && res.code) || 'offline';
+          setStatus(code === 'busy' ? 'busy' : (code === 'invalid' ? 'invalid' : 'offline'));
+          if (code !== 'invalid' && code !== 'busy' && fallback) fallback.hidden = false;
+        })
+        .catch(function () {
+          setStatus('offline');
+          if (fallback) fallback.hidden = false;
+        })
+        .then(function () { if (btn) btn.disabled = false; });
+    });
+  }
 })();

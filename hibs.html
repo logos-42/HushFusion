@@ -7,7 +7,7 @@
 <meta name="description" content="HUSHFUSION 由 HIBS 团队承担:四条回路、协作方式与加入方式。">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=13">
+<link rel="stylesheet" href="style.css?v=14">
 </head>
 <body>
 
@@ -65,15 +65,52 @@
     <div class="section-head reveal">
       <p class="kicker">— Join</p>
       <h2 class="section-title" data-zh="加入核聚变的未来" data-en="Join the future of fusion">加入核聚变的未来</h2>
-      <p class="section-lede"
-         data-zh="招聘开放中。投递地址、岗位与流程待项目方提供。"
-         data-en="Recruitment is open. The address, the roles and the process are pending from the project team.">招聘开放中。投递地址、岗位与流程待项目方提供。</p>
+      <p class="section-lede" data-html="1"
+         data-zh="招聘开放中。把&lt;strong&gt;你能做的事&lt;/strong&gt;、做过的作品与联系方式,投到下面这个邮箱。"
+         data-en="Recruitment is open. Send &lt;strong&gt;what you can do&lt;/strong&gt;, the work you have done, and how to reach you, to the address below.">招聘开放中。把<strong>你能做的事</strong>、做过的作品与联系方式,投到下面这个邮箱。</p>
     </div>
 
-    <div class="placeholder reveal">
-      <b>团队</b> HIBS 团队 · 成员名单 / 头像<br>
-      <b>投递</b> 正式收件地址<br>
-      <b>岗位</b> 级别 / 人数 / 地点 / 待遇
+    <div class="apply reveal">
+      <p class="kicker kicker--muted" data-zh="投递邮箱" data-en="Submit to">投递邮箱</p>
+      <p class="apply-mail">
+        <a class="apply-mail-addr" id="apply-mail" href="mailto:yuanjieliu65@gmail.com" data-apply-email>yuanjieliu65@gmail.com</a>
+        <button class="copy" type="button" data-copy="apply-mail" data-zh="复制" data-en="Copy">复制</button>
+      </p>
+      <p class="apply-fallback-note"
+         data-zh="表单只是省事的那条路;任何一步出问题,直接发信到上面的地址效果一样。"
+         data-en="The form is only the convenient path — if anything goes wrong, emailing the address above works just as well.">表单只是省事的那条路;任何一步出问题,直接发信到上面的地址效果一样。</p>
+
+      <form class="apply-form" id="apply-form" data-apply-form novalidate>
+        <div class="apply-row">
+          <div class="apply-field">
+            <label for="apply-name" data-zh="称呼" data-en="Name">称呼</label>
+            <input id="apply-name" name="name" type="text" maxlength="80" autocomplete="name" required>
+          </div>
+          <div class="apply-field">
+            <label for="apply-email" data-zh="你的邮箱" data-en="Your email">你的邮箱</label>
+            <input id="apply-email" name="email" type="email" maxlength="160" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="apply-field">
+          <label for="apply-links" data-zh="作品 / 主页链接(可选)" data-en="Work or profile links (optional)">作品 / 主页链接(可选)</label>
+          <input id="apply-links" name="links" type="text" maxlength="500" autocomplete="url">
+        </div>
+        <div class="apply-field">
+          <label for="apply-message" data-zh="你想做的事" data-en="What you want to work on">你想做的事</label>
+          <textarea id="apply-message" name="message" maxlength="4000" required></textarea>
+        </div>
+        <input class="apply-hp" id="apply-company" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="apply-actions">
+          <button class="quiet-cta quiet-cta--solid" type="submit" id="apply-submit" data-zh="投递" data-en="Submit">投递</button>
+          <a class="quiet-cta" id="apply-mailto" href="mailto:yuanjieliu65@gmail.com" hidden
+             data-zh="用邮件客户端发送" data-en="Send with your mail app">用邮件客户端发送</a>
+          <p class="apply-status" id="apply-status" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+
+    <div class="placeholder reveal" style="margin-top:26px">
+      <b>岗位</b> 级别 / 人数 / 地点 / 待遇 —— 待项目方提供
     </div>
   </section>
 
@@ -83,6 +120,6 @@
   <span>HUSHFUSION · 第一阶段 消音计划</span>
 </footer>
 
-<script src="app.js?v=13" defer></script>
+<script src="app.js?v=14" defer></script>
 </body>
 </html>

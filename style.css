@@ -418,6 +418,57 @@ table.doc td:first-child { color: var(--ink); }
   .mast-links a { font-size: 14px; }
 }
 
+/* ── 投递(邮箱行 + 表单) ───────────────────────────────────────────── */
+.apply-mail { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 4px; }
+.apply-mail-addr {
+  font-family: var(--mono); font-size: clamp(.8rem, 2.1vw, .95rem);
+  color: var(--ink); border-bottom: 1px solid var(--hairline-strong);
+  padding-bottom: 2px; overflow-wrap: anywhere;
+  transition: color .18s, border-color .18s;
+}
+.apply-mail-addr:hover { color: var(--accent); border-color: var(--accent); }
+.apply-fallback-note { color: var(--ink-3); font-size: 12px; margin-top: 12px; max-width: 40em; line-height: 1.8; }
+
+/* 渐进增强:没有 JS 时表单不出场,邮箱那条路照走(内容不该依赖脚本) */
+.apply-form { display: none; margin-top: 26px; max-width: 620px; }
+.js .apply-form { display: block; }
+.apply-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.apply-field { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.apply-row .apply-field { margin-top: 0; }
+.apply-field label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.apply-field input, .apply-field textarea {
+  width: 100%; background: var(--bg-2); border: 1px solid var(--hairline); border-radius: var(--r);
+  color: var(--ink); font: inherit; font-size: .95rem; font-weight: 300;
+  padding: 11px 13px; transition: border-color .18s, background .18s;
+}
+.apply-field textarea { min-height: 128px; resize: vertical; line-height: 1.7; }
+.apply-field input:focus, .apply-field textarea:focus {
+  outline: none; border-color: var(--accent); background: var(--bg-3);
+}
+.apply-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.apply-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 20px; }
+.apply-actions .quiet-cta[hidden] { display: none; }
+.apply-status { font-family: var(--mono); font-size: 12px; letter-spacing: .4px; color: var(--ink-3); max-width: 34em; }
+.apply-status.is-ok { color: var(--accent); }
+.apply-status.is-err { color: var(--amber); }
+
+/* ── 论文与引用(引用行 + 长文本断行) ───────────────────────────────── */
+.cite-links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 10px; }
+.cite-links a {
+  font-family: var(--mono); font-size: 12px; color: var(--accent);
+  overflow-wrap: anywhere; transition: color .18s;
+}
+.cite-links a:hover { color: var(--accent-hover); }
+/* 论文标题与摘要是长英文 + 符号,窄屏必须允许在词内断行,否则会横向溢出 */
+.cap-body h3, .cap-body p { overflow-wrap: break-word; }
+
+@media (max-width: 560px) {
+  .apply-row { grid-template-columns: 1fr; }
+}
+
 /* 导航折叠:比内容断点早一档,否则四项 + 中文项在 820–900 之间会横向溢出 */
 @media (max-width: 900px) {
   .nav-toggle { display: inline-flex; align-items: center; }

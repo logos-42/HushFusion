@@ -14,3 +14,20 @@
 | 2026-09-17 | feat | 部署 Cloudflare Pages(hushfusion.pages.dev)+ 修线上扩展名高亮差异 | `f49f2b6` |
 
 > 备注：本仓库公开部署在 hushfusion.pages.dev,`scripts/deploy.sh` 只打包站点引用文件、不带 docs/ scripts/ 工具与素材池;知识系统与站点共同纳入 git 版本管理。
+
+---
+
+## [2026-09-17] 投递通道 + 论文引用 | config.json 唯一配置源 · Cloudflare 直发已通
+
+| 日期 | 阶段/类别 | 变更 | 提交 / 说明 |
+|------|-----------|------|-------------|
+| 2026-09-17 | feat | 关于页「论文与引用」**结构补齐** + 新增「复制引用」;删掉重复的「理论依据」块 | `about.html#references` · aiXiv `aixiv.260821.000002` |
+| 2026-09-17 | feat | HIBS 页「加入」补齐:投递邮箱行 + 投递表单(称呼/邮箱/链接/想做的事 + 蜜罐) | `hibs.html#join` · `app.js` |
+| 2026-09-17 | feat | `config.json` 成为站点唯一配置源(投递邮箱/后端地址/发信地址/来源白名单),页面运行时读取 | 改邮箱只改一处 |
+| 2026-09-17 | feat | 投递后端 Worker(`apply-worker/`)已部署,Cloudflare Email Sending 直发到 `yuanjieliu65@gmail.com` | 发信域 `hushfusion.alou.onl`;收件人已登记为已验证目的地地址 + 绑定白名单 |
+| 2026-09-17 | feat | 新增 `scripts/deploy-apply.sh`(后端);`scripts/deploy.sh` 把 `config.json` 纳入站点产物 | 四页 `?v=13 → 14` |
+| 2026-09-17 | docs | 内容来源 §二·七(论文引用 + 投递邮箱逐字存档)、设计计划 §7.5.3(含两处 Cloudflare 实测坑) | `docs/CONTENT-SOURCES.md` · `docs/DESIGN-PLAN.md` |
+
+> 验收:本地 111/111、线上 111/111(`node scripts/verify-site.mjs`);投递端到端自检通过
+> —— 真浏览器在线上页填表 → Worker 校验 → 邮箱收到(`{"ok":true,"id":"…@hushfusion.alou.onl"}`)。
+> 尚待需方:岗位级别/人数/地点/待遇(`hibs.html#join`)、机构与团队/时间线/合作与资助/法务(`about.html#todo`)。

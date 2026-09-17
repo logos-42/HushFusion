@@ -11,8 +11,22 @@ status: current
 
 ## 最近更新
 
-- 待填写
+- 站点四页在线:`https://hushfusion.pages.dev`(资源版本 `?v=14`)
+- 关于页新增/补齐「论文与引用」:aiXiv `aixiv.260821.000002`(标题、摘要、关键词、链接 + 复制引用);
+  同一篇论文写重复的「理论依据」块已删除
+- HIBS 页「加入」补齐:投递邮箱行由 `config.json` 驱动,附投递表单(失败自动退回 mailto)
+- 投递后端 `hushfusion-apply`(Cloudflare Worker)已部署:**直发已打通** —— 发信域 `hushfusion.alou.onl`,
+  收件人 `yuanjieliu65@gmail.com`(已验证目的地地址 + 绑定 `allowed_destination_addresses` 白名单)
+- `config.json` = 站点唯一配置源(投递邮箱 / 后端地址 / 发信地址 / 来源白名单);改邮箱只改 `apply.to`
+- 验收:本地 111/111、线上 111/111;投递端到端自检(真浏览器填表 → Worker → 邮箱)通过
+
+## 待补 / 未决
+
+- 岗位级别 / 人数 / 地点 / 待遇:待项目方提供(`hibs.html#join`)
+- 机构与团队、时间线、合作与资助、法务:待项目方提供(`about.html#todo`)
+- 设计冻结前 §12 六个待批准项仍需逐条结论(`docs/DESIGN-PLAN.md`)
+- 发信域状态只在 Cloudflare 控制台可见(开放测试期,OAuth 的 CLI/API 查不到,2036);换域时改 `config.json`
 
 ## 进行中的实验
 
-- 待填写
+- 无(本站为品牌站;实验与指标类内容一律留占位,不编造)

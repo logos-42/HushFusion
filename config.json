@@ -1,0 +1,16 @@
+{
+  "_note": "HUSHFUSION 站点唯一配置源 —— 页面与投递后台都读这里。改「投递邮箱」只改 apply.to 这一行；改完跑 bash scripts/deploy-apply.sh（同步投递后端）+ bash scripts/deploy.sh（上线站点）。",
+  "apply": {
+    "to": "yuanjieliu65@gmail.com",
+    "endpoint": "https://hushfusion-apply.yuanjieliu65.workers.dev/api/apply",
+    "from": "apply@hushfusion.alou.onl",
+    "fromName": "HUSHFUSION 投递",
+    "sendingDomain": "hushfusion.alou.onl",
+    "worker": "hushfusion-apply"
+  },
+  "allowedOrigins": [
+    "https://hushfusion.pages.dev",
+    "http://127.0.0.1:8898",
+    "http://localhost:8898"
+  ]
+}

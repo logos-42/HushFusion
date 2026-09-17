@@ -1,0 +1,15 @@
+// 本文件由 scripts/deploy-apply.sh 从仓库根 config.json 生成 —— 不要手改。
+// 改投递邮箱:改 config.json 的 apply.to,然后重跑 deploy-apply.sh。
+{
+  "name": "hushfusion-apply",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-17",
+  "send_email": [{ "name": "EMAIL",
+    "allowed_destination_addresses": ["yuanjieliu65@gmail.com"] }],
+  "vars": {
+    "APPLY_TO": "yuanjieliu65@gmail.com",
+    "APPLY_FROM": "apply@hushfusion.alou.onl",
+    "APPLY_FROM_NAME": "HUSHFUSION 投递",
+    "ALLOWED_ORIGINS": "https://hushfusion.pages.dev,http://127.0.0.1:8898,http://localhost:8898"
+  }
+}

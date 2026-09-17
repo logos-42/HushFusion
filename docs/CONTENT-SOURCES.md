@@ -91,6 +91,22 @@
 
 **没有**写进去的(源里没有、也不许编): 飞行器的形态/速度/载重、相变的具体物理机制、任何指标或时间点。
 
+## 二·七 [需方指定] 2026-09-17 论文引用 + 投递邮箱(本轮新增内容的唯一来源)
+
+| 项 | 值 | 核验方式 |
+|:--|:--|:--|
+| 论文 | Liu, Yuan-Jie. *The Geometric Description of Physics at the Cosmic Scale: Mass, Information, Causality, Force, and the Quantum Relations from Geometry.* aiXiv, v1.0, 2026-08-21, `aixiv.260821.000002` | 标题 / 作者 / 版本 / 日期取自摘要页 `https://aixiv.science/abs/aixiv.260821.000002`(2026-09-17 抓取),不是转述 |
+| 论文摘要(关于页正文) | 需方逐字给出的中英双段 + 关键词 `Flow Space · Unification · Twistor Theory · Geometric Foundations` | 需方 2026-09-17 直接粘贴;**逐字保留,未改一字** |
+| 引用串(可复制) | `Liu, Yuan-Jie. "The Geometric Description of Physics at the Cosmic Scale…" aiXiv, v1.0, 21 Aug. 2026, aixiv.260821.000002. https://aixiv.science/abs/aixiv.260821.000002` | 由上表首行按 Chicago 注记式拼出,不含额外事实 |
+| 投递邮箱 | `yuanjieliu65@gmail.com` | 需方 2026-09-17 指定;页面那行由 `config.json` 的 `apply.to` 驱动,改一处即可 |
+| 投递表单字段 | 称呼 / 你的邮箱 / 作品或主页链接(可选) / 你想做的事 | 结构由本站定,字段不含任何承诺(无时限、无待遇、无流程承诺) |
+
+页面落点:`about.html#references`(论文与引用:标题、摘要、关键词、链接、复制引用)、`hibs.html#join`(投递邮箱行 + 投递表单)。
+
+> 论文节的**结构是补的**:需方 2026-09-17 粘贴的那段缺开头(`<ul class=\"cap-list\"><li><span class=\"cap-no\">01</span><div class=\"cap-body\">`)与条目标题,本轮按站点既有的 `cap-list` 组件补齐;摘要正文一字未动。
+> 同一篇论文曾被写成两块(「理论依据」+「论文与引用」)→ 重复的那块**整段删除**(2026-09-17)。
+> **未写进去的**:论文与本站工程路线之间的因果或优先级关系、任何指标或时间点 —— 需方没说的不编。
+
 ## 三 [待填] 源素材中不存在,页面显式留占位
 
 | 缺什么 | 谁提供 | 出现位置 |
@@ -99,7 +115,7 @@
 | 立项时间与里程碑节点 | 项目方 | `about.html#todo`、`progress.html#progress` |
 | 关键指标(指标项本身也未定)与它们的来源论文/记录 | 项目方 | ~~progress.html#tech~~ 该页已删 |
 | 归档附件(实验记录、软件版本) | 项目方 | *(该小节已按最小信息披露从公开页删除,仅在内部文档登记)* |
-| 投递邮箱、岗位级别、人数、地点、待遇 | 项目方 | ~~hibs.html#join~~ 该页已删 |
+| 岗位级别 / 人数 / 地点 / 待遇(**投递邮箱已于 2026-09-17 由需方提供**,见 §二·七) | 项目方 | `hibs.html#join` |
 | 合作机构、资助来源、版权与隐私声明 | 项目方 | `about.html#todo` |
 | 三条进展条目的高清配图 | 设计方(见 DESIGN-PLAN §10.3) | *(同上,公开页不再展示素材原件)* |
 

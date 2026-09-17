@@ -31,6 +31,13 @@ node scripts/verify-site.mjs http://127.0.0.1:8898
 # 3 Replay every asset slice from the source image (deterministic; recomputes sha256 + palette)
 python3 tools/slice_assets.py          # only the slices the site uses (default)
 python3 tools/slice_assets.py --all    # include the spare, unused crops as well
+
+# 4 Apply backend (Cloudflare Worker) — inbox, sending domain and endpoint all live in config.json
+TEST=1 bash scripts/deploy-apply.sh    # sync config + deploy + send one real self-test email
+SKIP_DEPLOY=1 bash scripts/deploy-apply.sh   # inspect the config only, do not deploy
+
+# 5 Publish the site (config.json ships with it; the live browser check runs automatically)
+bash scripts/deploy.sh
 ```
 
 ---
@@ -61,7 +68,12 @@ python3 tools/slice_assets.py --all    # include the spare, unused crops as well
 │   ├── slice_assets.py        the slicer (single entry point; --all includes spare crops)
 │   ├── import_covers.py       imports the bolloon cover pool (copy + sha256 registry)
 │   └── instrument_i18n.py     adds data-zh / data-en pairs to copy
-└── scripts/verify-site.mjs    dependency-free real-browser verification (CDP-driven headless Chrome)
+├── config.json                ★ single source of truth: apply inbox / endpoint / sender / origin allow-list
+├── apply-worker/              apply backend: Cloudflare Worker (validation + honeypot + send_email)
+└── scripts/
+    ├── verify-site.mjs        dependency-free real-browser verification (CDP-driven headless Chrome)
+    ├── deploy.sh              publish the site (ships only what the site needs, config.json included)
+    └── deploy-apply.sh        publish the backend (generates the Worker config from config.json)
 ```
 
 ---
@@ -103,8 +115,9 @@ reads as a blank page and you would "confirm" a broken site.
 |:--|:--|:--|
 | 1 | Design decisions still awaiting approval (printed vs sampled accent colour, paper blocks vs transparency…) | `docs/DESIGN-PLAN.md` §12 |
 | 2 | Vector / high-resolution re-draw of low-res assets (marks, app icon, illustration) | `docs/DESIGN-PLAN.md` §10.3 |
-| 3 | Client-side content still marked `[待填]` (names, metrics, email, milestones) | `docs/CONTENT-SOURCES.md` §3 |
+| 3 | Client-side content still marked `[待填]` (names, roles, milestones); **the apply inbox is now provided** (§二·七) | `docs/CONTENT-SOURCES.md` §3 |
 | 4 | Rewording the logic/motive sentence (anti-gravity field / silent energy / gravity-controlled flight) | `docs/CONTENT-SOURCES.md` §二·五 |
 | 5 | Proof-reading of low-res transcriptions (intro punctuation, poster annotations) | `docs/CONTENT-SOURCES.md` §4 |
 | 6 | **Minimum-disclosure rule**: public pages carry no repo paths, pixel sizes, shell commands or process talk — read `docs/DESIGN-PLAN.md` §4 rule 11 before adding copy | `docs/DESIGN-PLAN.md` |
 | 7 | HIBS Team page member list / portraits / affiliations are still placeholders | `docs/CONTENT-SOURCES.md` §3 |
+| 8 | The apply channel rides on Cloudflare Email Sending (open beta): the sending-domain state cannot be read with OAuth creds (2036) and is console-only — change `apply.sendingDomain` in `config.json` when switching domains | `docs/DESIGN-PLAN.md` §7.5.3 |

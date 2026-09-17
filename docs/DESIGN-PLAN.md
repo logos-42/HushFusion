@@ -479,3 +479,22 @@ node scripts/verify-site.mjs http://127.0.0.1:8898
 > 每句新文案的来源存档见 `docs/CONTENT-SOURCES.md` §二·六(含需方原话逐字)。
 > **未写进去的**:飞行器形态/速度/载重、相变机制、任何指标或时间点 —— 源里没有就不编。
 
+### 7.5.3 2026-09-17 追加:论文引用补齐 + 投递通道(表单 + 配置源)
+
+| 改动 | 位置 | 说明 |
+|:--|:--|:--|
+| 「论文与引用」节**结构补齐** | `about.html#references` | 需方粘贴的段落缺开头与条目号:补上 `<ul class="cap-list"><li><span class="cap-no">01</span><div class="cap-body"><h3>…</h3>`;摘要 / 关键词 / 链接**逐字保留**;新增「复制引用」按钮(`#cite-text` 为 sr-only 引用串) |
+| **删掉重复的「理论依据」节** | `about.html` | 同一篇论文被写成两块 → 只留需方那块,重复块整段删 |
+| 投递邮箱行 | `hibs.html#join` | 邮箱由 `config.json` 的 `apply.to` 驱动(`<a data-apply-email>` + `.copy` 复制按钮);无 JS 时这行照常可读可点 |
+| 投递表单 | `hibs.html#join` | 称呼 / 邮箱 / 作品链接 / 想做的事 + 蜜罐字段 `company`;`.js` 才出场(渐进增强),提交后状态条给三态文案 |
+| 失败退路 | `app.js` | 后端不可用 / 未配置 / 被限流 → 状态条说明原因,并放出「用邮件客户端发送」,内容用 `mailto:` 预填 |
+| **配置源** | `config.json`(仓库根) | 站点唯一配置源:投递邮箱、后端地址、发信地址、允许来源白名单。页面运行时读它(`?v=N` 与 app.js 同版本) |
+| 投递后端 | `apply-worker/` | 独立 Worker:校验 + 蜜罐 + 尽力而为的限流 + `send_email` 绑定发信;`wrangler.jsonc` 是产物,由 `scripts/deploy-apply.sh` 从 `config.json` 生成 |
+| 后端部署 | `scripts/deploy-apply.sh` | 同步配置 → 核对收件人是否已是「已验证目的地地址」→ 部署 → 健康检查;`TEST=1` 时真发一封自检 |
+| 站点产物 | `scripts/deploy.sh` | 把 `config.json` 纳入线上产物(页面要 fetch 它);四页 `?v=13 → 14` |
+
+> 现场两处坑(2026-09-17 实测,写下来免得下次再撞):
+> 1. 用 OAuth 的 CLI / API 查或开 Email Sending 会返回 `2036 Unauthorized`(开放测试期限制),**状态只能在控制台看**,所以脚本不猜状态、只列两条硬约束 + 自检;
+> 2. 发信绑定的收件人必须在 `allowed_destination_addresses` 里,否则报 `E_RECIPIENT_NOT_ALLOWED / destination address is not a verified address`;收件人还要先在 Email Routing 的 Destination addresses 里登记(账号主邮箱即时通过)。
+
+验收:本地 111/111、线上 111/111;端到端自检(真浏览器填表 → 线上 Worker → 邮箱投递)通过。
