@@ -1,7 +1,8 @@
 source_id,company,vendor,kind,filename,raw_rel_path,status,compiled_into,notes
-logo-wave-20260917,HUSHFUSION,需方,image,logo-wave-1254.png,internal_sources/logo/logo-wave-1254.png,compiled,assets/icons.manifest.json; icons/favicon-32.png; icons/apple-touch-icon.png; assets/brand/mark-wave--white.png; assets/brand/app-icon.png,"消音波形图标(白线波形 + 中线,深蓝底 #042366,1254×1254);sha256 bb25bf8911fa095ae3ef06a6348525b9f91fb96724ca050e8cb0bb341dc116e5;需方 2026-09-17 提供,用于替换全站图标/顶栏标识"
+logo-wave-20260917,HUSHFUSION,需方,image,logo-wave-1254.png,internal_sources/logo/logo-wave-1254.png,compiled,assets/icons.manifest.json; icons/favicon-32.png; icons/apple-touch-icon.png; assets/brand/mark-wave.png; assets/brand/app-icon.png; assets/brand/app-icon--day.png; icons/favicon-32--day.png; icons/apple-touch-icon--day.png,"消音波形图标(白线波形 + 中线,深蓝底 #042366,1254×1254);sha256 bb25bf8911fa095ae3ef06a6348525b9f91fb96724ca050e8cb0bb341dc116e5;需方 2026-09-17 提供,用于替换全站图标/顶栏标识"
 art-plasma-ring,HUSHFUSION,需方,image,plasma-ring.png,assets/art/plasma-ring.png,compiled,assets/manifest.json; docs/ASSETS.md,插画切片(等离子环);自源图 clip_20260917_101147_1.png 裁剪
 brand-app-icon,HUSHFUSION,需方,image,app-icon.png,assets/brand/app-icon.png,compiled,index.html; assets/manifest.json; docs/ASSETS.md,品牌切片(主标/标志/标语/纹理);自源图 clip_20260917_101147_1.png 裁剪
+brand-app-icon-day,HUSHFUSION,需方,image,app-icon--day.png,assets/brand/app-icon--day.png,compiled,assets/icons.manifest.json; docs/ASSETS.md,应用图标槽位(昼间配色 浅海蓝绿底 #C9DDD5 + 深墨绿波形 #11302A);由需方消音波形标识派生(见 logo-wave-1254 行)
 brand-list-frc,HUSHFUSION,需方,image,list-frc.png,assets/brand/list-frc.png,compiled,index.html; assets/manifest.json; docs/ASSETS.md,品牌切片(主标/标志/标语/纹理);自源图 clip_20260917_101147_1.png 裁剪
 brand-mark-bolt-white,HUSHFUSION,需方,image,mark-bolt--white.png,assets/brand/mark-bolt--white.png,compiled,index.html; assets/manifest.json; docs/ASSETS.md,品牌切片(主标/标志/标语/纹理);自源图 clip_20260917_101147_1.png 裁剪
 brand-mark-wave,HUSHFUSION,需方,image,mark-wave.png,assets/brand/mark-wave.png,compiled,index.html; assets/manifest.json; docs/ASSETS.md,品牌切片(主标/标志/标语/纹理);自源图 clip_20260917_101147_1.png 裁剪
@@ -97,4 +98,6 @@ shot-nav-390-open,HUSHFUSION,自制(验收脚本),image,nav-390-open.png,docs/sc
 shot-nav-390,HUSHFUSION,自制(验收脚本),image,nav-390.png,docs/screenshots/nav-390.png,compiled,scripts/verify-site.mjs,"真浏览器验收自动产出的全页/窄屏截图(留档),非设计源素材"
 shot-progress,HUSHFUSION,自制(验收脚本),image,progress.png,docs/screenshots/progress.png,compiled,scripts/verify-site.mjs,"真浏览器验收自动产出的全页/窄屏截图(留档),非设计源素材"
 icon-apple-touch-icon,HUSHFUSION,需方,image,apple-touch-icon.png,icons/apple-touch-icon.png,compiled,index.html; icons/,站点图标;由需方消音波形标识派生(见 logo-wave-1254 行)
+icon-apple-touch-icon-day,HUSHFUSION,需方,image,apple-touch-icon--day.png,icons/apple-touch-icon--day.png,compiled,index.html; icons/,站点图标(昼间配色:浅海蓝绿底 #C9DDD5 + 深墨绿波形 #11302A);由需方消音波形标识派生(见 logo-wave-1254 行)
 icon-favicon-32,HUSHFUSION,需方,image,favicon-32.png,icons/favicon-32.png,compiled,index.html; icons/,站点图标;由需方消音波形标识派生(见 logo-wave-1254 行)
+icon-favicon-32-day,HUSHFUSION,需方,image,favicon-32--day.png,icons/favicon-32--day.png,compiled,index.html; icons/,站点图标(昼间配色:浅海蓝绿底 #C9DDD5 + 深墨绿波形 #11302A);由需方消音波形标识派生(见 logo-wave-1254 行)
