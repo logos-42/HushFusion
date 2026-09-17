@@ -56,3 +56,14 @@ python3 scripts/delta_compile.py --write-drafts
 - `current-status.md` 和其他 wiki 页面冲突时 → 以更具体的页面为准，然后修正 `current-status.md`
 - `log.md` 缺少之前 session 的记录 → 不猜，只追加自己的
 - 两个 wiki 页面矛盾 → 标记给用户，解决后再继续
+
+## 5. 关联 skill(skills_yuanmu)
+
+本站的**前端做法**沉淀在 skills_yuanmu 的 `前端设计方法` → L5 主题与标识
+(`skills_yuanmu/skills/前端设计方法/references/dual-theme-and-icons.md`):
+双主题令牌与切换三件套、配色决策(参照物取样 → 品牌强调色 → 对比度实测表)、小字可读性、
+标识 alpha 蒙版与夜昼两套图标、打包扫三处引用与主题断言。
+
+- 改主题/配色/图标前先读那一份;做完把**新做法回写 reference**(而不是只留在本仓库)
+- 双主题下的硬纪律:`style.css` 顶部两个令牌块是唯一色源,组件区不留 `#hex`;
+  改了 CSS/JS 必须升四页 `?v=N`;交付前跑 `node scripts/verify-site.mjs`

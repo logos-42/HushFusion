@@ -40,3 +40,8 @@ Normal operations are cheap. Full audit/recompilation are disaster recovery, not
 - all non-code files are raw — PDFs, spreadsheets, images, screenshots, customer files, archives
 - raw files stay outside Git, only manifests go in
 - every wiki page (except index.md and log.md) must have YAML frontmatter with at least: title, source, created
+
+## 关联 skill
+
+- `skills_yuanmu` 的 **前端设计方法**(L5 主题与标识):双主题令牌 / 配色决策与对比度表 /
+  小字可读性 / 标识蒙版与两套图标 / 打包与验收纪律 —— 见项目登记表(HUSHFUSION 行)
