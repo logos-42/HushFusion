@@ -6,3 +6,38 @@ __pycache__/
 
 # 打包产物(按需再生成)
 dist/
+.wrangler/
+
+# LLM Wiki 知识系统
+.obsidian/
+raw/
+raw_local/
+raw_vault/
+
+# 别的进程(wiki-first 脚手架)放进本目录的文件 —— 不属于这个站点仓库
+.claude/
+.cursorrules
+.windsurfrules
+AGENTS.md
+CLAUDE.md
+.github/
+manifests/
+docs/wiki/
+scripts/crystallize.py
+scripts/delta_compile.py
+scripts/export_memory_repo.py
+scripts/graph_export.py
+scripts/hybrid_search.py
+scripts/ingest_raw.py
+scripts/init_raw_root.py
+scripts/intake_filter.py
+scripts/provenance_check.py
+scripts/raw_manifest_check.py
+scripts/stale_report.py
+scripts/supersede_check.py
+scripts/untracked_raw_check.py
+scripts/upgrade.sh
+scripts/version_check.py
+scripts/wiki_check.py
+scripts/wiki_lint.py
+scripts/wiki_size_report.py

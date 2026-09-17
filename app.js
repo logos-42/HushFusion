@@ -117,9 +117,13 @@ document.documentElement.classList.add('js');
   }
 
   /* ── 高亮当前页 ─────────────────────────────────────────────────────── */
-  var here = location.pathname.split('/').pop() || 'index.html';
+  // Pages / GitHub Pages 会把 about.html 308 到 /about,所以路径比较必须忽略 .html ——
+  // 否则本地(about.html)过、线上(/about)挂,只有首页会高亮。
+  var norm = function (path) {
+    return (path || '').split('#')[0].split('?')[0].split('/').pop().replace(/\.html$/, '');
+  };
+  var here = norm(location.pathname) || 'index';
   document.querySelectorAll('.mast-links a[href]').forEach(function (a) {
-    var href = a.getAttribute('href').split('#')[0];
-    if (href === here) a.classList.add('is-active');
+    if (norm(a.getAttribute('href')) === here) a.classList.add('is-active');
   });
 })();

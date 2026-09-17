@@ -369,6 +369,17 @@ for (const page of PAGES) {
         JSON.stringify(nav1280));
   check(page, '1280px 顶栏高度正常(≤80px)', nav1280.h <= 80, `${nav1280.h}px`);
 
+  const activeNav = await evaluate(sessionId, `(() => {
+    const norm = s => (s || '').split('#')[0].split('?')[0].split('/').pop().replace(/\.html$/, '');
+    const act = Array.from(document.querySelectorAll('.mast-links a'))
+      .filter(a => a.classList.contains('is-active'));
+    return { count: act.length,
+             active: act.length === 1 ? norm(act[0].getAttribute('href')) : null,
+             here: norm(location.pathname) || 'index' };
+  })()`);
+  check(page, '当前页导航项唯一高亮(忽略 .html 路径差异)',
+        activeNav.count === 1 && activeNav.active === activeNav.here, JSON.stringify(activeNav));
+
   /* 11 控制台无报错 / 无失败请求 */
   const realFailures = failedRequests.filter((t) => !/ERR_ABORTED/.test(t));
   check(page, '控制台无错误', consoleErrors.length === 0, consoleErrors.join(' | '));
