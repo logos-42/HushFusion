@@ -287,10 +287,31 @@ for (const page of PAGES) {
              links: getComputedStyle(l).display !== 'none' };
   })()`);
   check(page, '移动端 390px 汉堡按钮出现', nav390.toggle === true, JSON.stringify(nav390));
+  const row390 = await evaluate(sessionId, `(() => {
+    const t = document.querySelector('.nav-toggle').getBoundingClientRect();
+    const l = document.querySelector('.lang-toggle').getBoundingClientRect();
+    const b = document.querySelector('.brand').getBoundingClientRect();
+    return { dy: Math.round(Math.abs((t.top + t.height / 2) - (l.top + l.height / 2))),
+             sideBySide: t.right <= l.left + 1,
+             alignedWithBrand: Math.abs((t.top + t.height / 2) - (b.top + b.height / 2)) < 10 };
+  })()`);
+  check(page, '移动端 ≡ 与 中/EN 同一行(不再竖向堆叠)', row390.sideBySide === true,
+        JSON.stringify(row390));
+  check(page, '移动端 ≡ 与语言键垂直居中对齐', row390.dy <= 6 && row390.alignedWithBrand === true,
+        JSON.stringify(row390));
   check(page, '移动端 390px 导航已折叠', nav390.links === false, JSON.stringify(nav390));
+
+  if (page === 'index.html') {
+    const s1 = await cdp.send('Page.captureScreenshot', { format: 'png' }, sessionId);
+    writeFileSync(`${SHOT_DIR}/nav-390.png`, Buffer.from(s1.data, 'base64'));
+  }
 
   await evaluate(sessionId, 'document.querySelector(".nav-toggle").click()');
   await sleep(160);
+  if (page === 'index.html') {
+    const s2 = await cdp.send('Page.captureScreenshot', { format: 'png' }, sessionId);
+    writeFileSync(`${SHOT_DIR}/nav-390-open.png`, Buffer.from(s2.data, 'base64'));
+  }
   const opened = await evaluate(sessionId, `(() => ({
     links: getComputedStyle(document.querySelector('.mast-links')).display !== 'none',
     aria: document.querySelector('.nav-toggle').getAttribute('aria-expanded'),
