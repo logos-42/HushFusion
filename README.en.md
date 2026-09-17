@@ -17,9 +17,10 @@
 **No npm, no bundler, no framework.** One `style.css` is the entire design system.
 
 **Two themes (night / day)**: one button to the left of the `中/EN` switch. Night is the default and the
-choice is remembered in `localStorage`. Both palettes are sampled from `assets/cover/thumbnail_375.jpg`
-(dark olive-green stroke on an off-white ground) — tokens, provenance and measured contrast are in
-`docs/DESIGN-PLAN.md` §7.6. To re-colour, edit the two token blocks at the top of `style.css`.
+choice is remembered in `localStorage`. The night ground comes from the olive-green family in
+`assets/cover/thumbnail_375.jpg`; the day ground is light sea-blue-green `#C9DDD5` with light-khaki panels
+`#F4EFE1`. Both themes use the logo's indigo as the single accent — tokens, provenance and measured
+contrast are in `docs/DESIGN-PLAN.md` §7.6. To re-colour, edit the two token blocks in `style.css`.
 
 ---
 

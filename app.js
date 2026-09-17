@@ -18,7 +18,7 @@ document.documentElement.classList.add('js');
   // 颜色全在 style.css 的令牌里(:root = 夜,[data-theme="light"] = 昼),这里只切属性。
   var THEME_KEY = 'hushfusion-theme';
   var THEME_META = document.querySelector('meta[name="theme-color"]');
-  var THEME_COLOR = { dark: '#0E1E05', light: '#F2F2EF' };
+  var THEME_COLOR = { dark: '#0E1E05', light: '#C9DDD5' };
   var themeBtns = document.querySelectorAll('[data-theme-toggle]');
   var THEME_TEXT = {
     dark:  { glyph: '☾', zh: '夜', en: 'Night', aria: { zh: '切换到白天模式', en: 'Switch to light mode' } },

@@ -17,8 +17,8 @@
 **没有 npm，没有打包器，没有框架。** 一个 `style.css` 就是全部设计系统。
 
 **双主题(夜 / 昼)**:顶栏「中/EN」左边一个按钮切换;默认夜,选择记在 `localStorage`。
-两套色都取样自 `assets/cover/thumbnail_375.jpg`(深橄榄绿笔触落在米白纸底上)——
-令牌与实测对比度见 `docs/DESIGN-PLAN.md` §7.6,改色只改 `style.css` 顶部两个令牌块。
+夜底取自 `assets/cover/thumbnail_375.jpg` 的深橄榄绿族,昼底是浅海蓝绿 `#C9DDD5` + 浅卡其面板 `#F4EFE1`;
+强调色两套都用图标 logo 的靛蓝。令牌与实测对比度见 `docs/DESIGN-PLAN.md` §7.6,改色只改 `style.css` 顶部两个令牌块。
 
 ---
 

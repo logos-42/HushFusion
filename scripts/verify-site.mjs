@@ -290,7 +290,7 @@ for (const page of PAGES) {
   check(page, '切到昼间:data-theme=light', t1.theme === 'light', JSON.stringify(t1));
   check(page, '切到昼间:底色真的变亮', t1.bg !== t0.bg, `${t0.bg} → ${t1.bg}`);
   check(page, '昼间选择写进 localStorage', t1.stored === 'light', String(t1.stored));
-  check(page, 'theme-color 跟着换', t1.meta === '#F2F2EF', String(t1.meta));
+  check(page, 'theme-color 跟着换', t1.meta === '#C9DDD5', String(t1.meta));
   await evaluate(sessionId, `document.querySelector('[data-theme-toggle]').click()`);
   await sleep(220);
   const t2 = await evaluate(sessionId, `(() => ({

@@ -49,34 +49,37 @@
   --r: 3px;
 }
 
-/* ── 昼间主题:同一支绿反转(墨绿字落在米白底上 —— thumbnail_375 的纸底色);强调色 = logo 靛蓝的深版 ──
+/* ── 昼间主题:浅海蓝绿底 + 浅卡其面(墨绿字),强调色 = logo 靛蓝的深版 ──────────
    开关:<html data-theme="light">;没有该属性 = 夜(默认)。
    对比度:ink 13.9:1 / ink-2 8.5:1 / ink-3 7.5:1 / accent 8.0:1 —— 小字也够 */
 [data-theme="light"] {
-  --bg:            #F2F2EF;
-  --bg-2:          #FFFFFF;
-  --bg-3:          #E6E8E0;
-  --bg-hover:      #DBDED2;
+  /* 底 = 浅海蓝绿(亮度 84%,比原来的 95% 冷白明显收了一档,不再晃眼);
+     面 = 浅卡其(面板/输入框/标签页浮在绿底上,与海报纸色 #F8EADA 一族) */
+  --bg:            #C9DDD5;
+  --bg-2:          #F4EFE1;
+  --bg-3:          #E7E0CC;
+  --bg-hover:      #EDE7D5;
 
-  --ink:           #14290A;
-  --ink-2:         #3A4A2C;
-  --ink-3:         #445234;
+  --ink:           #11302A;   /*  9.99:1(绿底) */
+  --ink-2:         #22403A;   /*  7.8:1 */
+  --ink-3:         #2C4A42;   /*  6.8:1(小字主力色) */
 
-  --accent:        #1B2C7A;   /* 同一支靛蓝的深版(11.1:1),浅底上当重点色 */
+  --accent:        #1B2C7A;   /* logo 靛蓝的深版(8.8:1)—— 浅底上的重点色 */
   --accent-hover:  #101C55;
   --accent-deep:   #042366;   /* logo 原色,留给实心按钮底 */
-  --accent-glow:   rgba(27, 44, 122, .14);
+  --accent-glow:   rgba(27, 44, 122, .10);
 
-  --amber:         #6E4303;
-  --amber-glow:    rgba(110, 67, 3, .16);
+  --amber:         #5E3803;
+  --amber-glow:    rgba(94, 56, 3, .14);
 
   --paper:         #F8EADA;
   --paper-ink:     #1B2434;
 
-  --hairline:        rgba(20, 41, 10, .14);
-  --hairline-strong: rgba(20, 41, 10, .30);
-  --shade:           rgba(20, 41, 10, .10);
+  --hairline:        rgba(17, 48, 42, .16);
+  --hairline-strong: rgba(17, 48, 42, .34);
+  --shade:           rgba(17, 48, 42, .10);
 }
+
 
 
 /* ── 可访问性工具类 ─────────────────────────────────────────────────── */

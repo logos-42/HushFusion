@@ -13,7 +13,7 @@ status: current
 
 - 站点四页在线:`https://hushfusion.pages.dev`(资源版本 `?v=15`)
 - 双主题上线:夜(默认)/ 昼,开关在顶栏「中/EN」左边并记忆选择;浏览器 theme-color 同步
-- 配色:底/字取 `assets/cover/thumbnail_375.jpg` 的绿族(夜底 `#0E1E05`、昼底 `#F2F2EF`);**强调色 = 图标 logo 的靛蓝**(夜 `#93A4FF` / 昼 `#1B2C7A`)
+- 配色:夜底取 `assets/cover/thumbnail_375.jpg` 的绿族 `#0E1E05`;昼底 = 浅海蓝绿 `#C9DDD5` + 浅卡其面 `#F4EFE1`(需方 2026-09-17 口径);**强调色 = 图标 logo 的靛蓝**(夜 `#93A4FF` / 昼 `#1B2C7A`)
 - 小字可读性修复:微标签统一 12px / 字重 400 / 字距收敛(小字对比度 5.61 → 8.9:1)
 - 顶栏标识改用 alpha 蒙版 + `var(--ink)`,两个主题下都可见
 - 全站图标已换成需方提供的波形标识(顶栏 / favicon / apple-touch / app icon),生成脚本 `tools/make_icons.py`
