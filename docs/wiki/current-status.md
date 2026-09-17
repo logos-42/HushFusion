@@ -11,6 +11,8 @@ status: current
 
 ## 最近更新
 
+- 新增第五页「理论」`theory.html`:控制引力场的代数系统(基元 = 起伏能量二次型,布尔 = 层状区域族;三个类比 + 锁定 = 交换子不为零);附 GitHub 来源链接 `logos-42/Hibs-Physics` 与本站 `logos-42/HushFusion`
+- 五页导航补「理论」入口,`verify-site.mjs` 纳入新页
 - 站点四页在线:`https://hushfusion.pages.dev`(资源版本 `?v=15`)
 - 双主题上线:夜(默认)/ 昼,开关在顶栏「中/EN」左边并记忆选择;浏览器 theme-color 同步
 - 配色:夜底取 `assets/cover/thumbnail_375.jpg` 的绿族 `#0E1E05`;昼底 = 浅海蓝绿 `#C9DDD5` + 浅卡其面 `#F4EFE1`(需方 2026-09-17 口径);**强调色 = 图标 logo 的靛蓝**(夜 `#93A4FF` / 昼 `#1B2C7A`)

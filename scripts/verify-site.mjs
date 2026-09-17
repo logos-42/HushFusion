@@ -19,7 +19,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 
 const BASE = (process.argv[2] || 'http://127.0.0.1:8898').replace(/\/$/, '');
-const PAGES = ['index.html', 'about.html', 'hibs.html', 'progress.html'];
+const PAGES = ['index.html', 'about.html', 'hibs.html', 'progress.html', 'theory.html'];
 const SHOT_DIR = path.join(process.cwd(), 'docs', 'screenshots');
 const PORT = 9333 + Math.floor(Math.random() * 500);
 

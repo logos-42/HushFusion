@@ -1,5 +1,14 @@
 # Wiki 日志
 
+## [2026-09-17] 新增 | 理论页「控制引力场的代数系统」(theory.html)
+
+| 日期 | 类别 | 变更 | 说明 |
+|------|------|------|------|
+| 2026-09-17 | feat | 新增第五页 `theory.html` | 控制引力场的代数系统:基元 = 起伏能量二次型,布尔 = 层状区域族;内容源 `logos-42/Hibs-Physics` 的 `GravityControl.lean`(GCA0–GCA7) |
+| 2026-09-17 | feat | 五页导航补「理论」入口 | index/about/hibs/progress 的 mast-links 加 `theory.html` |
+| 2026-09-17 | ci | `verify-site.mjs` PAGES 加 theory.html | 新页纳入真浏览器验收(105 → 126 项断言量级) |
+| 2026-09-17 | docs | 回写 wiki | `theory-gravity-control-algebra.md` + index/log/current-status |
+
 ## [2026-09-17] 启动 | 初始化知识系统 + 品牌站落地上线
 
 今日完成(提交依据 `git log`)：
