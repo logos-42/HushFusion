@@ -18,7 +18,7 @@
 
 **双主题(夜 / 昼)**:顶栏「中/EN」左边一个按钮切换;默认夜,选择记在 `localStorage`。
 夜底取自 `assets/cover/thumbnail_375.jpg` 的深橄榄绿族,昼底是浅海蓝绿 `#C9DDD5` + 浅卡其面板 `#F4EFE1`;
-强调色两套都用图标 logo 的靛蓝。令牌与实测对比度见 `docs/DESIGN-PLAN.md` §7.6,改色只改 `style.css` 顶部两个令牌块。
+强调色两套都用图标 logo 的靛蓝;**浏览器图标也跟着换**(夜:深蓝底白波形 / 昼:浅海蓝绿底深墨绿波形)。令牌与实测对比度见 `docs/DESIGN-PLAN.md` §7.6,改色只改 `style.css` 顶部两个令牌块。
 
 ---
 

@@ -34,7 +34,9 @@ refs = []
 for p in pages:
     refs += re.findall(r'(?:src|href)="([^"]+)"', p.read_text(encoding='utf-8'))
 for sheet in ('style.css', 'app.js'):
-    refs += re.findall(r'url\(\s*["\']?([^"\')]+)', (root / sheet).read_text(encoding='utf-8'))
+    text = (root / sheet).read_text(encoding='utf-8')
+    refs += re.findall(r'url\(\s*["\']?([^"\')]+)', text)          # CSS 里的 url(...)
+    refs += re.findall(r'[\w./-]+\.(?:png|jpe?g|svg|webp)', text)      # JS 里的裸路径(如按主题换图标)
 
 missing = []
 for u in refs:

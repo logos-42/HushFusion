@@ -573,6 +573,11 @@ PY
 - 记忆:`localStorage['hushfusion-theme']`;`<head>` 内联一小段脚本在首帧前定色(**不闪主题**)
 - 浏览器地址栏配色:`<meta name="theme-color">` 由 JS 跟着换(夜 `#0E1E05` / 昼 `#F2F2EF`)
 
+**浏览器图标也随主题换**(2026-09-17 追加):`<link rel="icon">` 与 `<link rel="apple-touch-icon">` 带 `data-icon`,
+切主题时 `app.js` 把 href 换成另一套 —— 夜 = 源图深蓝底 + 白波形,昼 = **浅海蓝绿底 `#C9DDD5` + 深墨绿波形 `#11302A`**。
+昼间那套的配色由 `tools/make_icons.py` 直接读 `style.css` 的昼间令牌生成(改色只需重跑脚本);
+`scripts/deploy.sh` 的素材扫描也扩到 JS 里的裸路径,否则昼间图标不会上线。
+
 **顶栏标识改成蒙版**:`assets/brand/mark-wave.png` 现在当 **alpha 蒙版**用,
 `.brand-mark` 的 `background-color: var(--ink)` —— 一个文件两套底色都可见。
 (原先直接放白色 PNG:昼间等于白纸白字,标识会「消失」。)

@@ -53,6 +53,36 @@
       "note": "iOS / 书签图标",
       "sha256": "8c4aaf488a3b7d7e8ce1160e06112e3ece40801b3bc22d0d02cea7b7fa902a8e",
       "bytes": 16690
+    },
+    {
+      "file": "assets/brand/app-icon--day.png",
+      "size": [
+        256,
+        256
+      ],
+      "note": "应用图标槽位(昼) · 昼间配色",
+      "sha256": "3cb39b1344972c6f632b93bbbb6279a594ede4d5d8340f988adc94ee177affcf",
+      "bytes": 29646
+    },
+    {
+      "file": "icons/favicon-32--day.png",
+      "size": [
+        32,
+        32
+      ],
+      "note": "浏览器标签页图标(昼) · 昼间配色",
+      "sha256": "1eb9fe53d838d000e57b8d2e8bb583742f089a85404fc835e544350a6ae08c28",
+      "bytes": 1639
+    },
+    {
+      "file": "icons/apple-touch-icon--day.png",
+      "size": [
+        180,
+        180
+      ],
+      "note": "iOS / 书签图标(昼) · 昼间配色",
+      "sha256": "bd1cd85489aa0cf12cf3969f450c5423492e1757a833d9ef8fea35192d8095b9",
+      "bytes": 18207
     }
   ]
 }

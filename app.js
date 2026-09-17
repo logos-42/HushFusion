@@ -45,12 +45,27 @@ document.documentElement.classList.add('js');
     });
   }
 
+  // 浏览器图标也跟着主题换:夜 = 深蓝底白波形(logo 原色)/ 昼 = 浅海蓝绿底深墨绿波形
+  var ICON_SET = {
+    dark:  { favicon: 'icons/favicon-32.png', apple: 'icons/apple-touch-icon.png' },
+    light: { favicon: 'icons/favicon-32--day.png', apple: 'icons/apple-touch-icon--day.png' }
+  };
+
+  function applyIcons(mode) {
+    var set = ICON_SET[mode] || ICON_SET.dark;
+    document.querySelectorAll('[data-icon]').forEach(function (el) {
+      var next = set[el.getAttribute('data-icon')];
+      if (next && el.getAttribute('href') !== next) el.setAttribute('href', next);
+    });
+  }
+
   function applyTheme(mode) {
     if (mode === 'light') document.documentElement.setAttribute('data-theme', 'light');
     else document.documentElement.removeAttribute('data-theme');
     try { localStorage.setItem(THEME_KEY, mode); } catch (e) { /* 隐私模式忽略 */ }
     if (THEME_META) THEME_META.setAttribute('content', THEME_COLOR[mode]);
     syncThemeLabels();
+    applyIcons(mode);
   }
 
   themeBtns.forEach(function (btn) {
@@ -59,6 +74,7 @@ document.documentElement.classList.add('js');
     });
   });
   syncThemeLabels();
+  applyIcons(currentTheme());   // 首屏(主题已由 <head> 内联脚本定好)把图标对齐
 
   function applyLang(lang) {
     currentLang = lang === 'en' ? 'en' : 'zh';

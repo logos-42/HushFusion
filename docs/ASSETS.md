@@ -202,12 +202,20 @@ sha256    bb25bf8911fa095ae3ef06a6348525b9f91fb96724ca050e8cb0bb341dc116e5
 
 重放:`python3 tools/make_icons.py`(确定性:同一源图 → 同一结果;`--all` 连 192/512 备用尺寸一起切)
 
+**图标出两套,颜色跟着站点主题走**(2026-09-17 追加昼间那套):
+
 | 产物 | 尺寸 | 做法 | 用在哪 |
 |:--|:--|:--|:--|
-| `icons/favicon-32.png` | 32 | 深蓝底 + 白波形,**保留底** | 浏览器标签页(明暗标签栏上都读得清) |
-| `icons/apple-touch-icon.png` | 180 | 同上 | iOS 主屏 / 书签 |
-| `assets/brand/mark-wave--white.png` | 256 | 深蓝底**键出为透明**(亮度映射 alpha,底噪归零) | 四页顶栏左上角(CSS 按 26px 显示) |
-| `assets/brand/app-icon.png` | 256 | 深蓝底 + 白波形 | 应用图标槽位(站点当前未引用) |
+| `icons/favicon-32.png` | 32 | **夜**:源图深蓝底 + 白波形,**保留底** | 浏览器标签页(默认) |
+| `icons/apple-touch-icon.png` | 180 | 同上 | iOS 主屏 / 书签(夜) |
+| `assets/brand/app-icon.png` | 256 | 同上 | 应用图标槽位(夜) |
+| `icons/favicon-32--day.png` | 32 | **昼**:浅海蓝绿底 `#C9DDD5` + 深墨绿波形 `#11302A` | 浏览器标签页(切到昼间时由 `app.js` 换上 href) |
+| `icons/apple-touch-icon--day.png` | 180 | 同上 | iOS 主屏 / 书签(昼) |
+| `assets/brand/app-icon--day.png` | 256 | 同上 | 应用图标槽位(昼) |
+| `assets/brand/mark-wave.png` | 256 | 深蓝底**键出为透明**(亮度映射 alpha,底噪归零)—— 当 **alpha 蒙版**用 | 四页顶栏左上角(`background-color: var(--ink)`,一个文件两套底色都可见) |
+
+昼间那套的**配色不写死**:脚本直接读 `style.css` 里 `[data-theme="light"]` 的 `--bg` / `--ink`,
+主题改色后重跑一次 `python3 tools/make_icons.py` 就同步(临时覆盖用 `--day-bg` / `--day-ink`)。
 
 逐文件 sha256 / 字节数见 **`assets/icons.manifest.json`**(与海报切片的 `assets/manifest.json` 分开放)。
 
@@ -215,7 +223,7 @@ sha256    bb25bf8911fa095ae3ef06a6348525b9f91fb96724ca050e8cb0bb341dc116e5
 
 ```text
 海报切片(assets/**) + 色板        → tools/slice_assets.py
-图标(icons/**、brand/mark-wave--white.png、brand/app-icon.png) → tools/make_icons.py
+图标(icons/**、brand/mark-wave.png、brand/app-icon*.png) → tools/make_icons.py
 ```
 
 两个脚本各自只写自己的产物与索引,重跑任何一边都不会盖掉另一边;

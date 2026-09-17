@@ -301,6 +301,34 @@ for (const page of PAGES) {
   check(page, '切回夜模式(属性撤掉、底色复原、选择记住)',
         t2.theme === null && t2.bg === t0.bg && t2.stored === 'dark', JSON.stringify(t2));
 
+  /* 9.2 浏览器图标也跟着主题换(昼间要用浅底那套) */
+  const iconsNow = await evaluate(sessionId, `(() => ({
+    favicon: (document.querySelector('[data-icon="favicon"]') || {}).getAttribute
+              ? document.querySelector('[data-icon="favicon"]').getAttribute('href') : null,
+    apple: document.querySelector('[data-icon="apple"]') ? document.querySelector('[data-icon="apple"]').getAttribute('href') : null
+  }))()`);
+  check(page, '夜模式用深底图标', /favicon-32\.png$/.test(iconsNow.favicon || '') &&
+        /apple-touch-icon\.png$/.test(iconsNow.apple || ''), JSON.stringify(iconsNow));
+  await evaluate(sessionId, `document.querySelector('[data-theme-toggle]').click()`);
+  await sleep(200);
+  const iconsDay = await evaluate(sessionId, `(() => ({
+    favicon: document.querySelector('[data-icon="favicon"]').getAttribute('href'),
+    apple: document.querySelector('[data-icon="apple"]').getAttribute('href')
+  }))()`);
+  check(page, '昼模式换浅底图标', /favicon-32--day\.png$/.test(iconsDay.favicon) &&
+        /apple-touch-icon--day\.png$/.test(iconsDay.apple), JSON.stringify(iconsDay));
+  const iconFiles = await evaluate(sessionId, `(async () => {
+    const urls = ['icons/favicon-32.png', 'icons/favicon-32--day.png',
+                  'icons/apple-touch-icon.png', 'icons/apple-touch-icon--day.png'];
+    const out = {};
+    for (const u of urls) { try { out[u] = (await fetch(u)).status; } catch (e) { out[u] = 'ERR'; } }
+    return out;
+  })()`);
+  check(page, '两套图标文件都在(夜/昼各一对)',
+        Object.values(iconFiles).every((v) => v === 200), JSON.stringify(iconFiles));
+  await evaluate(sessionId, `document.querySelector('[data-theme-toggle]').click()`);
+  await sleep(200);
+
   /* 9.5 中间断点无溢出(注:900px 以下导航已折叠,这里验的是折叠态不溢出) */
   await cdp.send('Emulation.setDeviceMetricsOverride',
     { width: 860, height: 800, deviceScaleFactor: 1, mobile: false }, sessionId);

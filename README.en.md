@@ -19,7 +19,8 @@
 **Two themes (night / day)**: one button to the left of the `中/EN` switch. Night is the default and the
 choice is remembered in `localStorage`. The night ground comes from the olive-green family in
 `assets/cover/thumbnail_375.jpg`; the day ground is light sea-blue-green `#C9DDD5` with light-khaki panels
-`#F4EFE1`. Both themes use the logo's indigo as the single accent — tokens, provenance and measured
+`#F4EFE1`. Both themes use the logo's indigo as the single accent, and the **browser icons swap too**
+(night: navy ground + white wave / day: light sea-green ground + dark-green wave) — tokens, provenance and measured
 contrast are in `docs/DESIGN-PLAN.md` §7.6. To re-colour, edit the two token blocks in `style.css`.
 
 ---

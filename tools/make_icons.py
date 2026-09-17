@@ -16,7 +16,12 @@ HUSHFUSION 图标生成脚本(可复现)
 清晰度:源图 1254px 直接缩到目标尺寸(不二次放大),≥128px 的导出缩小后补一次轻锐化;
 顶栏标识默认 256px 导出(26px 显示 ≈ 10x,任何 DPR 都够),要更大 `--mark-px 512`。
 
-favicon 与 app icon 保留源图的深蓝底(标签栏明暗两种底色上都读得清);
+图标出**两套**(颜色跟着站点主题走):
+  夜 = 源图深蓝底 + 白波形(favicon-32.png / apple-touch-icon.png / app-icon.png)
+  昼 = 站点昼间色系(默认 浅海蓝绿底 #C9DDD5 + 深墨绿波形 #11302A,直接读 style.css 的
+       [data-theme="light"] 令牌,所以主题改色后重跑本脚本就同步)—— 文件带 --day 后缀
+
+favicon 与 app icon 保留各自底色;
 顶栏标识是「白笔迹 + 深蓝底」键出成透明底,再当 **alpha 蒙版**用:
    页面里没有第二个标志文件,颜色跟着主题的 --ink 走(夜=近白,昼=深海军蓝),
    所以在深底和浅底上都看得见 —— 白图形直接放在冷白底上会「消失」。
@@ -33,6 +38,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import re
 import json
 import os
 import pathlib
@@ -64,6 +70,34 @@ ALPHA_FLOOR = 0.05
 
 FAVICON_SIZES = [(32, "icons/favicon-32.png"), (180, "icons/apple-touch-icon.png")]
 FAVICON_SIZES_EXTRA = [(192, "icons/icon-192.png"), (512, "icons/icon-512.png")]
+
+
+def day_tokens() -> tuple[str, str]:
+    """从 style.css 的 [data-theme="light"] 里读昼间的 --bg / --ink。
+
+    这样「主题改色」与「图标配色」只有一个来源:改完 CSS 重跑本脚本即可。
+    读不到就退回下面这对默认值。
+    """
+    fallback = ("#C9DDD5", "#11302A")
+    css_path = ROOT / "style.css"
+    if not css_path.exists():
+        return fallback
+    css = css_path.read_text(encoding="utf-8")
+    m = re.search(r'\[data-theme="light"\]\s*\{(.*?)\}', css, re.S)
+    if not m:
+        return fallback
+    body = m.group(1)
+    bg = re.search(r"--bg:\s*(#[0-9A-Fa-f]{6})", body)
+    ink = re.search(r"--ink:\s*(#[0-9A-Fa-f]{6})", body)
+    return (bg.group(1) if bg else fallback[0], ink.group(1) if ink else fallback[1])
+
+
+def tint(mark: Image.Image, rgb_hex: str) -> Image.Image:
+    """把「白图形 + alpha」重新着色成任意颜色(保留抗锯齿边缘)。"""
+    rgb = tuple(int(rgb_hex.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4))
+    out = Image.new("RGBA", mark.size, (*rgb, 0))
+    out.putalpha(mark.getchannel("A"))
+    return out
 
 
 def sha256(path: pathlib.Path) -> str:
@@ -141,6 +175,8 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="生成站点图标(可复现)")
     ap.add_argument("--source", default=str(DEFAULT_SOURCE), help="图标源图路径")
     ap.add_argument("--all", action="store_true", help="连备用尺寸(192/512)一起切")
+    ap.add_argument("--day-bg", default="", help="昼间图标底色(默认读 style.css 的 [data-theme=light] --bg)")
+    ap.add_argument("--day-ink", default="", help="昼间图标图形色(默认读 style.css 的 --ink)")
     ap.add_argument("--mark-px", type=int, default=MARK_PX,
                     help=f"顶栏标识导出边长(默认 {MARK_PX};源图 1254px,要多大给多大)")
     args = ap.parse_args()
@@ -193,6 +229,26 @@ def main() -> int:
         records.append({"file": rel, "size": [px, px], "note": note,
                         "sha256": sha256(dest), "bytes": dest.stat().st_size})
         print(f"  ✓ {rel:<38} {px:>4}x{px:<4} {dest.stat().st_size/1024:>7.1f} KB")
+
+    # ---- 昼间变体:底色/图形色都跟着 style.css 的昼间令牌 ------------------
+    day_bg = args.day_bg or day_tokens()[0]
+    day_ink = args.day_ink or day_tokens()[1]
+    day_tile = pad_square(tint(mark, day_ink), tuple(int(day_bg.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4)), TILE_PAD)
+    print(f"\n昼间变体:底 {day_bg} + 图形 {day_ink}(取自 style.css 的 [data-theme=\"light\"])")
+    for px, rel, note in [(256, "assets/brand/app-icon--day.png", "应用图标槽位(昼)")] + \
+                         [(p, r.replace(".png", "--day.png"), n + "(昼)") for p, r, n in
+                          [(32, "icons/favicon-32.png", "浏览器标签页图标"),
+                           (180, "icons/apple-touch-icon.png", "iOS / 书签图标")]]:
+        dest = ROOT / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        if rel.startswith("assets/"):
+            big = downscale(day_tile, 256)
+            big.save(dest, "PNG", optimize=True)
+        else:
+            downscale(day_tile, px).save(dest, "PNG", optimize=True)
+        records.append({"file": rel, "size": [px, px], "note": note + " · 昼间配色",
+                        "sha256": sha256(dest), "bytes": dest.stat().st_size})
+        print(f"  ✓ {rel:<40} {px:>4}x{px:<4} {dest.stat().st_size/1024:>7.1f} KB")
 
     manifest = {
         "note": "图标产物索引(与海报切片分开放:那是 assets/manifest.json)。"
