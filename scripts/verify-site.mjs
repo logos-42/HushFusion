@@ -19,7 +19,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 
 const BASE = (process.argv[2] || 'http://127.0.0.1:8898').replace(/\/$/, '');
-const PAGES = ['index.html'];
+const PAGES = ['index.html', 'about.html', 'hibs.html', 'progress.html'];
 const SHOT_DIR = path.join(process.cwd(), 'docs', 'screenshots');
 const PORT = 9333 + Math.floor(Math.random() * 500);
 
@@ -263,7 +263,7 @@ for (const page of PAGES) {
     await sleep(100);
   }
 
-  /* 9.5 中间断点(导航还没折叠时)无溢出 */
+  /* 9.5 中间断点无溢出(注:900px 以下导航已折叠,这里验的是折叠态不溢出) */
   await cdp.send('Emulation.setDeviceMetricsOverride',
     { width: 860, height: 800, deviceScaleFactor: 1, mobile: false }, sessionId);
   await sleep(220);
@@ -278,14 +278,87 @@ for (const page of PAGES) {
   const mobOverflow = await evaluate(sessionId,
     'document.documentElement.scrollWidth - window.innerWidth');
   check(page, '移动端 390px 无横向溢出', mobOverflow <= 1, `溢出 ${mobOverflow}px`);
+
+  /* 9.6 窄屏导航折叠:390px 汉堡出现 → 点开 → Esc 收起 */
+  const nav390 = await evaluate(sessionId, `(() => {
+    const t = document.querySelector('.nav-toggle'), l = document.querySelector('.mast-links');
+    if (!t || !l) return { missing: true };
+    return { toggle: getComputedStyle(t).display !== 'none',
+             links: getComputedStyle(l).display !== 'none' };
+  })()`);
+  check(page, '移动端 390px 汉堡按钮出现', nav390.toggle === true, JSON.stringify(nav390));
+  check(page, '移动端 390px 导航已折叠', nav390.links === false, JSON.stringify(nav390));
+
+  await evaluate(sessionId, 'document.querySelector(".nav-toggle").click()');
+  await sleep(160);
+  const opened = await evaluate(sessionId, `(() => ({
+    links: getComputedStyle(document.querySelector('.mast-links')).display !== 'none',
+    aria: document.querySelector('.nav-toggle').getAttribute('aria-expanded'),
+  }))()`);
+  check(page, '移动端点开后菜单可见', opened.links === true, JSON.stringify(opened));
+  check(page, '移动端 aria-expanded=true', opened.aria === 'true', String(opened.aria));
+
+  await cdp.send('Input.dispatchKeyEvent',
+    { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 }, sessionId);
+  await cdp.send('Input.dispatchKeyEvent',
+    { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 }, sessionId);
+  await sleep(160);
+  check(page, '移动端 Esc 收起菜单',
+    await evaluate(sessionId,
+      `getComputedStyle(document.querySelector('.mast-links')).display === 'none'`) === true);
+
+  /* 9.7 两侧边界:1180px 仍横排且不溢出 / 860px 已折叠 */
+  await cdp.send('Emulation.setDeviceMetricsOverride',
+    { width: 1180, height: 800, deviceScaleFactor: 1, mobile: false }, sessionId);
+  await sleep(220);
+  const nav1180 = await evaluate(sessionId, `(() => {
+    const t = document.querySelector('.nav-toggle'), l = document.querySelector('.mast-links');
+    return { toggle: getComputedStyle(t).display !== 'none',
+             links: getComputedStyle(l).display !== 'none',
+             over: document.documentElement.scrollWidth - window.innerWidth };
+  })()`);
+  check(page, '1180px 导航横排未折叠', nav1180.links === true && nav1180.toggle === false,
+        JSON.stringify(nav1180));
+  check(page, '1180px 无横向溢出', nav1180.over <= 1, `溢出 ${nav1180.over}px`);
+
+  await cdp.send('Emulation.setDeviceMetricsOverride',
+    { width: 860, height: 800, deviceScaleFactor: 1, mobile: false }, sessionId);
+  await sleep(200);
+  const nav860 = await evaluate(sessionId, `(() => {
+    const t = document.querySelector('.nav-toggle'), l = document.querySelector('.mast-links');
+    return { toggle: getComputedStyle(t).display !== 'none',
+             links: getComputedStyle(l).display !== 'none' };
+  })()`);
+  check(page, '860px 导航已折叠为汉堡', nav860.toggle === true && nav860.links === false,
+        JSON.stringify(nav860));
   await cdp.send('Emulation.setDeviceMetricsOverride',
     { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false }, sessionId);
-  await sleep(200);
+  await sleep(240);
+
+  /* 9.8 宽屏顶栏:横排 + 高度正常(折叠按钮不该在宽屏出现,否则会把顶栏顶高) */
+  const nav1280 = await evaluate(sessionId, `(() => {
+    const n = document.querySelector('.topnav');
+    const t = document.querySelector('.nav-toggle');
+    const l = document.querySelector('.mast-links');
+    return { h: Math.round(n.getBoundingClientRect().height),
+             toggle: getComputedStyle(t).display !== 'none',
+             links: getComputedStyle(l).display !== 'none' };
+  })()`);
+  check(page, '1280px 导航横排未折叠', nav1280.links === true && nav1280.toggle === false,
+        JSON.stringify(nav1280));
+  check(page, '1280px 顶栏高度正常(≤80px)', nav1280.h <= 80, `${nav1280.h}px`);
 
   /* 11 控制台无报错 / 无失败请求 */
   const realFailures = failedRequests.filter((t) => !/ERR_ABORTED/.test(t));
   check(page, '控制台无错误', consoleErrors.length === 0, consoleErrors.join(' | '));
   check(page, '无失败网络请求', realFailures.length === 0, realFailures.join(', '));
+
+  /* ◆ 全页截图
+     先模拟 prefers-reduced-motion: reduce —— 展示栏是无限滚动动画,
+     不冻住的话每次截到哪一帧是随机的,截图 diff 会一直抖动(而且顺便验了降级路径)。*/
+  await cdp.send('Emulation.setEmulatedMedia',
+    { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] }, sessionId);
+  await sleep(250);
 
   /* ◆ 全页截图 */
   const metrics = await cdp.send('Page.getLayoutMetrics', {}, sessionId);
@@ -297,6 +370,7 @@ for (const page of PAGES) {
   const file = path.join(SHOT_DIR, page.replace('.html', '.png'));
   writeFileSync(file, Buffer.from(shot.data, 'base64'));
 
+  await cdp.send('Emulation.setEmulatedMedia', { features: [] }, sessionId);
   stopCollect();
   await cdp.send('Target.closeTarget', { targetId });
 }

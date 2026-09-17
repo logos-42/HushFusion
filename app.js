@@ -77,6 +77,28 @@ document.documentElement.classList.add('js');
     });
   });
 
+  /* ── 移动端导航 ─────────────────────────────────────────────────────── */
+  var topnav = document.querySelector('.topnav');
+  var navToggle = document.querySelector('.nav-toggle');
+  if (topnav && navToggle) {
+    var setOpen = function (on) {
+      topnav.classList.toggle('is-open', on);
+      navToggle.setAttribute('aria-expanded', on ? 'true' : 'false');
+    };
+    navToggle.addEventListener('click', function () {
+      setOpen(!topnav.classList.contains('is-open'));
+    });
+    Array.prototype.forEach.call(topnav.querySelectorAll('.mast-links a'), function (a) {
+      a.addEventListener('click', function () { setOpen(false); });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') setOpen(false);
+    });
+    document.addEventListener('click', function (e) {
+      if (!topnav.contains(e.target)) setOpen(false);
+    });
+  }
+
   /* ── 滚动揭示 ───────────────────────────────────────────────────────── */
   var revealables = document.querySelectorAll('.reveal');
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

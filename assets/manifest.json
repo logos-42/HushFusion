@@ -71,22 +71,6 @@
       "bytes": 68743
     },
     {
-      "file": "assets/brand/wordmark-brush.png",
-      "src_box": [
-        22,
-        92,
-        525,
-        215
-      ],
-      "size": [
-        503,
-        123
-      ],
-      "note": "手写体主标 HushFusion(纸底)",
-      "sha256": "c17432736759e15126471df27e4fe84c6cf9a8c3b7b9536d943c0d6a1cf70add",
-      "bytes": 96198
-    },
-    {
       "file": "assets/brand/slogan-cn.png",
       "src_box": [
         96,
@@ -165,86 +149,6 @@
       "note": "应用图标(蓝/橙圆角方块)",
       "sha256": "9342baa43dd94c4dbcde648aff05923f5717b4388e207e9780eef638a7e76d1b",
       "bytes": 10619
-    },
-    {
-      "file": "assets/ui/mockup-desktop.png",
-      "src_box": [
-        319,
-        531,
-        1029,
-        1174
-      ],
-      "size": [
-        710,
-        643
-      ],
-      "note": "桌面端整屏 Mockup",
-      "sha256": "15fec442f773f8ace96d8fbff43aeaa5e5031828f279cd52f28a2b43704b3055",
-      "bytes": 684707
-    },
-    {
-      "file": "assets/ui/mockup-mobile.png",
-      "src_box": [
-        1060,
-        523,
-        1302,
-        959
-      ],
-      "size": [
-        242,
-        436
-      ],
-      "note": "手机端整屏 Mockup",
-      "sha256": "3bc68b0a03c2795e9500c1af5a11788449b5a3e896f8a5d1feb58395e6bf8ca2",
-      "bytes": 139023
-    },
-    {
-      "file": "assets/news/news-01.png",
-      "src_box": [
-        348,
-        1055,
-        553,
-        1121
-      ],
-      "size": [
-        205,
-        66
-      ],
-      "note": "进展卡 1:FRC 约束实验",
-      "sha256": "56bc19b7310ef5291581e8f1b6a855b48b987012f1ae5031ea5813b72f3e4cf7",
-      "bytes": 28509
-    },
-    {
-      "file": "assets/news/news-02.png",
-      "src_box": [
-        574,
-        1055,
-        780,
-        1121
-      ],
-      "size": [
-        206,
-        66
-      ],
-      "note": "进展卡 2:AI 控制系统",
-      "sha256": "bfed7400e9e3047631ef4f6a7cf6ff8fcb73cc02a951ba37f9690fdc7a342c7c",
-      "bytes": 24176
-    },
-    {
-      "file": "assets/news/news-03.png",
-      "src_box": [
-        792,
-        1055,
-        997,
-        1121
-      ],
-      "size": [
-        205,
-        66
-      ],
-      "note": "进展卡 3:团队招募",
-      "sha256": "0618ff47770611a76d0cbd0a88468e94f6f48c40e1bffb2c647aae3baec10d10",
-      "bytes": 28985
     },
     {
       "file": "icons/favicon-32.png",

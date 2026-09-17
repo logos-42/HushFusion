@@ -92,4 +92,4 @@
 * 三条进展卡标题末尾用词
 * 海报手写清单的英文词序(原为 `FRC · AI Control · …`,第 1 项已按需方口径替换)
 
-复核方式:直接看 `assets/hero/poster-full.png` 与 `assets/ui/mockup-desktop.png`,或提供原始矢量稿。
+复核方式:直接看 `assets/hero/poster-full.png`(整幅海报原件,页面顶部那张),或提供原始矢量稿。

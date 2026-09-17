@@ -38,17 +38,16 @@
 | `assets/hero/poster-full.png` | 1312×497 | 1174.7 KB | (0, 0, 1312, 497) | 整幅手绘海报(品牌主视觉,含字) |
 | `assets/hero/art-tokamak.png` | 792×497 | 777.8 KB | (520, 0, 1312, 497) | 海报右侧纯画面(反应堆+屋顶少年,含海报角标与批注) |
 | `assets/hero/art-tokamak-wide.png` | 756×297 | 451.7 KB | (556, 200, 1312, 497) | 海报右侧横裁(避开角标与批注,宽幅插图用) |
-| `assets/art/plasma-ring.png` | 295×124 | 67.1 KB | (690, 868, 985, 992) | 桌面稿内的等离子环插画 |
-| `assets/brand/wordmark-brush.png` | 503×123 | 93.9 KB | (22, 92, 525, 215) | 手写体主标 HushFusion(纸底) |
+| `assets/art/plasma-ring.png` | 295×124 | 67.1 KB | (690, 868, 985, 992) | 桌面稿内的 FRC 等离子环插画 |
 | `assets/brand/slogan-cn.png` | 262×91 | 36.2 KB | (96, 214, 358, 305) | 中文标语 消音计划 / 在寂静中,点燃星辰。 |
-| `assets/brand/list-frc.png` | 160×88 | 23.2 KB | (36, 331, 196, 419) | 海报左下手写要点清单(文件名保留 list-frc) |
+| `assets/brand/list-frc.png` | 160×88 | 23.2 KB | (36, 331, 196, 419) | 要点清单 FRC·AI Control·… |
 | `assets/brand/mark-bolt--white.png` | 76×73 | 1.0 KB | (1063, 989, 1139, 1062) | 闪电/星芒标志(白)(深色底已键出为透明) |
 | `assets/brand/tile-vortex.png` | 95×94 | 9.9 KB | (1053, 1077, 1148, 1171) | 圆章方块版(深色圆角砖) |
 | `assets/brand/app-icon.png` | 106×98 | 10.4 KB | (1167, 1075, 1273, 1173) | 应用图标(蓝/橙圆角方块) |
 | `icons/favicon-32.png` | 32×32 | 1.8 KB | (1167, 1075, 1273, 1173) | favicon 32px(由 106px 源图放大,≥180 会偏软,见 DESIGN-PLAN §10.3) |
 | `icons/apple-touch-icon.png` | 180×180 | 24.3 KB | (1167, 1075, 1273, 1173) | favicon 180px(由 106px 源图放大,≥180 会偏软,见 DESIGN-PLAN §10.3) |
 
-**合计 12 个文件 / 2.61 MB**(站点页面上实际引用的就是这 20 个);逐文件 sha256 见 `assets/manifest.json`。
+**合计 11 个文件 / 2.52 MB**(站点页面上实际引用的就是这 11 个);逐文件 sha256 见 `assets/manifest.json`。
 > 源图里还有一批**没被站点引用**的备用切片(少年局部、苗形章、英文角标、波形签名、环形圆章、手机稿 hero、纸底纹理等),坐标保留在 `tools/slice_assets.py` 的 `EXTRA_CROPS` 里,要时跑 `python3 tools/slice_assets.py --all` 再切 —— **不做进默认产物,免得仓库里堆一堆没人用的图**。
 >
 > 另有一批**点缀素材池** `assets/cover/`(80 张 512×682 笔触封面,来自 bolloon 项目,原样复制未重编码),用于后续替换上表里那些低分辨率的裁切素材 —— 用途、使用纪律与替换关系见 `docs/ASSETS.md` §7。
@@ -60,9 +59,9 @@
 
 | 分辨率等级 | 素材 | 允许的最大显示宽度 |
 |:--|:--|:--|
-| 可放大到 1.3× 以内 | `poster-full`(1312)、`art-tokamak`(792)、`art-tokamak-wide`(756)、`mockup-desktop`(710)、`desktop-hero`(574)、`wordmark-brush`(503) | 版面列宽即可 |
-| 接近原生 | `plasma-ring`(295)、`mockup-mobile`(242)、`news-0x`(205)、`swatches`(304)、`slogan-cn`(262)、`list-frc`(160) | **≈ 原生像素** |
-| 只能缩小 | `mark-bolt--white`(76)、`wordmark-caps--white`(102)、`tile-vortex`(95)、`app-icon`(106) | 原生像素或更小 |
+| 可放大到 1.3× 以内 | `poster-full`(1312)、`art-tokamak`(792)、`art-tokamak-wide`(756) | 版面列宽即可 |
+| 接近原生 | `plasma-ring`(295)、`slogan-cn`(262)、`list-frc`(160) | **≈ 原生像素** |
+| 只能缩小 | `mark-bolt--white`(76)、`tile-vortex`(95)、`app-icon`(106) | 原生像素或更小 |
 
 **规则**:一块素材**永远不许被放大来填版面**。放大不会变清晰,只会变糊;
 需要更大尺寸时应当**重新出图**(见 §10 重绘清单),而不是拉伸 CSS。
@@ -135,9 +134,10 @@
 | 正文 / 说明 | 同上(300 字重) | 长文可读 |
 | 元数据 / 代码 | `ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace` | 序号、日期、命令、标签 |
 
-> **关键决定**:通用做法里「展示级用衬线」在这里被放弃。
-> 风格角色改由**真实品牌图**承担(手写主标 `wordmark-brush.png` 就是页面的 h1),字体只承担结构。
-> 这是把「素材决定容器」落到底层的一步:**手绘感来自素材,不来自字体**。
+> **关键决定**:通用做法里「展示级用衬线」在这里被放弃,风格角色交给真实素材与版式。
+> **2026-09-17 修订(需方要求)**:页面上不再出现任何「字体图片」—— 序厅原来的手写体主标
+> `wordmark-brush.png`(503×123 纸底位图)已撤下,`<h1>` 回到**文字渲染**;顶栏字标同样只用文字
+> (原图仅 102×19,2× 屏会糊)。手绘感现在只由海报原件承担,不靠字体、也不靠字标图片。
 
 ### 4.2 字号阶梯(实现中的真实值)
 
@@ -253,6 +253,18 @@ section 标题    clamp(1.6rem, 3.4vw, 2.6rem)
 
 ---
 
+### 7.5.1 2026-09-17 追加:按需方要求撤下的内容
+
+| 撤下 | 原因 | 现在在哪 |
+|:--|:--|:--|
+| 顶部海报节的 `— Poster` 小标、`海报原件` 标题、「整套视觉的源头…从模板反推」说明段 | 需方原话:「删除」,该位置只留海报图 | 正文已删;本节留档 |
+| 序厅手写体主标图 `brand/wordmark-brush.png` | 需方原话:「这个字体要去掉」 | 改用文字渲染的 `<h1>`;图坐标留在 `tools/slice_assets.py` 的 `EXTRA_CROPS` |
+| 序厅右侧插图 `hero/art-tokamak.png` 的展示位 | 需方原话:「后一个海报也去掉」——顶部出现两张海报 | 只在 `about.html#origin` 保留;坐标不变 |
+| `ui/mockup-desktop.png`、`ui/mockup-mobile.png`、`news/news-01…03.png` | 需方确认是他本人决定多余并删除的截图素材 | 已从产物移入 `EXTRA_CROPS`,`--all` 可取回 |
+
+> 页面上的**图片只剩三张**:顶栏标志 `mark-bolt--white`、顶部海报 `poster-full`、能力区插画 `plasma-ring`
+> (另有 favicon 两张)。其余版面全部由文字与发丝线承担。
+
 ## 八 响应式方案
 
 **原则**:断点只改**布局方向**,不改字号(字号一律 `clamp()`)。
@@ -327,10 +339,9 @@ icons/           favicon 全套(32 / 180 / 192 / 512)
 | `brand/mark-bolt--white` / `brand/tile-vortex` | 76–95px 位图 | **SVG**(单色可换色的路径) | 现在只能按原生尺寸用;导航、favicon、印刷都需要矢量 |
 | `brand/app-icon` | 106×98 位图 | 1024×1024 方图 + SVG | iOS/Android 上架与 PWA 图标需要 1024 与安全边 |
 | `brand/wordmark-caps--white` | 102×19 位图 | SVG 或 4× 位图 | 顶栏字标在高分屏上会软 |
-| `brand/wordmark-brush` | 503×123 纸底位图 | 透明底 2× 版本(或手绘原件扫描) | 序厅主标是页面最大的字,目前用纸底块规避 |
-| `news/news-01…03` | 205×66 位图 | 每张 ≥ 800×400 的新图 | 缩略图只能 1:1 显示,做不了大卡片 |
-| `art/plasma-ring` | 295×124 位图 | ≥ 1000px 宽的插画 | 同上 |
-| `ui/mockup-mobile` | 242×436 位图 | ≥ 480×866 或真机截图 | 手机稿在桌面端展示偏小 |
+| `art/plasma-ring` | 295×124 位图 | ≥ 1000px 宽的插画 | 能力区的环形插画只能按原生尺寸用 |
+| ~~`brand/wordmark-brush`~~ | ~~503×123~~ | — | **已退役**(需方 2026-09-17 要求改用文字渲染),坐标留在 `EXTRA_CROPS` |
+| ~~`news/news-01…03`~~ / ~~`ui/mockup-*`~~ | ~~205×66 / 242×436~~ | — | **已退役**(需方确认多余),坐标留在 `EXTRA_CROPS` |
 
 > 重绘到位后,只需要改 `assets/` 里的文件(文件名不变)+ 升 `?v=N`,页面结构不用动。
 
@@ -423,7 +434,7 @@ node scripts/verify-site.mjs http://127.0.0.1:8898
 
 ```text
 素材
-[x] 12 个切片文件 + icons(站点引用到的全部),全部带 sha256 与源图裁剪框记录
+[x] 11 个切片文件 + icons(站点引用到的全部),全部带 sha256 与源图裁剪框记录
 [x] 色板实测值 + 设计板印刷 hex 双记录(assets/palette.json)
 [x] 低分辨率素材已标注并给出重绘清单
 [x] 切图脚本可重放、确定性(tools/slice_assets.py)

@@ -53,7 +53,7 @@ xxx--white.png       深色底已键出为透明的版本(白笔迹变纯白图�
 | | `brand/app-icon.png` 106×98 | 蓝/橙圆角方块 | 应用图标源、favicon 源 |
 | | `brand/mark-seedling.png` 60×49 | 苗形圆章(蓝,纸底) | 纸块上的小标记 |
 | | `brand/logo-corner.png` 168×52 | 苗形标 + 全大写字标(纸底) | 纸块、印刷物 |
-| **字标** | `brand/wordmark-brush.png` 503×123 | 手写主标(纸底) | 序厅 h1、大尺寸品牌曝光 |
+| ~~**字标**~~ | ~~`brand/wordmark-brush.png` 503×123~~ | **已退役**(2026-09-17 需方要求) | 序厅 `<h1>` 改文字渲染;图坐标在 `EXTRA_CROPS` |
 | | *(顶栏全大写字标不用图)* | 已改为**文字渲染**:本地字体 + `letter-spacing:.3em` | 六页顶栏 —— 原来那张只有 102×19,2× 屏上会糊 |
 | **文案件** | `brand/slogan-cn.png` 262×91 | 「消音计划 / 在寂静中,点燃星辰。」 | 纸块上的标语 |
 | | `brand/tagline-en.png` 256×48 | 「Controlled Fusion / Through the Silence.」 | 同上 |
@@ -63,7 +63,7 @@ xxx--white.png       深色底已键出为透明的版本(白笔迹变纯白图�
 | *(备用)* | `ui/desktop-hero.png` 574×230 | 桌面 hero 画面 | 公开页不再用它 —— 在 `EXTRA_CROPS` 里,`--all` 可取回 |
 | | `ui/mobile-hero.png` 226×65 | 手机 hero 画面 | 小尺寸插图 |
 | **favicon** | `icons/favicon-32.png`、`icons/apple-touch-icon.png` | 站点图标 | 已接入全部页面 |
-| *(备用)* | `ui/mockup-desktop.png` / `ui/mockup-mobile.png` / `ui/desktop-hero.png` / `ui/mobile-hero.png`、`news/news-01…03.png` | 需方已从站上撤下的图 | 全在 `EXTRA_CROPS` 里,`--all` 可取回 |
+| *(备用)* | `ui/mockup-desktop.png` / `ui/mockup-mobile.png` / `ui/desktop-hero.png` / `ui/mobile-hero.png`、`news/news-01…03.png`、`brand/wordmark-brush.png` | 需方已从站上撤下的图(2026-09-17) | 全在 `EXTRA_CROPS` 里,`--all` 可取回 |
 | *(备用)* | `palette/swatches.png` 304×68 | 设计板色卡行 | 公开页不再用它 —— 在 `EXTRA_CROPS` 里,`--all` 可取回 |
 
 ---
@@ -79,8 +79,9 @@ xxx--white.png       深色底已键出为透明的版本(白笔迹变纯白图�
 **规则:一块素材永远不许被放大来填版面。** 放大不会变清晰,只会变糊。
 本项目里已经为此做过两处修正:
 
-* `ui/mockup-mobile.png`(242px)从「拉满半栏」改成 `.screens-grid .is-native` 的 242px 上限;
-* `news/news-0x.png`(205px)从 `figcaption` 版式改成 `.native-row` 的 1:1 网格。
+* `ui/mockup-mobile.png`(242px)曾从「拉满半栏」收到 242px 上限 —— 这两块(以及 `news/news-0x`)
+  后来由需方确认多余,整块退役,对应版式规则也已从 `style.css` 删除;
+* 现在页面上需要守这条纪律的只剩 `art/plasma-ring.png`(295×124,按原生尺寸用)。
 
 ---
 
@@ -121,10 +122,9 @@ xxx--white.png       深色底已键出为透明的版本(白笔迹变纯白图�
 | 高 | `mark-bolt` / `mark-vortex` / `tile-vortex` | 76–95px 位图 | SVG(可换色单色路径) |
 | 高 | `app-icon` | 106×98 位图 | 1024×1024 方图 + SVG(上架/PWA 必需) |
 | 高 | `wordmark-caps` | 102×19 位图 | SVG 或 4× 位图(顶栏在高分屏会软) |
-| 中 | `wordmark-brush` | 503×123 纸底位图 | 透明底 2× 版本或手绘原件扫描 |
-| 中 | `news/news-0x` | 205×66 位图 | 每张 ≥800×400 新图 |
+| 中 | `slogan-cn` / `list-frc` | 262×91 / 160×88 纸底位图 | 透明底 2× 版本(纸块上目前靠纸色底对齐) |
 | 中 | `art/plasma-ring` | 295×124 位图 | ≥1000px 宽插画 |
-| 低 | `ui/mockup-mobile` | 242×436 位图 | ≥480×866 或真机截图 |
+
 | 低 | `paper-texture` | 256×44 条状 | 512×512 可平铺纸纹 |
 
 重绘到位后**只需覆盖同名文件 + 升 `?v=N`**,页面结构不用动。
