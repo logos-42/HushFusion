@@ -103,7 +103,7 @@ python3 tools/slice_assets.py --all    # 连同备用素材一起切
 | 1 | 待批准的设计决策(强调色取印刷码还是实测值、纸块 vs 透明底…) | `docs/DESIGN-PLAN.md` §12 |
 | 2 | 低分辨率素材的矢量 / 高清重绘(标志、app icon、插画) | `docs/DESIGN-PLAN.md` §10.3 |
 | 3 | 需方补齐「待填」内容(名单、指标、邮箱、里程碑) | `docs/CONTENT-SOURCES.md` §3 |
-| 4 | 口径句(时变引力场 / 消除噪音)如需改措辞:落点见 `docs/CONTENT-SOURCES.md` §二·五 | `docs/CONTENT-SOURCES.md` |
+| 4 | 口径句(反引力场 / 无噪音·无限能源 / 可控引力场飞行器)如需改措辞:落点见 `docs/CONTENT-SOURCES.md` §二·五~二·六 | `docs/CONTENT-SOURCES.md` |
 | 5 | 低分辨率转写文字的复核(自述段标点、海报批注) | `docs/CONTENT-SOURCES.md` §4 |
 | 6 | **最小信息披露纪律**:公开页不写仓库路径 / 尺寸 / 命令行 / 过程话术 —— 新增内容前先读 `docs/DESIGN-PLAN.md` §4 纪律 11 | `docs/DESIGN-PLAN.md` |
 | 7 | HIBS 团队页的成员名单 / 头像 / 机构信息仍是占位 | `docs/CONTENT-SOURCES.md` §3 |

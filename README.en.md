@@ -104,7 +104,7 @@ reads as a blank page and you would "confirm" a broken site.
 | 1 | Design decisions still awaiting approval (printed vs sampled accent colour, paper blocks vs transparency…) | `docs/DESIGN-PLAN.md` §12 |
 | 2 | Vector / high-resolution re-draw of low-res assets (marks, app icon, illustration) | `docs/DESIGN-PLAN.md` §10.3 |
 | 3 | Client-side content still marked `[待填]` (names, metrics, email, milestones) | `docs/CONTENT-SOURCES.md` §3 |
-| 4 | Rewording the logic/motive sentence (time-varying gravity / silencing noise) | `docs/CONTENT-SOURCES.md` §二·五 |
+| 4 | Rewording the logic/motive sentence (anti-gravity field / silent energy / gravity-controlled flight) | `docs/CONTENT-SOURCES.md` §二·五 |
 | 5 | Proof-reading of low-res transcriptions (intro punctuation, poster annotations) | `docs/CONTENT-SOURCES.md` §4 |
 | 6 | **Minimum-disclosure rule**: public pages carry no repo paths, pixel sizes, shell commands or process talk — read `docs/DESIGN-PLAN.md` §4 rule 11 before adding copy | `docs/DESIGN-PLAN.md` |
 | 7 | HIBS Team page member list / portraits / affiliations are still placeholders | `docs/CONTENT-SOURCES.md` §3 |

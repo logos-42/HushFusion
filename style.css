@@ -175,6 +175,15 @@ section.band + section.band { border-top: 1px solid var(--hairline); }
   letter-spacing: 2px; color: var(--ink-2); margin-top: 12px; text-transform: uppercase;
 }
 .intro-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.intro-phase {
+  font-family: var(--mono); font-size: .42em; letter-spacing: 2px; color: var(--accent);
+  border: 1px solid var(--hairline-strong); border-radius: 2px;
+  padding: 2px 7px; margin-left: 12px; vertical-align: middle; white-space: nowrap;
+}
+.intro-path {
+  font-family: var(--mono); font-size: clamp(.72rem, 1.3vw, .84rem);
+  letter-spacing: 1px; color: var(--ink-3); margin-top: 18px; line-height: 1.9;
+}
 
 .quiet-cta {
   display: inline-flex; align-items: center; gap: 8px;
