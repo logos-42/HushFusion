@@ -15,6 +15,17 @@
 
 > 备注：本仓库公开部署在 hushfusion.pages.dev,`scripts/deploy.sh` 只打包站点引用文件、不带 docs/ scripts/ 工具与素材池;知识系统与站点共同纳入 git 版本管理。
 
+## [2026-09-17] 修复 | 素材未登记导致 CI 失败
+
+`untracked_raw_check` 在 CI 报仓库内图片素材未登记;本地复现为 98 个
+(`assets/*`、`docs/screenshots/*`、`icons/*`)。
+
+| 日期 | 类别 | 变更 | 说明 |
+|------|------|------|------|
+| 2026-09-17 | fix | 98 个图片素材登记进 `manifests/raw_sources.csv` | 按来源分组,`status=compiled`;总行数 1 → 99 |
+| 2026-09-17 | docs | `sources-and-data.md` 补「已登记素材来源」表 | 两张源图 + 六组切片 |
+| 2026-09-17 | ci | 五步本地复现 CI 全绿 | wiki_check / raw_manifest_check / untracked_raw_check / wiki_size_report / provenance --ci |
+
 ---
 
 ## [2026-09-17] 投递通道 + 论文引用 | config.json 唯一配置源 · Cloudflare 直发已通
