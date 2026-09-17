@@ -99,6 +99,8 @@ section.band {
   margin: 0 auto;
 }
 section.band + section.band { border-top: 1px solid var(--hairline); }
+/* 海报置顶:它下面是序厅,两块要读成一个开篇 —— 收紧下边距,别让图与文之间空出一大段 */
+#poster { padding-bottom: clamp(28px, 3.5vh, 44px); }
 /* ── 通用文字件 ──────────────────────────────────────────────────────── */
 .kicker {
   font-family: var(--mono); font-size: 12px; letter-spacing: 3px;
@@ -159,9 +161,9 @@ section.band + section.band { border-top: 1px solid var(--hairline); }
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-  align-items: center;
+  align-items: start;
   gap: clamp(24px, 5vw, 64px);
-  padding: clamp(48px, 9vh, 120px) clamp(24px, 6vw, 80px);
+  padding: clamp(24px, 3.5vh, 44px) clamp(24px, 6vw, 80px) clamp(48px, 9vh, 120px);
   max-width: 1400px; margin: 0 auto;
   min-height: calc(100svh - 70px);
 }
