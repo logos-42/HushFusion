@@ -1,0 +1,282 @@
+{
+  "source": "/Users/apple/.hermes/images/clip_20260917_101147_1.png",
+  "source_sha256": "aa36a2c81d441d7c550316c47b2d14cb112b3d2fdf5b22184e33211090abaf45",
+  "source_size": [
+    1312,
+    1199
+  ],
+  "assets": [
+    {
+      "file": "assets/hero/poster-full.png",
+      "src_box": [
+        0,
+        0,
+        1312,
+        497
+      ],
+      "size": [
+        1312,
+        497
+      ],
+      "note": "整幅手绘海报(品牌主视觉,含字)",
+      "sha256": "94f6fad31813431ca2f2cd0ef0ee7c26a0f22693cfff1afb6a3c92255e202a53",
+      "bytes": 1202852
+    },
+    {
+      "file": "assets/hero/art-tokamak.png",
+      "src_box": [
+        520,
+        0,
+        1312,
+        497
+      ],
+      "size": [
+        792,
+        497
+      ],
+      "note": "海报右侧纯画面(反应堆+屋顶少年,含海报角标与批注)",
+      "sha256": "165570b6821b8ee7891c1f93c815327d21abee406d6c44cdd8dae0a6597e59cf",
+      "bytes": 796469
+    },
+    {
+      "file": "assets/hero/art-tokamak-wide.png",
+      "src_box": [
+        556,
+        200,
+        1312,
+        497
+      ],
+      "size": [
+        756,
+        297
+      ],
+      "note": "海报右侧横裁(避开角标与批注,宽幅插图用)",
+      "sha256": "6af4bbcfb3d1d3c2ae8c31c4e1e79b8ab396cefc9327065aba1a8d02a106d32c",
+      "bytes": 462532
+    },
+    {
+      "file": "assets/art/plasma-ring.png",
+      "src_box": [
+        690,
+        868,
+        985,
+        992
+      ],
+      "size": [
+        295,
+        124
+      ],
+      "note": "桌面稿内的 FRC 等离子环插画",
+      "sha256": "845a3d7ef0b982bc229a9b1e1ec22df37c2dbbf5a91a6c49fdb6e0ceaf2ced3e",
+      "bytes": 68743
+    },
+    {
+      "file": "assets/brand/wordmark-brush.png",
+      "src_box": [
+        22,
+        92,
+        525,
+        215
+      ],
+      "size": [
+        503,
+        123
+      ],
+      "note": "手写体主标 HushFusion(纸底)",
+      "sha256": "c17432736759e15126471df27e4fe84c6cf9a8c3b7b9536d943c0d6a1cf70add",
+      "bytes": 96198
+    },
+    {
+      "file": "assets/brand/slogan-cn.png",
+      "src_box": [
+        96,
+        214,
+        358,
+        305
+      ],
+      "size": [
+        262,
+        91
+      ],
+      "note": "中文标语 消音计划 / 在寂静中,点燃星辰。",
+      "sha256": "2d81aa68661df4d2348b9da5a1f37c4c908f861e6db5acd914a1d609ff7d1183",
+      "bytes": 37020
+    },
+    {
+      "file": "assets/brand/list-frc.png",
+      "src_box": [
+        36,
+        331,
+        196,
+        419
+      ],
+      "size": [
+        160,
+        88
+      ],
+      "note": "要点清单 FRC·AI Control·…",
+      "sha256": "27a95cae5b66f0fee04b5387b926f4dae723a2ea3ea393c2be1865bc3bc150c7",
+      "bytes": 23777
+    },
+    {
+      "file": "assets/brand/mark-bolt--white.png",
+      "src_box": [
+        1063,
+        989,
+        1139,
+        1062
+      ],
+      "size": [
+        76,
+        73
+      ],
+      "note": "闪电/星芒标志(白)(深色底已键出为透明)",
+      "sha256": "a62e2a735c819d2411dfbec6487946273ef6b6d6255c3160fbcbc4cce25eee62",
+      "bytes": 1058
+    },
+    {
+      "file": "assets/brand/tile-vortex.png",
+      "src_box": [
+        1053,
+        1077,
+        1148,
+        1171
+      ],
+      "size": [
+        95,
+        94
+      ],
+      "note": "圆章方块版(深色圆角砖)",
+      "sha256": "9df8149adf8d1c67347f6890d15169daa013628a9e6082027b32f2c33a8e65de",
+      "bytes": 10136
+    },
+    {
+      "file": "assets/brand/app-icon.png",
+      "src_box": [
+        1167,
+        1075,
+        1273,
+        1173
+      ],
+      "size": [
+        106,
+        98
+      ],
+      "note": "应用图标(蓝/橙圆角方块)",
+      "sha256": "9342baa43dd94c4dbcde648aff05923f5717b4388e207e9780eef638a7e76d1b",
+      "bytes": 10619
+    },
+    {
+      "file": "assets/ui/mockup-desktop.png",
+      "src_box": [
+        319,
+        531,
+        1029,
+        1174
+      ],
+      "size": [
+        710,
+        643
+      ],
+      "note": "桌面端整屏 Mockup",
+      "sha256": "15fec442f773f8ace96d8fbff43aeaa5e5031828f279cd52f28a2b43704b3055",
+      "bytes": 684707
+    },
+    {
+      "file": "assets/ui/mockup-mobile.png",
+      "src_box": [
+        1060,
+        523,
+        1302,
+        959
+      ],
+      "size": [
+        242,
+        436
+      ],
+      "note": "手机端整屏 Mockup",
+      "sha256": "3bc68b0a03c2795e9500c1af5a11788449b5a3e896f8a5d1feb58395e6bf8ca2",
+      "bytes": 139023
+    },
+    {
+      "file": "assets/news/news-01.png",
+      "src_box": [
+        348,
+        1055,
+        553,
+        1121
+      ],
+      "size": [
+        205,
+        66
+      ],
+      "note": "进展卡 1:FRC 约束实验",
+      "sha256": "56bc19b7310ef5291581e8f1b6a855b48b987012f1ae5031ea5813b72f3e4cf7",
+      "bytes": 28509
+    },
+    {
+      "file": "assets/news/news-02.png",
+      "src_box": [
+        574,
+        1055,
+        780,
+        1121
+      ],
+      "size": [
+        206,
+        66
+      ],
+      "note": "进展卡 2:AI 控制系统",
+      "sha256": "bfed7400e9e3047631ef4f6a7cf6ff8fcb73cc02a951ba37f9690fdc7a342c7c",
+      "bytes": 24176
+    },
+    {
+      "file": "assets/news/news-03.png",
+      "src_box": [
+        792,
+        1055,
+        997,
+        1121
+      ],
+      "size": [
+        205,
+        66
+      ],
+      "note": "进展卡 3:团队招募",
+      "sha256": "0618ff47770611a76d0cbd0a88468e94f6f48c40e1bffb2c647aae3baec10d10",
+      "bytes": 28985
+    },
+    {
+      "file": "icons/favicon-32.png",
+      "src_box": [
+        1167,
+        1075,
+        1273,
+        1173
+      ],
+      "size": [
+        32,
+        32
+      ],
+      "note": "favicon 32px(由 106px 源图放大,≥180 会偏软,见 DESIGN-PLAN §10.3)",
+      "sha256": "afe3758b677312b922d2e2059eff8ab49e21c154148a28797b80cb4056e7751f",
+      "bytes": 1803
+    },
+    {
+      "file": "icons/apple-touch-icon.png",
+      "src_box": [
+        1167,
+        1075,
+        1273,
+        1173
+      ],
+      "size": [
+        180,
+        180
+      ],
+      "note": "favicon 180px(由 106px 源图放大,≥180 会偏软,见 DESIGN-PLAN §10.3)",
+      "sha256": "636896d6b53aaad59f425f943eaa4ef591a1b09167bedb9c80f355b25e9a2317",
+      "bytes": 24844
+    }
+  ]
+}

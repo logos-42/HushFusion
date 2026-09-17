@@ -1,0 +1,8 @@
+# 别的工具/系统留下的
+.kilo/
+.DS_Store
+__pycache__/
+*.pyc
+
+# 打包产物(按需再生成)
+dist/
