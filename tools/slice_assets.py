@@ -43,7 +43,6 @@ CROPS: list[tuple[str, tuple[int, int, int, int], str]] = [
     ("brand/list-frc.png",          (36, 331, 196, 419),    "要点清单 FRC·AI Control·…"),
     ("brand/mark-bolt.png",         (1063, 989, 1139, 1062), "闪电/星芒标志(白)"),
     ("brand/tile-vortex.png",       (1053, 1077, 1148, 1171), "圆章方块版(深色圆角砖)"),
-    ("brand/app-icon.png",          (1167, 1075, 1273, 1173), "应用图标(蓝/橙圆角方块)"),
 
     # ---- 界面稿 ------------------------------------------------------------
 
@@ -83,9 +82,10 @@ DARK_ALPHA_CROPS = {
     "brand/mark-vortex.png": "brand/mark-vortex--white.png",
 }
 
-FAVICON_SIZES = [(32, "favicon-32.png"), (180, "apple-touch-icon.png")]
-FAVICON_SIZES_EXTRA = [(192, "icon-192.png"), (512, "icon-512.png")]
-
+# 图标(favicon / apple-touch-icon / 顶栏标识 / app icon)自 2026-09-17 起由
+# tools/make_icons.py 从**另一张源图**(需方提供的消音波形图标)生成 ——
+# 本脚本不再写 icons/,也不再切 brand/app-icon.png,免得两个脚本互相盖。
+# 产物索引在 assets/icons.manifest.json。
 
 def key_out_paper(img: Image.Image, tol: int = 10, soft: int = 42) -> Image.Image:
     """把纸底键出为透明,得到可直接叠在深色背景上的 PNG。
@@ -189,23 +189,10 @@ def main() -> int:
             print(f"  ✓ {alpha_rel:<38} {crop.width:>4}x{crop.height:<4} "
                   f"{adst.stat().st_size/1024:>7.1f} KB  透明白版")
 
-    # ---- favicon（源自 app-icon，原生仅 102px） ----------------------------
-    ico_src = root / "assets" / "brand" / "app-icon.png"
-    if ico_src.exists():
-        im = Image.open(ico_src).convert("RGBA")
-        side = max(im.size)
-        sq = Image.new("RGBA", (side, side), (0, 0, 0, 0))
-        sq.paste(im, ((side - im.width) // 2, (side - im.height) // 2))
-        sizes = list(FAVICON_SIZES) + (list(FAVICON_SIZES_EXTRA) if args.all else [])
-        for sz, name in sizes:
-            d = root / "icons" / name
-            d.parent.mkdir(parents=True, exist_ok=True)
-            sq.resize((sz, sz), Image.LANCZOS).save(d, "PNG", optimize=True)
-            manifest.append({"file": f"icons/{name}", "src_box": list(
-                (1167, 1075, 1273, 1173)), "size": [sz, sz],
-                "note": f"favicon {sz}px(由 106px 源图放大,≥180 会偏软,见 DESIGN-PLAN §10.3)",
-                "sha256": sha256(d), "bytes": d.stat().st_size})
-            print(f"  ✓ icons/{name:<36} {sz:>4}x{sz:<4} {d.stat().st_size/1024:>7.1f} KB")
+    # ---- 图标:不在这里生成 ------------------------------------------------
+    # favicon / apple-touch-icon / 顶栏标识 / app icon 由 tools/make_icons.py 从
+    # 图标源图生成(见该脚本头部说明),这里只提醒一句,不做任何写入。
+    print("  · 图标不在本脚本产出:改图标请跑 python3 tools/make_icons.py")
 
     (root / "assets").mkdir(exist_ok=True)
 

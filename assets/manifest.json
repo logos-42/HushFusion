@@ -133,54 +133,6 @@
       "note": "圆章方块版(深色圆角砖)",
       "sha256": "9df8149adf8d1c67347f6890d15169daa013628a9e6082027b32f2c33a8e65de",
       "bytes": 10136
-    },
-    {
-      "file": "assets/brand/app-icon.png",
-      "src_box": [
-        1167,
-        1075,
-        1273,
-        1173
-      ],
-      "size": [
-        106,
-        98
-      ],
-      "note": "应用图标(蓝/橙圆角方块)",
-      "sha256": "9342baa43dd94c4dbcde648aff05923f5717b4388e207e9780eef638a7e76d1b",
-      "bytes": 10619
-    },
-    {
-      "file": "icons/favicon-32.png",
-      "src_box": [
-        1167,
-        1075,
-        1273,
-        1173
-      ],
-      "size": [
-        32,
-        32
-      ],
-      "note": "favicon 32px(由 106px 源图放大,≥180 会偏软,见 DESIGN-PLAN §10.3)",
-      "sha256": "afe3758b677312b922d2e2059eff8ab49e21c154148a28797b80cb4056e7751f",
-      "bytes": 1803
-    },
-    {
-      "file": "icons/apple-touch-icon.png",
-      "src_box": [
-        1167,
-        1075,
-        1273,
-        1173
-      ],
-      "size": [
-        180,
-        180
-      ],
-      "note": "favicon 180px(由 106px 源图放大,≥180 会偏软,见 DESIGN-PLAN §10.3)",
-      "sha256": "636896d6b53aaad59f425f943eaa4ef591a1b09167bedb9c80f355b25e9a2317",
-      "bytes": 24844
     }
   ]
 }

@@ -10,7 +10,7 @@
 ## 这是什么
 
 * `index.html` / `about.html` / `hibs.html` / `progress.html` —— 四页深色展览式静态站
-* `assets/` —— **11 个素材切片 + 2 个图标**（站点引用到的全部；全部从**同一张源图**裁剪，带 sha256 与源图裁剪框记录）
+* `assets/` —— **8 个海报切片 + 4 个图标产物**（切片带 sha256 与源图裁剪框记录；图标来自第二张源图，见下「素材的两张源图」/ `docs/ASSETS.md` §八）
 * `docs/` —— 设计简报、设计计划（可交给前端 agent 的实现规范）、内容来源表、素材清单、真浏览器截图
 * `tools/` + `scripts/` —— 确定性切图脚本与真浏览器验收脚本
 
@@ -59,7 +59,7 @@ bash scripts/deploy.sh
 │   ├── palette.json           色板实测值 + 设计板印刷 hex
 │   ├── hero/  brand/  art/    主视觉 / 品牌 / 插画切片
 │   └── cover/                 点缀素材池:80 张 512×682 笔触封面(来自 bolloon,见 docs/ASSETS.md §7)
-├── icons/                     favicon-32 · apple-touch-icon-180
+├── icons/                     favicon-32 · apple-touch-icon-180(由 tools/make_icons.py 生成)
 ├── docs/
 │   ├── design-brief.md        设计简报(L0 判据:裁决句 / 禁止清单 / 素材七项特征)
 │   ├── DESIGN-PLAN.md         ★ 前端设计计划(实现规范,可直接交给前端 agent)
@@ -67,7 +67,8 @@ bash scripts/deploy.sh
 │   ├── ASSETS.md              素材清单与分辨率纪律
 │   └── screenshots/           真浏览器验收产出的截图(四页全页 + 窄屏导航实拍)
 ├── tools/
-│   ├── slice_assets.py        切图(唯一入口;--all 连备用素材一起切)
+│   ├── slice_assets.py        海报切片(唯一入口;--all 连备用素材一起切)
+│   ├── make_icons.py          图标生成(第二张源图 → favicon / 顶栏标识 / app icon)
 │   ├── import_covers.py       导入 bolloon 封面图素材池(复制 + 登记 sha256)
 │   └── instrument_i18n.py     给文案加 data-zh / data-en 双属性
 ├── scripts/
@@ -78,15 +79,20 @@ bash scripts/deploy.sh
 
 ---
 
-## 素材的唯一来源
+## 素材的两张源图
 
 ```text
-~/.hermes/images/clip_20260917_101147_1.png
-1312 × 1199 · sha256 = aa36a2c81d441d7c550316c47b2d14cb112b3d2fdf5b22184e33211090abaf45
+① 海报源图   ~/.hermes/images/clip_20260917_101147_1.png
+            1312 × 1199 · sha256 = aa36a2c81d441d7c550316c47b2d14cb112b3d2fdf5b22184e33211090abaf45
+            → 海报/品牌切片(assets/**)，重放 python3 tools/slice_assets.py
+
+② 图标源图   <raw_root>/internal_sources/logo/logo-wave-1254.png   (raw_root = ~/Downloads/hushfusion_raw)
+            1254 × 1254 · 深蓝底 #042366 · sha256 = bb25bf8911fa095ae3ef06a6348525b9f91fb96724ca050e8cb0bb341dc116e5
+            → 全站图标与顶栏标识(icons/**、assets/brand/mark-wave--white.png)，重放 python3 tools/make_icons.py
 ```
 
-**没有第二个来源，也没有任何素材是凭空画的。** 每个切片的源图裁剪框都写在 `assets/manifest.json` 里，
-可用 `python3 tools/slice_assets.py` 逐字节重放。
+**只有这两张源图，没有任何素材是凭空画的。** 裁剪框与 sha256 分别记在 `assets/manifest.json`（切片）
+与 `assets/icons.manifest.json`（图标）里，两个脚本各自只写自己的产物，重跑不会互相覆盖。
 
 需要更高质量素材时请看 `docs/DESIGN-PLAN.md` §10.3 的**重绘清单**
 （哪些素材现在只有 76–295px、需要设计方出矢量或高分辨率版本）。
@@ -116,9 +122,10 @@ bash scripts/deploy.sh
 |:--|:--|:--|
 | 1 | 待批准的设计决策(强调色取印刷码还是实测值、纸块 vs 透明底…) | `docs/DESIGN-PLAN.md` §12 |
 | 2 | 低分辨率素材的矢量 / 高清重绘(标志、app icon、插画) | `docs/DESIGN-PLAN.md` §10.3 |
-| 3 | 需方补齐「待填」内容(名单、岗位、里程碑);**投递邮箱已提供**(见 §二·七) | `docs/CONTENT-SOURCES.md` §3 |
+| 3 | 仍需需方定:合作与资助、时变引力场的「公开细节」、关键指标数值、岗位参数(级别/人数/地点/待遇) | `docs/CONTENT-SOURCES.md` §二·九 |
 | 4 | 口径句(反引力场 / 无噪音·无限能源 / 可控引力场飞行器)如需改措辞:落点见 `docs/CONTENT-SOURCES.md` §二·五~二·六 | `docs/CONTENT-SOURCES.md` |
 | 5 | 低分辨率转写文字的复核(自述段标点、海报批注) | `docs/CONTENT-SOURCES.md` §4 |
 | 6 | **最小信息披露纪律**:公开页不写仓库路径 / 尺寸 / 命令行 / 过程话术 —— 新增内容前先读 `docs/DESIGN-PLAN.md` §4 纪律 11 | `docs/DESIGN-PLAN.md` |
-| 7 | HIBS 团队页的成员名单 / 头像 / 机构信息仍是占位 | `docs/CONTENT-SOURCES.md` §3 |
-| 8 | 投递通道依赖 Cloudflare Email Sending 的开放测试期:发信域状态用 OAuth 的 CLI 查不到(2036),只在控制台可见;换发信域时同步改 `config.json` 的 `apply.sendingDomain` | `docs/DESIGN-PLAN.md` §7.5.3 |
+| 7 | 团队构成按需方口径「**不公开**」(2026-09-17);三条回路的职责说明仍待定 | `docs/CONTENT-SOURCES.md` §二·九 |
+| 8 | 顶栏标识是细笔迹线稿,26px 下偏轻;要加分量把 `.brand-mark` 调到 28px(一处 CSS) | `docs/ASSETS.md` §八 |
+| 9 | 投递通道依赖 Cloudflare Email Sending 的开放测试期:发信域状态用 OAuth 的 CLI 查不到(2036),只在控制台可见;换发信域时同步改 `config.json` 的 `apply.sendingDomain` | `docs/DESIGN-PLAN.md` §7.5.3 |

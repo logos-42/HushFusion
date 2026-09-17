@@ -12,6 +12,9 @@ status: current
 ## 最近更新
 
 - 站点四页在线:`https://hushfusion.pages.dev`(资源版本 `?v=14`)
+- 全站图标已换成需方提供的波形标识(顶栏 / favicon / apple-touch / app icon),生成脚本 `tools/make_icons.py`
+- 关于页「待补」→「时间线」:论文发布日 2026-08-21 为唯一确定节点;机构与团队按需方口径不公开;
+  法务(版权 + 隐私)已落写;HIBS 页「在招」写实(岗位开放,要求对等离子体与电磁有了解)
 - 关于页新增/补齐「论文与引用」:aiXiv `aixiv.260821.000002`(标题、摘要、关键词、链接 + 复制引用);
   同一篇论文写重复的「理论依据」块已删除
 - HIBS 页「加入」补齐:投递邮箱行由 `config.json` 驱动,附投递表单(失败自动退回 mailto)
@@ -22,8 +25,10 @@ status: current
 
 ## 待补 / 未决
 
-- 岗位级别 / 人数 / 地点 / 待遇:待项目方提供(`hibs.html#join`)
-- 机构与团队、时间线、合作与资助、法务:待项目方提供(`about.html#todo`)
+- 合作与资助(合作机构 / 资助来源):`about.html#timeline`
+- 时变引力场的「公开细节」与关键指标数值:`progress.html#tech`
+- 岗位参数(级别 / 人数 / 地点 / 待遇,措辞已改「待定」):`hibs.html#join`
+- 三条回路的职责说明(各一句话):`hibs.html#team`
 - 设计冻结前 §12 六个待批准项仍需逐条结论(`docs/DESIGN-PLAN.md`)
 - 发信域状态只在 Cloudflare 控制台可见(开放测试期,OAuth 的 CLI/API 查不到,2036);换域时改 `config.json`
 

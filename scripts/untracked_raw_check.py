@@ -24,6 +24,7 @@ RAW_EXTENSIONS = {
 SKIP_DIRS = {
     ".git", "node_modules", "__pycache__", ".venv", "venv",
     ".obsidian", ".next", "dist", "build",
+    ".kilo",      # 别的 agent 工具的工作树副本(git 已忽略),不是本项目的 raw
     "manifests",  # manifest CSVs are the index, not raw data
 }
 

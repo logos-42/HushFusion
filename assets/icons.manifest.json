@@ -1,0 +1,58 @@
+{
+  "note": "图标产物索引(与海报切片分开放:那是 assets/manifest.json)。两个源图、两个脚本、两份索引 —— 重跑任何一边都不会盖掉另一边。",
+  "source": "/Users/apple/Downloads/hushfusion_raw/internal_sources/logo/logo-wave-1254.png",
+  "source_sha256": "bb25bf8911fa095ae3ef06a6348525b9f91fb96724ca050e8cb0bb341dc116e5",
+  "source_size": [
+    1254,
+    1254
+  ],
+  "background_hex": "#042366",
+  "content_box": [
+    113,
+    215,
+    1141,
+    1028
+  ],
+  "assets": [
+    {
+      "file": "assets/brand/mark-wave--white.png",
+      "size": [
+        256,
+        256
+      ],
+      "note": "顶栏左上角标识(透明底白波形;CSS 按 26px 显示,256px 导出≈10x)",
+      "sha256": "647829acee0254641cf92715fb98cccb2bbd3e4ed71d779626bcdcf86286a77a",
+      "bytes": 17095
+    },
+    {
+      "file": "assets/brand/app-icon.png",
+      "size": [
+        256,
+        256
+      ],
+      "note": "应用图标槽位(深蓝底 + 白波形)",
+      "sha256": "ad4e3d29d032e05c3b6404196fc35e425dae3b081c7a70ad3960c1a3151b546a",
+      "bytes": 27866
+    },
+    {
+      "file": "icons/favicon-32.png",
+      "size": [
+        32,
+        32
+      ],
+      "note": "浏览器标签页图标",
+      "sha256": "64d3168273a8c68d27c5eec2e6042d997cabc021769ca51d07c0e8c34deacc57",
+      "bytes": 1669
+    },
+    {
+      "file": "icons/apple-touch-icon.png",
+      "size": [
+        180,
+        180
+      ],
+      "note": "iOS / 书签图标",
+      "sha256": "8c4aaf488a3b7d7e8ce1160e06112e3ece40801b3bc22d0d02cea7b7fa902a8e",
+      "bytes": 16690
+    }
+  ]
+}

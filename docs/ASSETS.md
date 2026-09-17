@@ -14,7 +14,8 @@ sha256    aa36a2c81d441d7c550316c47b2d14cb112b3d2fdf5b22184e33211090abaf45
 内容      上半 = 手绘品牌海报(纸底);下半 = 设计板(左文案 / 中桌面稿 / 右手机稿 + Logo 延伸)
 ```
 
-一切素材都从它裁剪。**没有第二个来源,没有臆造图形。**
+海报与设计板切片全部从它裁剪。**图标另有第二张源图**(需方 2026-09-17 提供的消音波形标识,见 §八)。
+**两张源图,没有第三个来源,没有臆造图形。**
 
 ---
 
@@ -165,7 +166,44 @@ xxx--white.png       深色底已键出为透明的版本(白笔迹变纯白图�
 | `news/news-01…03.png` | 205×66 | **公开页已不用**(条目本身也是概念稿占位文案,已删) | 若将来要发真实进展,新建条目并配 ≥800×400 的图 |
 | `art/plasma-ring.png` | 295×124,发虚 | 选一张笔触封面(或海报全幅)当区块插图 | `.split` 的图文比例 |
 | `hero/art-tokamak-wide.png` | 756×297,已在 `progress.html#tech` 使用 | 选封面再裁一版宽的 | 技术节的宽幅图 |
-| `brand/*` 小标志 | 76–106px 位图 | 仍需**矢量重绘**,封面图替代不了 | — |
+| `brand/*` 小标志 | 76–106px 位图 | 顶栏标识已在 2026-09-17 换成新图标(1254px 源图,见 §八);其余小标志仍需**矢量重绘**,封面图替代不了 | — |
 
 > 替换时**保留文件名不变**(便于对照),改完把 `?v=N` 全站 +1,并跑一次
 > `node scripts/verify-site.mjs`(它会检查图片是否全部加载成功)。
+
+---
+
+## 八 图标:第二张源图(2026-09-17)
+
+全站图标与顶栏标识来自**需方提供的一张图**,不是从海报里裁的:
+
+```text
+文件      <raw_root>/internal_sources/logo/logo-wave-1254.png      (raw_root = ~/Downloads/hushfusion_raw)
+尺寸      1254 × 1254 · 底色 #042366
+sha256    bb25bf8911fa095ae3ef06a6348525b9f91fb96724ca050e8cb0bb341dc116e5
+内容      白线波形 + 一条中线(消音波形);无文字
+```
+
+重放:`python3 tools/make_icons.py`(确定性:同一源图 → 同一结果;`--all` 连 192/512 备用尺寸一起切)
+
+| 产物 | 尺寸 | 做法 | 用在哪 |
+|:--|:--|:--|:--|
+| `icons/favicon-32.png` | 32 | 深蓝底 + 白波形,**保留底** | 浏览器标签页(明暗标签栏上都读得清) |
+| `icons/apple-touch-icon.png` | 180 | 同上 | iOS 主屏 / 书签 |
+| `assets/brand/mark-wave--white.png` | 256 | 深蓝底**键出为透明**(亮度映射 alpha,底噪归零) | 四页顶栏左上角(CSS 按 26px 显示) |
+| `assets/brand/app-icon.png` | 256 | 深蓝底 + 白波形 | 应用图标槽位(站点当前未引用) |
+
+逐文件 sha256 / 字节数见 **`assets/icons.manifest.json`**(与海报切片的 `assets/manifest.json` 分开放)。
+
+**写入者纪律(重要)**:一个产物只有一个写入者 ——
+
+```text
+海报切片(assets/**) + 色板        → tools/slice_assets.py
+图标(icons/**、brand/mark-wave--white.png、brand/app-icon.png) → tools/make_icons.py
+```
+
+两个脚本各自只写自己的产物与索引,重跑任何一边都不会盖掉另一边;
+`tools/slice_assets.py` 从 2026-09-17 起不再写 `icons/`、也不再切 `brand/app-icon.png`。
+
+> 图标是**细笔迹线稿**:26px 显示时比原来的实心闪电轻。要更有分量,把 `style.css` 里
+> `.brand-mark` 的 26px 调到 28px 即可(一处改动)。

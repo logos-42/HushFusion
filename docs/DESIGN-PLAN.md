@@ -498,3 +498,31 @@ node scripts/verify-site.mjs http://127.0.0.1:8898
 > 2. 发信绑定的收件人必须在 `allowed_destination_addresses` 里,否则报 `E_RECIPIENT_NOT_ALLOWED / destination address is not a verified address`;收件人还要先在 Email Routing 的 Destination addresses 里登记(账号主邮箱即时通过)。
 
 验收:本地 111/111、线上 111/111;端到端自检(真浏览器填表 → 线上 Worker → 邮箱投递)通过。
+
+### 7.5.4 2026-09-17 追加:全站图标换成需方提供的消音波形标识
+
+| 改动 | 位置 | 说明 |
+|:--|:--|:--|
+| 顶栏标识 | 四页 `.brand-mark` | `assets/brand/mark-bolt--white.png`(76×73 海报切片)→ `assets/brand/mark-wave--white.png`(透明底白波形,256px 导出 ≈ 10x;CSS 仍按 26px 显示) |
+| 浏览器图标 | `icons/favicon-32.png` · `icons/apple-touch-icon.png` | 路径不变、内容换成新标识(深蓝底 + 白波形);旧的 favicon 是 106px 海报切片的放大版,本来偏软 |
+| 应用图标槽位 | `assets/brand/app-icon.png` | 换成新标识的 256px 方块(站点当前未引用,留作槽位) |
+| 生成方式 | `tools/make_icons.py`(**新**) | 第二张源图 → 四个产物;索引 `assets/icons.manifest.json` |
+| 职责切分 | `tools/slice_assets.py` | 不再写 `icons/`、不再切 `brand/app-icon.png` —— **一个产物只有一个写入者**,两个脚本重跑互不覆盖 |
+
+> 顶栏标识现在是细笔迹线稿:26px 下比原来的实心闪电轻。要更有分量,把 `style.css` 的 `.brand-mark`
+> 从 26px 调到 28px 即可(一处改动);本轮按设计系统原值保留。
+> 素材来源与做法另见 `docs/ASSETS.md` §八、文案口径见 `docs/CONTENT-SOURCES.md` §二·八。
+
+### 7.5.5 2026-09-17 追加:待补项收敛(内容级改写,需方逐条回答)
+
+| 改动 | 位置 | 说明 |
+|:--|:--|:--|
+| 「待补」节 → **「时间线」节** | `about.html#timeline`(原 `#todo`) | 两条:① `2026-08-21` 论文发布 — 路线由此确认 ② 之后:进行中,里程碑未定;用 `cap-list` 组件,状态用 `.cap-tag` |
+| 机构与团队整行删除 | 同上 | 需方口径「都不公开」——**不公开 ≠ 待补**,公开页不写「有什么不便说」 |
+| 法务块落地 | 同上 | 版权「© 2026 HUSHFUSION 保留所有权利」+ 隐私(不设追踪统计 / 只写 `hushfusion-lang` 本地存储 / 投递表单只收主动填写字段)——与实现一致 |
+| 「在招」写实 | `hibs.html#join` | 没有固定职位名称,岗位开放;方向 = 三条回路;要求:对等离子体与电磁有了解;岗位参数留占位,措辞「待定」 |
+| 团队构成口径 | `hibs.html#team` | 「团队构成不公开;在招方向见『加入』一节」;回路职责说明「待定」 |
+| AI 控制公开细节 | `about.html` 支点 02 · `index.html` 支点 02 · `progress.html` 技术栏 02 | 「电磁场持续学习的 AI 系统」(需方原话) |
+
+> 措辞纪律照旧:**只写需方给的,不加修饰性事实**;逐条依据(含需方原话)存 `docs/CONTENT-SOURCES.md` §二·九。
+> 本轮只动文案,未动 CSS/JS → 四页 `?v=14` 不变。

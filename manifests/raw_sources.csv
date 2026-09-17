@@ -1,1 +1,2 @@
 source_id,company,vendor,kind,filename,raw_rel_path,status,compiled_into,notes
+logo-wave-20260917,HUSHFUSION,需方,image,logo-wave-1254.png,internal_sources/logo/logo-wave-1254.png,compiled,assets/icons.manifest.json; icons/favicon-32.png; icons/apple-touch-icon.png; assets/brand/mark-wave--white.png; assets/brand/app-icon.png,"消音波形图标(白线波形 + 中线,深蓝底 #042366,1254×1254);sha256 bb25bf8911fa095ae3ef06a6348525b9f91fb96724ca050e8cb0bb341dc116e5;需方 2026-09-17 提供,用于替换全站图标/顶栏标识"
