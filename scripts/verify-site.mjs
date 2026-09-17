@@ -380,6 +380,36 @@ for (const page of PAGES) {
   check(page, '当前页导航项唯一高亮(忽略 .html 路径差异)',
         activeNav.count === 1 && activeNav.active === activeNav.here, JSON.stringify(activeNav));
 
+  const mq = await evaluate(sessionId, `(() => {
+    const m = document.querySelector('.cap-marquee');
+    const t = document.querySelector('.cap-marquee-track');
+    if (!m || !t) return { missing: true };
+    const half = t.getBoundingClientRect().width / 2;
+    return { groups: t.children.length, half: Math.round(half),
+             view: Math.round(m.clientWidth), ok: half >= m.clientWidth - 1 };
+  })()`);
+  if (!mq.missing) {
+    check(page, '滚动栏每半程 ≥ 视口宽(无缝、不漏白)', mq.ok === true, JSON.stringify(mq));
+  }
+
+  // 宽屏才是原来看得最清楚的情况(1920 下每半程只有 1240 就会空出 680px)
+  if (!mq.missing) {
+    await cdp.send('Emulation.setDeviceMetricsOverride',
+      { width: 1920, height: 1000, deviceScaleFactor: 1, mobile: false }, sessionId);
+    await sleep(420);
+    const mq1920 = await evaluate(sessionId, `(() => {
+      const m = document.querySelector('.cap-marquee');
+      const t = document.querySelector('.cap-marquee-track');
+      const half = t.getBoundingClientRect().width / 2;
+      return { groups: t.children.length, half: Math.round(half),
+               view: Math.round(m.clientWidth), ok: half >= m.clientWidth - 1 };
+    })()`);
+    check(page, '滚动栏 1920px 每半程 ≥ 视口宽', mq1920.ok === true, JSON.stringify(mq1920));
+    await cdp.send('Emulation.setDeviceMetricsOverride',
+      { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false }, sessionId);
+    await sleep(200);
+  }
+
   /* 11 控制台无报错 / 无失败请求 */
   const realFailures = failedRequests.filter((t) => !/ERR_ABORTED/.test(t));
   check(page, '控制台无错误', consoleErrors.length === 0, consoleErrors.join(' | '));

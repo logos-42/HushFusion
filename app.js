@@ -77,6 +77,34 @@ document.documentElement.classList.add('js');
     });
   });
 
+  /* ── 滚动展示栏补齐 ─────────────────────────────────────────────────── */
+  // 轨道是 translateX(0 → -50%) 的无缝循环,前提是「两个完全相同的一半」各能铺满一屏。
+  // 原始 5 个词只有 ~1240px,比 1280 视口还窄 —— 右边就露出一段空,屏越宽空得越多。
+  // 这里按实际宽度克隆组数,保证半程 ≥ 视口宽。
+  var marquee = document.querySelector('.cap-marquee');
+  var mqTrack = marquee && marquee.querySelector('.cap-marquee-track');
+  if (mqTrack && mqTrack.children.length) {
+    var fillMarquee = function () {
+      var base = mqTrack.children[0];
+      // 先把上一次克隆的组清掉,只留第一组当样板
+      while (mqTrack.children.length > 1) mqTrack.removeChild(mqTrack.lastChild);
+      var unit = base.getBoundingClientRect().width;
+      var view = marquee.clientWidth || window.innerWidth;
+      if (!unit || !view) return;
+      var perHalf = Math.max(1, Math.ceil(view / unit));
+      for (var i = 0; i < perHalf * 2 - 1; i++) {
+        var clone = base.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');   // 重复内容对读屏器隐藏
+        mqTrack.appendChild(clone);
+      }
+    };
+    fillMarquee();
+    var mqTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(mqTimer); mqTimer = setTimeout(fillMarquee, 200);
+    });
+  }
+
   /* ── 移动端导航 ─────────────────────────────────────────────────────── */
   var topnav = document.querySelector('.topnav');
   var navToggle = document.querySelector('.nav-toggle');
