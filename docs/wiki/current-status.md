@@ -11,7 +11,11 @@ status: current
 
 ## 最近更新
 
-- 站点四页在线:`https://hushfusion.pages.dev`(资源版本 `?v=14`)
+- 站点四页在线:`https://hushfusion.pages.dev`(资源版本 `?v=15`)
+- 双主题上线:夜(默认)/ 昼,开关在顶栏「中/EN」左边并记忆选择;浏览器 theme-color 同步
+- 配色改为需方点名的 `assets/cover/thumbnail_375.jpg` 色系:夜底 `#0E1E05`、昼底 `#F2F2EF`、强调 `#A8D95C`
+- 小字可读性修复:微标签统一 12px / 字重 400 / 字距收敛(小字对比度 5.61 → 8.9:1)
+- 顶栏标识改用 alpha 蒙版 + `var(--ink)`,两个主题下都可见
 - 全站图标已换成需方提供的波形标识(顶栏 / favicon / apple-touch / app icon),生成脚本 `tools/make_icons.py`
 - 关于页「待补」→「时间线」:论文发布日 2026-08-21 为唯一确定节点;机构与团队按需方口径不公开;
   法务(版权 + 隐私)已落写;HIBS 页「在招」写实(岗位开放,要求对等离子体与电磁有了解)
@@ -21,7 +25,7 @@ status: current
 - 投递后端 `hushfusion-apply`(Cloudflare Worker)已部署:**直发已打通** —— 发信域 `hushfusion.alou.onl`,
   收件人 `yuanjieliu65@gmail.com`(已验证目的地地址 + 绑定 `allowed_destination_addresses` 白名单)
 - `config.json` = 站点唯一配置源(投递邮箱 / 后端地址 / 发信地址 / 来源白名单);改邮箱只改 `apply.to`
-- 验收:本地 111/111、线上 111/111;投递端到端自检(真浏览器填表 → Worker → 邮箱)通过
+- 验收:本地 139/139、线上 139/139(含每页 7 项主题断言);投递端到端自检(真浏览器填表 → Worker → 邮箱)通过
 
 ## 待补 / 未决
 

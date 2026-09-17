@@ -29,17 +29,23 @@ pages = sorted(root.glob('*.html'))
 for f in pages + [pathlib.Path('style.css'), pathlib.Path('app.js'), pathlib.Path('config.json')]:
     shutil.copy2(f, stage / f.name)
 
-missing = []
+# 页面里 src/href 引用的 + CSS/JS 里 url(...) 引用的(顶栏标识就是 CSS 蒙版,页面里没它的 src)
+refs = []
 for p in pages:
-    for u in re.findall(r'(?:src|href)="([^"]+)"', p.read_text(encoding='utf-8')):
-        if u.startswith(('http', 'mailto:', 'data:', '#')): continue
-        path = u.split('#')[0].split('?')[0]
-        if not path or not path.endswith(('.png', '.css', '.js')): continue
-        if not (root / path).exists(): missing.append(f'{p.name} → {u}')
-        else:
-            dest = stage / path
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(root / path, dest)
+    refs += re.findall(r'(?:src|href)="([^"]+)"', p.read_text(encoding='utf-8'))
+for sheet in ('style.css', 'app.js'):
+    refs += re.findall(r'url\(\s*["\']?([^"\')]+)', (root / sheet).read_text(encoding='utf-8'))
+
+missing = []
+for u in refs:
+    if u.startswith(('http', 'mailto:', 'data:', '#')): continue
+    path = u.split('#')[0].split('?')[0]
+    if not path or not path.endswith(('.png', '.jpg', '.css', '.js', '.svg', '.webp')): continue
+    if not (root / path).exists(): missing.append(u)
+    else:
+        dest = stage / path
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(root / path, dest)
 if missing:
     sys.exit('缺文件,拒绝部署:\n  ' + '\n  '.join(missing))
 

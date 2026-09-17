@@ -16,6 +16,11 @@
 
 **No npm, no bundler, no framework.** One `style.css` is the entire design system.
 
+**Two themes (night / day)**: one button to the left of the `中/EN` switch. Night is the default and the
+choice is remembered in `localStorage`. Both palettes are sampled from `assets/cover/thumbnail_375.jpg`
+(dark olive-green stroke on an off-white ground) — tokens, provenance and measured contrast are in
+`docs/DESIGN-PLAN.md` §7.6. To re-colour, edit the two token blocks at the top of `style.css`.
+
 ---
 
 ## Quick start
@@ -128,4 +133,5 @@ reads as a blank page and you would "confirm" a broken site.
 | 6 | **Minimum-disclosure rule**: public pages carry no repo paths, pixel sizes, shell commands or process talk — read `docs/DESIGN-PLAN.md` §4 rule 11 before adding copy | `docs/DESIGN-PLAN.md` |
 | 7 | Team composition is **not disclosed** by client decision (2026-09-17); the three tracks still lack one-line descriptions | `docs/CONTENT-SOURCES.md` §二·九 |
 | 8 | The masthead mark is a hairline drawing and reads light at 26px; bump `.brand-mark` to 28px for more weight (one CSS line) | `docs/ASSETS.md` §8 |
+| 10 | Icons (favicon / app icon) still use the logo's navy ground; to match the new green family, change the background sampling in `tools/make_icons.py` | `docs/DESIGN-PLAN.md` §7.6 |
 | 9 | The apply channel rides on Cloudflare Email Sending (open beta): the sending-domain state cannot be read with OAuth creds (2036) and is console-only — change `apply.sendingDomain` in `config.json` when switching domains | `docs/DESIGN-PLAN.md` §7.5.3 |

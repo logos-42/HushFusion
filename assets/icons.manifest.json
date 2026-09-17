@@ -15,12 +15,12 @@
   ],
   "assets": [
     {
-      "file": "assets/brand/mark-wave--white.png",
+      "file": "assets/brand/mark-wave.png",
       "size": [
         256,
         256
       ],
-      "note": "顶栏左上角标识(透明底白波形;CSS 按 26px 显示,256px 导出≈10x)",
+      "note": "顶栏标识的 alpha 蒙版(CSS 按 26px 显示、颜色取 --ink;256px 导出≈10x)",
       "sha256": "647829acee0254641cf92715fb98cccb2bbd3e4ed71d779626bcdcf86286a77a",
       "bytes": 17095
     },

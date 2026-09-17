@@ -13,6 +13,53 @@ document.documentElement.classList.add('js');
   var LANG_KEY = 'hushfusion-lang';
   var currentLang = 'zh';   // 仅供 JS 自己生成的提示语(投递表单状态)选语言用
 
+  /* ── 白天 / 黑夜 ───────────────────────────────────────────────────── */
+  // 默认夜;显式选择存 localStorage,<head> 的内联脚本负责在首帧之前定色。
+  // 颜色全在 style.css 的令牌里(:root = 夜,[data-theme="light"] = 昼),这里只切属性。
+  var THEME_KEY = 'hushfusion-theme';
+  var THEME_META = document.querySelector('meta[name="theme-color"]');
+  var THEME_COLOR = { dark: '#0E1E05', light: '#F2F2EF' };
+  var themeBtns = document.querySelectorAll('[data-theme-toggle]');
+  var THEME_TEXT = {
+    dark:  { glyph: '☾', zh: '夜', en: 'Night', aria: { zh: '切换到白天模式', en: 'Switch to light mode' } },
+    light: { glyph: '☀', zh: '日', en: 'Day',   aria: { zh: '切换到黑夜模式', en: 'Switch to dark mode' } }
+  };
+
+  function currentTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  }
+
+  // 按钮显示当前模式;aria-label 说明点下去会切到哪(文案跟语言走)
+  function syncThemeLabels() {
+    var info = THEME_TEXT[currentTheme()];
+    themeBtns.forEach(function (btn) {
+      btn.setAttribute('aria-label', currentLang === 'en' ? info.aria.en : info.aria.zh);
+      var g = btn.querySelector('.theme-glyph');
+      if (g) g.textContent = info.glyph;
+      var w = btn.querySelector('.theme-word');
+      if (w) {
+        w.setAttribute('data-zh', info.zh);
+        w.setAttribute('data-en', info.en);
+        w.textContent = currentLang === 'en' ? info.en : info.zh;
+      }
+    });
+  }
+
+  function applyTheme(mode) {
+    if (mode === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    else document.documentElement.removeAttribute('data-theme');
+    try { localStorage.setItem(THEME_KEY, mode); } catch (e) { /* 隐私模式忽略 */ }
+    if (THEME_META) THEME_META.setAttribute('content', THEME_COLOR[mode]);
+    syncThemeLabels();
+  }
+
+  themeBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      applyTheme(currentTheme() === 'light' ? 'dark' : 'light');
+    });
+  });
+  syncThemeLabels();
+
   function applyLang(lang) {
     currentLang = lang === 'en' ? 'en' : 'zh';
     document.querySelectorAll('[data-zh][data-en]').forEach(function (el) {
@@ -26,6 +73,7 @@ document.documentElement.classList.add('js');
     });
     document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'zh-CN');
     try { localStorage.setItem(LANG_KEY, lang); } catch (e) { /* 隐私模式忽略 */ }
+    syncThemeLabels();   // 主题按钮的文字/aria 也要跟着语言走
   }
 
   document.querySelectorAll('[data-lang-btn]').forEach(function (btn) {

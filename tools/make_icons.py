@@ -10,14 +10,16 @@ HUSHFUSION 图标生成脚本(可复现)
 
   icons/favicon-32.png              浏览器标签页图标(32,深蓝底 + 白波形)
   icons/apple-touch-icon.png        iOS/书签图标(180)
-  assets/brand/mark-wave--white.png 顶栏左上角标识(透明底白波形,CSS 里按 26px 显示)
+  assets/brand/mark-wave.png        顶栏左上角标识的 **alpha 蒙版**(CSS 按 26px 显示,颜色由 --ink 决定)
   assets/brand/app-icon.png         应用图标槽位(256 深蓝底)
 
 清晰度:源图 1254px 直接缩到目标尺寸(不二次放大),≥128px 的导出缩小后补一次轻锐化;
 顶栏标识默认 256px 导出(26px 显示 ≈ 10x,任何 DPR 都够),要更大 `--mark-px 512`。
 
 favicon 与 app icon 保留源图的深蓝底(标签栏明暗两种底色上都读得清);
-顶栏标识是「白笔迹 + 深蓝底」键出成透明底,直接叠在页面深底上。
+顶栏标识是「白笔迹 + 深蓝底」键出成透明底,再当 **alpha 蒙版**用:
+   页面里没有第二个标志文件,颜色跟着主题的 --ink 走(夜=近白,昼=深海军蓝),
+   所以在深底和浅底上都看得见 —— 白图形直接放在冷白底上会「消失」。
 
 为什么单独一个脚本:图标与海报切片是**两个源图**,各自的产物分开放
 (`assets/manifest.json` 记海报切片,`assets/icons.manifest.json` 记图标),任何一个脚本重跑都不会盖掉另一个。
@@ -154,19 +156,19 @@ def main() -> int:
     print(f"      {img.width}×{img.height} · sha256 {sha256(src)[:16]}…")
     print(f"底色   #{bg[0]:02X}{bg[1]:02X}{bg[2]:02X} · 图形内容框 {box}\n")
 
-    # ---- 顶栏标识:透明底白波形 -------------------------------------------
+    # ---- 顶栏标识:透明底白波形(当蒙版用,颜色交给 --ink) ------------------
     mark = pad_square(white_mark(img, bg, box), None, MARK_PAD)
     mark = downscale(mark, args.mark_px)
 
     records: list[dict] = []
-    out_mark = ROOT / "assets" / "brand" / "mark-wave--white.png"
+    out_mark = ROOT / "assets" / "brand" / "mark-wave.png"
     out_mark.parent.mkdir(parents=True, exist_ok=True)
     mark.save(out_mark, "PNG", optimize=True)
-    records.append({"file": "assets/brand/mark-wave--white.png", "size": [args.mark_px, args.mark_px],
-                    "note": f"顶栏左上角标识(透明底白波形;CSS 按 26px 显示,{args.mark_px}px 导出≈"
+    records.append({"file": "assets/brand/mark-wave.png", "size": [args.mark_px, args.mark_px],
+                    "note": f"顶栏标识的 alpha 蒙版(CSS 按 26px 显示、颜色取 --ink;{args.mark_px}px 导出≈"
                             f"{args.mark_px/26:.0f}x)",
                     "sha256": sha256(out_mark), "bytes": out_mark.stat().st_size})
-    print(f"  ✓ assets/brand/mark-wave--white.png   {args.mark_px}x{args.mark_px}   "
+    print(f"  ✓ assets/brand/mark-wave.png          {args.mark_px}x{args.mark_px}   "
           f"{out_mark.stat().st_size/1024:.1f} KB")
 
     # ---- 方块图标:源图深蓝底 + 白波形 -------------------------------------

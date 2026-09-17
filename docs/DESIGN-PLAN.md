@@ -526,3 +526,48 @@ node scripts/verify-site.mjs http://127.0.0.1:8898
 
 > 措辞纪律照旧:**只写需方给的,不加修饰性事实**;逐条依据(含需方原话)存 `docs/CONTENT-SOURCES.md` §二·九。
 > 本轮只动文案,未动 CSS/JS → 四页 `?v=14` 不变。
+
+### 7.6 2026-09-17 追加:双主题(夜/昼)+ 色板出处 + 小字可读性
+
+**色板不再靠感觉挑**:夜/昼两套色都从需方点名的 `assets/cover/thumbnail_375.jpg` 里取样而来 ——
+那张是「深橄榄绿笔触 `#173400`/`#1A3702` 落在米白纸底 `#F0F0F0` 上」。取样命令与色值:
+
+```bash
+python3 - <<'PY'    # 面积加权量化 + 暗/亮部均值(实际用的就是这一步)
+from PIL import Image; from collections import Counter
+im = Image.open('assets/cover/thumbnail_375.jpg').convert('RGB')
+q = im.quantize(colors=10).convert('RGB'); c = Counter(q.getdata())
+print([('#'+''.join(f'{v:02X}' for v in k), round(n/sum(c.values())*100, 1)) for k, n in c.most_common(4)])
+PY
+# → #1A3702 17.1% · #F0F0F0 16.3% · #F2F2F2 14.8% · #F1F1F1 12.7%
+```
+
+| 令牌 | 夜 `:root` | 昼 `[data-theme="light"]` | 出处 |
+|:--|:--|:--|:--|
+| `--bg` | `#0E1E05` | `#F2F2EF` | 笔触绿再深一档 / 纸底色 |
+| `--bg-2` `--bg-3` | `#16290B` `#1E3611` | `#FFFFFF` `#E6E8E0` | 面按一档亮度递进 |
+| `--ink` | `#F2F5EC` | `#14290A` | 纸白 / 笔触绿 |
+| `--ink-2` `--ink-3` | `#C9D6BC` `#AEBFA1` | `#3A4A2C` `#445234` | 同族分级 |
+| `--accent` | `#A8D95C`(同族黄绿高亮) | `#2A5310`(墨绿) | 唯一强调色,不做第二支 |
+| `--amber` | `#F0A93B` | `#6E4303` | 只出现在状态点 |
+
+**实测对比度(全部 ≥ AA,小字档 ≥7:1)**:夜 ink 15.8 / ink-2 11.5 / ink-3 8.9 / accent 10.6;昼 13.9 / 8.5 / 7.5 / 8.0。
+
+**小字可读性**(上一版被指出的问题):原来 10–11px 的等宽微标签在 2× 屏上发虚 ——
+本轮把微标签统一抬到 **12px**、字重 **300 → 400**、大写标签的字距 **3px/2px → 1.6px/1.2px**
+(实测:`--ink-3` 小字在夜底从 5.61:1 提到 **8.9:1**)。所有 `font-size` 现在最小 12px。
+
+**主题开关**
+- 开关:`<html data-theme="light">`;没有该属性 = **夜(默认)**
+- 按钮:顶栏**中/EN 左边**一个按钮(夜显示 `☾ 夜`,昼显示 `☀ 日`;窄屏只留符号),
+  `aria-label` 说明「点下去切到哪」,文案跟语言切换走
+- 记忆:`localStorage['hushfusion-theme']`;`<head>` 内联一小段脚本在首帧前定色(**不闪主题**)
+- 浏览器地址栏配色:`<meta name="theme-color">` 由 JS 跟着换(夜 `#0E1E05` / 昼 `#F2F2EF`)
+
+**顶栏标识改成蒙版**:`assets/brand/mark-wave.png` 现在当 **alpha 蒙版**用,
+`.brand-mark` 的 `background-color: var(--ink)` —— 一个文件两套底色都可见。
+(原先直接放白色 PNG:昼间等于白纸白字,标识会「消失」。)
+
+**验收新增**:`scripts/verify-site.mjs` 每页多 7 项主题断言(默认夜 / 有按钮 / 切昼属性与底色都变 /
+localStorage 记住 / `theme-color` 跟着换 / 切回夜复原),并把「底色 == #080F1A」改成
+「**body 底色 == `--bg` 令牌**」—— 两套主题下都成立。

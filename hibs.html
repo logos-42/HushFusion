@@ -7,7 +7,9 @@
 <meta name="description" content="HUSHFUSION 由 HIBS 团队承担:四条回路、协作方式与加入方式。">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=14">
+<meta name="theme-color" content="#0E1E05" id="theme-color">
+<script>/* 主题先定再上色:避免加载瞬间闪另一种主题(默认夜,显式选过就按存的来) */try{if(localStorage.getItem('hushfusion-theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
 
@@ -15,7 +17,7 @@
 <div class="topnav">
   <header class="masthead">
     <a class="brand" href="index.html" aria-label="HUSHFUSION 首页">
-      <img class="brand-mark" src="assets/brand/mark-wave--white.png" alt="" aria-hidden="true">
+      <span class="brand-mark" aria-hidden="true"></span>
       <span class="brand-word">HUSHFUSION</span>
     </a>
     <nav class="mast-links" aria-label="主导航">
@@ -26,6 +28,9 @@
     </nav>
     <div class="mast-meta">
       <button class="nav-toggle" aria-expanded="false" aria-label="打开导航">≡</button>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换到白天模式">
+        <span class="theme-glyph" aria-hidden="true">☾</span><span class="theme-word" data-zh="夜" data-en="Night">夜</span>
+      </button>
       <div class="lang-toggle">
         <button data-lang-btn="zh" class="is-active" aria-label="中文">中</button>
         <button data-lang-btn="en" aria-label="English">EN</button>
@@ -128,6 +133,6 @@
   <span>HUSHFUSION · 第一阶段 消音计划</span>
 </footer>
 
-<script src="app.js?v=14" defer></script>
+<script src="app.js?v=15" defer></script>
 </body>
 </html>

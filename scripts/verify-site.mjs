@@ -186,9 +186,15 @@ for (const page of PAGES) {
   })()`);
   check(page, `图片全部加载 (${imgs.total} 张)`, imgs.broken.length === 0, imgs.broken.join(', '));
 
-  /* 4 设计令牌生效(底色 == #080F1A) */
-  const bg = await evaluate(sessionId, 'getComputedStyle(document.body).backgroundColor');
-  check(page, '底色令牌生效 #080F1A', bg === 'rgb(8, 15, 26)', bg);
+  /* 4 底色就是 --bg 令牌(双主题下都成立:验的是「页面用令牌」而不是某个写死的值) */
+  const bgTok = await evaluate(sessionId, `(() => {
+    const v = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
+    const probe = document.createElement('span');
+    probe.style.color = v; document.body.appendChild(probe);
+    const resolved = getComputedStyle(probe).color; probe.remove();
+    return { body: getComputedStyle(document.body).backgroundColor, token: resolved };
+  })()`);
+  check(page, '底色 = --bg 令牌', bgTok.body === bgTok.token, JSON.stringify(bgTok));
 
   /* 5 无横向滚动条 */
   const overflow = await evaluate(sessionId,
@@ -262,6 +268,38 @@ for (const page of PAGES) {
     await evaluate(sessionId, 'document.querySelectorAll(".tab")[0].click()');
     await sleep(100);
   }
+
+  /* 9.1 主题切换:夜 → 昼 → 夜(颜色真的换、选择真的存、按钮跟着走) */
+  const t0 = await evaluate(sessionId, `(() => ({
+    theme: document.documentElement.getAttribute('data-theme'),
+    bg: getComputedStyle(document.body).backgroundColor,
+    btn: !!document.querySelector('[data-theme-toggle]')
+  }))()`);
+  check(page, '默认夜模式(html 无 data-theme)', t0.theme === null, JSON.stringify(t0));
+  check(page, '顶栏有主题切换按钮', t0.btn === true);
+  await evaluate(sessionId, `document.querySelector('[data-theme-toggle]').click()`);
+  await sleep(220);
+  const t1 = await evaluate(sessionId, `(() => {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    return { theme: document.documentElement.getAttribute('data-theme'),
+             bg: getComputedStyle(document.body).backgroundColor,
+             stored: (function(){ try { return localStorage.getItem('hushfusion-theme'); } catch(e){ return null; } })(),
+             glyph: (document.querySelector('.theme-glyph') || {}).textContent,
+             meta: meta ? meta.getAttribute('content') : null };
+  })()`);
+  check(page, '切到昼间:data-theme=light', t1.theme === 'light', JSON.stringify(t1));
+  check(page, '切到昼间:底色真的变亮', t1.bg !== t0.bg, `${t0.bg} → ${t1.bg}`);
+  check(page, '昼间选择写进 localStorage', t1.stored === 'light', String(t1.stored));
+  check(page, 'theme-color 跟着换', t1.meta === '#F2F2EF', String(t1.meta));
+  await evaluate(sessionId, `document.querySelector('[data-theme-toggle]').click()`);
+  await sleep(220);
+  const t2 = await evaluate(sessionId, `(() => ({
+    theme: document.documentElement.getAttribute('data-theme'),
+    bg: getComputedStyle(document.body).backgroundColor,
+    stored: (function(){ try { return localStorage.getItem('hushfusion-theme'); } catch(e){ return null; } })()
+  }))()`);
+  check(page, '切回夜模式(属性撤掉、底色复原、选择记住)',
+        t2.theme === null && t2.bg === t0.bg && t2.stored === 'dark', JSON.stringify(t2));
 
   /* 9.5 中间断点无溢出(注:900px 以下导航已折叠,这里验的是折叠态不溢出) */
   await cdp.send('Emulation.setDeviceMetricsOverride',

@@ -16,6 +16,10 @@
 
 **没有 npm，没有打包器，没有框架。** 一个 `style.css` 就是全部设计系统。
 
+**双主题(夜 / 昼)**:顶栏「中/EN」左边一个按钮切换;默认夜,选择记在 `localStorage`。
+两套色都取样自 `assets/cover/thumbnail_375.jpg`(深橄榄绿笔触落在米白纸底上)——
+令牌与实测对比度见 `docs/DESIGN-PLAN.md` §7.6,改色只改 `style.css` 顶部两个令牌块。
+
 ---
 
 ## 快速开始
@@ -102,6 +106,7 @@ bash scripts/deploy.sh
 ## 改动的正确姿势
 
 ```text
+改主题 / 配色    → 只改 style.css 的 :root(夜)与 [data-theme="light"](昼)两个令牌块
 改 CSS / JS      → 把所有 HTML 里的 ?v=N 全部 +1(漏一页 = 那页用旧缓存)
                   grep -o 'style.css?v=[0-9]*' *.html | sort | uniq -c
 改投递邮箱       → 只改 config.json 的 apply.to,然后跑 scripts/deploy-apply.sh(后端)
@@ -128,4 +133,5 @@ bash scripts/deploy.sh
 | 6 | **最小信息披露纪律**:公开页不写仓库路径 / 尺寸 / 命令行 / 过程话术 —— 新增内容前先读 `docs/DESIGN-PLAN.md` §4 纪律 11 | `docs/DESIGN-PLAN.md` |
 | 7 | 团队构成按需方口径「**不公开**」(2026-09-17);三条回路的职责说明仍待定 | `docs/CONTENT-SOURCES.md` §二·九 |
 | 8 | 顶栏标识是细笔迹线稿,26px 下偏轻;要加分量把 `.brand-mark` 调到 28px(一处 CSS) | `docs/ASSETS.md` §八 |
+| 10 | 图标(favicon / app icon)仍是 logo 的海军蓝底;若要与新绿系底色统一,改 `config.json` 外的 `tools/make_icons.py` 的底色取样即可 | `docs/DESIGN-PLAN.md` §7.6 |
 | 9 | 投递通道依赖 Cloudflare Email Sending 的开放测试期:发信域状态用 OAuth 的 CLI 查不到(2036),只在控制台可见;换发信域时同步改 `config.json` 的 `apply.sendingDomain` | `docs/DESIGN-PLAN.md` §7.5.3 |
