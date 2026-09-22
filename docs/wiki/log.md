@@ -1,5 +1,20 @@
 # Wiki 日志
 
+## [2026-09-22] 设计 | 公开支持 / Open Research Fund —— 非托管捐赠合约 + 链上资金公开(只设计,未落码)
+
+| 日期 | 类别 | 变更 | 说明 |
+|------|------|------|------|
+| 2026-09-22 | docs | 新增设计全文 `docs/DONATION-FUND-PLAN.md` | 需方 AI 计划 → 可实施规范:三条实现路径裁决 + 合约签名级接口 + 实测常量 + 前端契约 + 上线门槛四组 + 13 条待拍板 |
+| 2026-09-22 | docs | 改写计划的三个判断 | ① 合约**非托管**(捐款当场转多签金库,合约余额恒 0)② v1 **不引** `ReentrancyGuard`(无币可重入)③ 暂停的真实半径写清(只让 `receive`/`donate` revert,阻止不了直转 Safe) |
+| 2026-09-22 | docs | 实测写进文档(不靠文档转述) | Base `0x2105`/`0x14a34`;公共 RPC CORS 全开;gasPrice `0.006 gwei`;`eth_blobBaseFee` 不支持;`getLogs` 900 区块 ✅ / 5000 区块 ❌ ⇒ 公开 RPC 不能当索引器 |
+| 2026-09-22 | docs | 前端契约(未实现) | `#status` → `#support`(`— 03 · Support`)→ 页脚;复用 `band`/`section-head`/`cap-list`/`quiet-cta`;本轮只落 `preview` 态(`config.donate.enabled=false` ⇒ **不显示任何地址与按钮**) |
+| 2026-09-22 | docs | `DESIGN-PLAN.md` §7.7 登记位置与验收增量 | 与 §7.5.x/§7.6 同规格:位置、组件、状态机、`?v=N` 升版、断言清单 |
+| 2026-09-22 | chore | 需方计划原文登记 raw | `internal_sources/donation-plan/donation-plan-ai-draft-20260922.md`(sha256 `b5545edf…6a0c`)→ `manifests/raw_sources.csv` |
+| 2026-09-22 | docs | 回写 wiki | 新增 `wiki/donation-open-research-fund.md` + index/log/current-status |
+
+> 边界(需方口径「本轮只完成设计」):**不写 `.sol`、不部署、不验证源码、不接受真实资金**;不发代币、不做收益分配、不做链上投票。
+> 待需方拍板 13 项(金库地址可否变 / PAUSER 归谁 / 是否同时做里程碑登记合约 / 首页本轮是否进 `preview` 态 / 主体与税务 …… )在 `docs/DONATION-FUND-PLAN.md` §13。
+
 ## [2026-09-17] 新增 | 理论页「控制引力场的代数系统」(theory.html)
 
 | 日期 | 类别 | 变更 | 说明 |

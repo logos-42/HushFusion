@@ -2,7 +2,7 @@
 title: HUSHFUSION 消音计划 当前状态
 source: session
 created: 2026-09-17
-last_confirmed: 2026-09-17
+last_confirmed: 2026-09-22
 audience: internal
 stage: draft
 tags: [status]
@@ -11,6 +11,15 @@ status: current
 
 ## 最近更新
 
+- **新增设计稿 `docs/DONATION-FUND-PLAN.md`(公开支持 / Open Research Fund)**:需方 AI 计划 → 可实施规范。
+  裁决 = **非托管金库**:捐款在同一笔交易内原样转给多签金库(Safe 3/5),合约只记账 + 发 `DonationReceived` + 可暂停
+  ⇒ 合约里没有钱、没有 admin 改址函数、不需要可升级代理;计划的「ReentrancyGuard」在无币合约里不需要(守 CEI 即可)
+- 实测常量已写进设计稿(2026-09-22):Base 主网 `8453` = `0x2105` / Sepolia `84532` = `0x14a34`;
+  公共 RPC(浏览器读链)CORS 全开;gasPrice `0.006 gwei`;`eth_blobBaseFee` 公共 RPC 不支持;
+  `eth_getLogs` 900 区块 + 地址过滤可用、5000 区块无过滤失败 ⇒ **公开 RPC 不能当索引器**(需 Worker 分窗缓存)
+- 前端位置已定(未实现):`当前阶段 → 公开支持 → 页脚`,即 `#status` 之后、`</main>` 之前;
+  本轮只落 **`preview` 态**(`config.donate.enabled=false` ⇒ 不显示任何地址与连接钱包按钮);`DESIGN-PLAN.md` §7.7 登记
+- 需方计划原文登记 raw:`internal_sources/donation-plan/donation-plan-ai-draft-20260922.md`
 - 新增第五页「理论」`theory.html`:控制引力场的代数系统(基元 = 起伏能量二次型,布尔 = 层状区域族;三个类比 + 锁定 = 交换子不为零);附 GitHub 来源链接 `logos-42/Hibs-Physics` 与本站 `logos-42/HushFusion`
 - 五页导航补「理论」入口,`verify-site.mjs` 纳入新页
 - 站点四页在线:`https://hushfusion.pages.dev`(资源版本 `?v=15`)
@@ -32,6 +41,8 @@ status: current
 
 ## 待补 / 未决
 
+- **公开支持 / Open Research Fund:设计已定,13 条待需方拍板**(金库地址不可变 vs 可改 / `PAUSER` 归谁 / v1 是否同时做里程碑登记合约 /
+  首页本轮是否进 `preview` 态 / 移动端深链 vs QR / 合约许可 / 单笔上限 / 是否显示 USD / 主体与税务 / 上线网络):`docs/DONATION-FUND-PLAN.md` §13
 - 合作与资助(合作机构 / 资助来源):`about.html#timeline`
 - 时变引力场的「公开细节」与关键指标数值:`progress.html#tech`
 - 岗位参数(级别 / 人数 / 地点 / 待遇,措辞已改「待定」):`hibs.html#join`
