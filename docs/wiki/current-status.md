@@ -41,8 +41,12 @@ status: current
 
 ## 待补 / 未决
 
-- **公开支持 / Open Research Fund:设计已定,13 条待需方拍板**(金库地址不可变 vs 可改 / `PAUSER` 归谁 / v1 是否同时做里程碑登记合约 /
-  首页本轮是否进 `preview` 态 / 移动端深链 vs QR / 合约许可 / 单笔上限 / 是否显示 USD / 主体与税务 / 上线网络):`docs/DONATION-FUND-PLAN.md` §13
+- **公开支持 / Open Research Fund:第二轮收敛(需方 2026-09-22 决策)** —— 术语定为「**Safe 托管金库 + pass-through 收款合约**(合约不持币,余额恒 0)」
+- 金库地址**可改**,但只有一条窄路:当前 Safe 排程 + 提案哈希上链 → ≥48h → 到期后**任何人**可执行(执行时 `GOVERNOR_ROLE` 转给新 Safe);
+  新地址**必须是合约**(`NotAContract` 挡掉个人热钱包);待生效期间捐款仍进旧 Safe,页面同时显示双地址 + ETA
+- 主体:个人过渡 → 公司成立后迁移(未来捐赠路由先切,再由旧 Safe 转存量,旧 Safe 只读退役);法律/税务意见完成前首页保持 `preview`
+- 新增设计:**治理原则 8 条 + 审计原则 6 层 + 三套账**(捐赠账 / 贡献者账 / 商业收益账)+ 链上规范选用清单;捐赠不产生股权/分红/积分/收益权
+- 余下待拍板 14 项(PAUSER 是否与 GOVERNOR 分离、GUARDIAN 二次确认、registry、preview、移动端、许可、上限、USD、网络 ……):`docs/DONATION-FUND-PLAN.md` §13
 - 合作与资助(合作机构 / 资助来源):`about.html#timeline`
 - 时变引力场的「公开细节」与关键指标数值:`progress.html#tech`
 - 岗位参数(级别 / 人数 / 地点 / 待遇,措辞已改「待定」):`hibs.html#join`

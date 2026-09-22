@@ -1,5 +1,21 @@
 # Wiki 日志
 
+## [2026-09-22] 收敛 | 需方决策:可迁移金库(两步 + 48h)· 个人过渡 → 公司主体 · 三套账
+
+| 日期 | 类别 | 变更 | 说明 |
+|------|------|------|------|
+| 2026-09-22 | docs | 金库地址 **不可变 → 可换**(两步 + 48h) | §2.1 加 `GOVERNOR_ROLE` / `TREASURY_DELAY = 48 hours` / `treasury`+`pendingTreasury`+`treasuryEta`+`treasuryProposalHash` 与 `schedule`/`cancel`/`execute`;§2.5 整节改写(含与旧方案对比表) |
+| 2026-09-22 | docs | 硬规则写进代码,不靠纪律 | 新地址必须 `code.length > 0`(`NotAContract`)⇒ **个人热钱包不可能成为金库**;执行时 `GOVERNOR_ROLE` 从旧 Safe 转给新 Safe,否则旧 Safe 仍留着改址权 |
+| 2026-09-22 | docs | 暂停 × 时间锁的关系写实 | **时间锁不是否决权**:被控的多签能排程也能执行 ⇒ 建议 `PAUSER` 与 `GOVERNOR` 分离;公司阶段加 `GUARDIAN` 二次确认 |
+| 2026-09-22 | docs | 新增 §7.1–7.4 | 治理原则 8 条 · 审计原则 6 层(三方对账 / 每日自动对账 / 双人复核 / **未完成就写"未审计"**)· **三套账**(捐赠 / 贡献者 / 商业收益)与利益分配硬边界 · 链上规范选用清单(用 EIP-55/1193/681/712;不用 20/721/1155、不链上投票、不代理升级) |
+| 2026-09-22 | docs | §五 / §6.2 / §6.3 / §九 / §十 / §十一 / §十二 / §十三 同步 | 多签表加「过渡主体 → 公司」行;前端加 `treasury-pending` 状态与双地址横幅;改址演练**四条路径** + 公司迁移演练;反模式 13–16;待拍板 11–14 |
+| 2026-09-22 | chore | 需方决策原文登记 raw | `internal_sources/donation-plan/donation-decisions-20260922.md`(sha256 `c680c178…c78b`)→ `manifests/raw_sources.csv` |
+| 2026-09-22 | docs | 回写 wiki | `wiki/donation-open-research-fund.md` → 「被改写过的四条」+ 治理/审计/分账/规范 + 变更记录;`current-status.md` 同步 |
+
+> 边界:仍**不写 `.sol`、不部署、不建 Safe、不开放任何地址** —— 本轮只把决策写进设计。
+> §13.1(另一智能体写入的决策记录)与本轮 §2.5 / §7.x 已对齐:事件名统一为 `TreasuryChangeScheduled` / `TreasuryChangeCancelled` / `TreasuryChangeExecuted`,并在 §13.1 前加了指回正文的指针。
+
+
 ## [2026-09-22] 设计 | 公开支持 / Open Research Fund —— 非托管捐赠合约 + 链上资金公开(只设计,未落码)
 
 | 日期 | 类别 | 变更 | 说明 |

@@ -594,10 +594,10 @@ localStorage 记住 / `theme-color` 跟着换 / 切回夜复原),并把「底色
 | 骨架 | `<section class="band" id="support" data-state="preview">`;kicker `— 03 · Support`;文案走 `data-zh`/`data-en` |
 | 组件 | 全部复用现有语义,不新增 CSS 概念:`band` · `section-head`(+`kicker`/`section-title`/`section-lede`)· `cap-list`(+`cap-no`/`cap-body`/`cap-tag`)· `quiet-cta` / `quiet-cta--solid` · `status` · `reveal` |
 | 本轮落哪一态 | **`preview`(通道未开放)**:只做「四桶 + 治理原则 + 为什么现在不开」,**不显示任何地址、不显示连接钱包按钮** —— 没有死按钮,也没有"看起来能捐"的暗示 |
-| 上线态 | `ready` / `connected` / `wrong-chain` / `pending` / `confirmed`(≥12 区块)/ `failed` / `paused`;`data-state` 由 `config.json` 的 `donate.enabled` + 链上读值驱动 |
+| 上线态 | `ready` / `connected` / `wrong-chain` / `pending` / `confirmed`(≥12 区块)/ `failed` / `paused` / **`treasury-pending`**(链上 `pendingTreasury != 0`:旧地址 → 新地址 + 提案哈希 + ETA 横幅,明写「捐款仍进旧地址」);`data-state` 由 `config.json` 的 `donate.enabled` + 链上读值驱动 |
 | 配置 | `config.json` 增 `donate` 段(地址的**唯一**来源;`enabled:false` 时地址为 `null`);无 JS 兜底地址由 `deploy.sh` 打包期注入,`verify-site.mjs` 断言两处一致 |
 | 版本 | 动 CSS/JS ⇒ 五页 `?v=N` 全体 +1(`app.js` 与 `config.json` 同号,避免旧缓存) |
-| 验收增量 | `#support` 存在 + kicker 断言 · `preview` 态「无地址文本 / 无按钮」断言 · 四桶与治理原则文案存在 · 无 JS 抓文本可见 · `enabled=true` 夹具下地址 EIP-55 通过且 explorer 指向 BaseScan · 新区块在夜/昼两套令牌下对比度达标 |
+| 验收增量 | `#support` 存在 + kicker 断言 · `preview` 态「无地址文本 / 无按钮」断言 · 四桶与治理原则文案存在 · 无 JS 抓文本可见 · `enabled=true` 夹具下地址 EIP-55 通过且 explorer 指向 BaseScan · 新区块在夜/昼两套令牌下对比度达标 · `treasury-pending` 夹具下双地址 + 提案哈希 + 倒计时齐全、且不出现「已切换」字样 |
 
 > 合约、门槛清单、13 条待拍板项在 [`docs/DONATION-FUND-PLAN.md`](./DONATION-FUND-PLAN.md)(设计全文);
 > 口径共识页 [`wiki/donation-open-research-fund.md`](./wiki/donation-open-research-fund.md)。

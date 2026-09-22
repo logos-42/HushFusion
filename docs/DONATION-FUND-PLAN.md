@@ -2,19 +2,24 @@
 
 | | |
 |:--|:--|
-| 版本 | v0.1 · 2026-09-22 |
-| 状态 | **设计稿**。本轮不写 `.sol`、不部署、不接受真实资金;前端区块本轮最多落「未开放」预览态 |
-| 输入 | [需方提供的 AI 计划原文](raw_sources.csv 行 `donation-plan-ai-draft-20260922`,sha256 `b5545edf8daa2c827b3f1f58fb64069ec60d71a0111dbce770a24a10f1dc6a0c`) |
+| 版本 | v0.2 · 2026-09-22(需方第二轮决策后收敛) |
+| 状态 | **设计稿**。本轮不写 `.sol`、不部署、不建 Safe、不接受真实资金;前端区块本轮最多落「未开放」预览态 |
+| 输入 | ① AI 计划原文 `donation-plan-ai-draft-20260922`(sha256 `b5545edf8daa2c827b3f1f58fb64069ec60d71a0111dbce770a24a10f1dc6a0c`)② 需方 2026-09-22 决策 `donation-decisions-20260922`(sha256 `c680c178035934f6ac380299b6d0f6b61c4f680357aa9fc0e33b886044dec78b`) |
 | 编译产物 | 本文 + wiki 页 [`docs/wiki/donation-open-research-fund.md`](./wiki/donation-open-research-fund.md) |
-| 口径 | 计划是**输入不是结论**。本文改写了它的三条:金库非托管、暂停语义、治理权的绑定方式(§2.4/§2.5/§七),其余照做 |
+| 口径 | 计划是**输入不是结论**。本文改写过它的四处:托管语义、暂停语义、**金库地址可换(两步 + 48h)**、治理权与利益分配的绑定方式(§2.4/§2.5/§七),其余照做 |
+| 术语 | **「托管」指资金由 Safe 托管** —— 收款合约始终不持币,它是收款入口,**不是金库**(§一) |
 
 ---
 
 ## 零 一句话裁决
 
-把「金库」从合约里拿掉:**捐款在同一笔交易内原样转给多签金库**(非托管 pass-through),合约只负责记账 + 发事件 + 可暂停。
+**Safe 是托管金库,收款合约是入口。** 捐款在同一笔交易内原样转给当前 Safe(pass-through);合约只负责四件事:记账 + 发事件 + 暂停新捐赠 + **受约束地改收款地址**。合约里**没有钱**可被偷 —— 余额恒为 0。
 
-于是计划里那条「不允许单一管理员更换收款地址」不再是一条要靠审计去相信的纪律 —— 合约里**根本没有那个函数**,而且合约里**没有钱**可被偷。
+收款地址**可以换**(个人过渡主体 → 公司主体必须能换),但只有一条路:
+
+> 当前 Safe 排程 → 提案哈希上链 → **等待 ≥48 小时** → 到期后**任何人**可执行(执行时治理权一并交给新 Safe)→ 仓库 commit + 站内公告 + 第二渠道同步
+
+而且新地址**必须是合约**(`newTreasury.code.length > 0`,否则 `NotAContract`)—— **个人热钱包永远不可能被设成金库**。这条规则写在代码里,不写在纪律里。
 
 ---
 
@@ -22,12 +27,13 @@
 
 | 路径 | 是什么 | 优点 | 代价 | 裁决 |
 |:--|:--|:--|:--|:--|
-| **A 零合约** | 页面只显示 Safe 地址,捐款直转 Safe | 合约风险 = 0;gas 与普通转账相同 | 没有累计数 / 没有分桶 / 没有事件流;资金流只能靠第三方浏览器 API 反查;"暂停新捐赠"做不到 | 落选。但**保留为无 JS 兜底**(§9.6) |
-| **B 非托管金库(推荐)** | `receive()`/`donate(bucket)` 把 `msg.value` 当场转给 `immutable TREASURY`,只留计数器 + 事件 + 暂停 | 合约**永不持币** → 无可偷余额、无提款函数、无 admin 密钥、不需要可升级代理;事件 = 原生公开账本;分桶意向可读 | 每笔多一次外部调用(冷地址 ≈ +2.6k gas)+ 2–3 个存储槽写入 | **v1 采用** |
-| **C 托管金库**(计划字面版:收款 → 记累计 → 管理员可暂停 → 多签提款) | 钱先进合约,再由多签提走 | 能做「合约层出账」 | 合约里躺着钱:重入/权限/升级/暂停冻结全部变成真问题;提款函数 = 单点;「暂停不冻资金」这句话在托管模型里说服力很弱 | v1 不用 |
+| **A 零合约** | 页面只显示 Safe 地址,捐款直转 Safe | 合约风险 = 0;gas 与普通转账相同 | 没有累计数 / 没有分桶 / 没有事件流;资金流只能靠第三方浏览器 API 反查;"暂停新捐赠"做不到 | 落选。但**保留为无 JS 兜底**(§6.6) |
+| **B pass-through 收款合约(采用)** | `receive()`/`donate(bucket)` 把 `msg.value` 当场转给**当前 `treasury`**;只留计数器 + 事件 + 暂停 + 两步改址(48h) | 合约**永不持币** → 无可偷余额、无提款函数、不需要可升级代理;事件 = 原生公开账本;分桶意向可读;**公司成立后能把金库交给公司** | 每笔多一次外部调用(冷地址 ≈ +2.6k gas)+ 2–3 个存储槽写入;改址状态机本身也是审计面(§2.5) | **v1 采用** |
+| **C 合约托管金库**(计划字面版:钱先进合约 → 记累计 → 管理员可暂停 → 多签提款) | 钱先进合约,再由多签提走 | 能做「合约层出账」 | 合约里躺着钱:重入/权限/升级/暂停冻结全部变成真问题;提款函数 = 单点;「暂停不冻资金」这句话在合约持币模型里说服力很弱 | v1 不用 —— 需方要的「托管」由 **Safe** 承担,不由合约承担 |
 
 > 计划里的「拨款」不属于合约,属于多签金库本身:**合约管进,Safe 管出**。
 > 出账天然是 Safe 的一笔普通交易 → 公开、可读、可对账,不需要合约参与。
+> **术语澄清**:**「托管」= Safe 托管资金**(需方 2026-09-22 口径);收款合约是 pass-through 入口,一分钱都不留 —— 所以「托管」这个词不会把 §2.2/§2.4 的结论推翻。
 
 ---
 
@@ -40,36 +46,70 @@
 pragma solidity 0.8.24;                   // evm_version 与 Base 支持范围对齐,部署前实测并写死
 
 contract HushFusionDonationVault is Pausable, AccessControl {
-    bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
-    uint8   public constant BUCKET_COUNT = 5;   // 0 = 未指定,1..4 = 四桶
-    address public immutable TREASURY;          // Safe;无 setter、无 upgrade、无 selfdestruct
+    bytes32 public constant GOVERNOR_ROLE = keccak256("GOVERNOR_ROLE"); // 只授给当前 Safe
+    bytes32 public constant PAUSER_ROLE   = keccak256("PAUSER_ROLE");   // 建议与 GOVERNOR 分离(§2.4)
+    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE"); // 可选:改址二次确认(§13-11)
+    uint8   public constant BUCKET_COUNT   = 5;        // 0 = 未指定,1..4 = 四桶
+    uint64  public constant TREASURY_DELAY = 48 hours; // 改址最短延时,写死,不可调
 
-    uint256 public totalReceived;               // 累计(wei)
+    address public treasury;              // 当前 Safe(托管方)
+    address public pendingTreasury;       // 待生效 Safe;0 = 无待生效
+    uint64  public treasuryEta;           // 生效时间戳;0 = 无待生效
+    bytes32 public treasuryProposalHash;  // 该次改址对应的提案文件哈希
+
+    uint256 public totalReceived;         // 累计(wei)
     uint256 public donationCount;
     mapping(uint8 => uint256) public bucketReceived;
 
     event DonationReceived(address indexed donor, uint8 indexed bucket,
                            uint256 amount, uint256 totalReceived, uint256 donationCount);
     event TreasuryForwarded(address indexed treasury, uint256 amount);
+    event TreasuryChangeScheduled(address indexed from, address indexed to,
+                                  uint64 executeAfter, bytes32 proposalHash);
+    event TreasuryChangeCancelled(address indexed to, bytes32 proposalHash);
+    event TreasuryChangeExecuted(address indexed from, address indexed to, bytes32 proposalHash);
 
     error ZeroAmount();
     error BadBucket(uint8 bucket);
     error ForwardFailed();
+    error NotAContract(address candidate);   // 挡掉 EOA 热钱包
+    error SameTreasury();
+    error PendingExists();
+    error NoPendingChange();
+    error TooEarly(uint64 eta);
 
-    constructor(address treasury, address pauser);   // treasury == 0 → revert
+    constructor(address treasury_, address pauser_);   // treasury_ 必须是非空**合约**地址
 
-    receive() external payable whenNotPaused;        // 等价于桶 0
+    receive() external payable whenNotPaused;          // 等价于桶 0
     function donate(uint8 bucket) external payable whenNotPaused;
+
+    // 改址:三步,没有单步路径
+    function scheduleTreasuryChange(address newTreasury, bytes32 proposalHash)
+        external onlyRole(GOVERNOR_ROLE);              // proposalHash == 0 → revert
+    function cancelTreasuryChange() external onlyRole(GOVERNOR_ROLE);   // 到期前可撤
+    function executeTreasuryChange() external;         // 到期后**任何人**可执行
 
     function pause()   external onlyRole(PAUSER_ROLE);
     function unpause() external onlyRole(PAUSER_ROLE);
 
     function snapshot() external view
-        returns (uint256 total, uint256 count, uint256[5] memory buckets);   // 一次 eth_call 拿全部
+        returns (uint256 total, uint256 count, uint256[5] memory buckets);
 }
 ```
 
-内部顺序(`_accept`)固定为 **CEI**:① 校验(非零、桶合法)→ ② 记账 → ③ `DonationReceived` → ④ `TREASURY.call{value: amount}("")` → ⑤ 失败 `revert ForwardFailed()`。
+内部顺序(`_accept`)固定为 **CEI**:① 校验(非零、桶合法)→ ② 记账 → ③ `DonationReceived` → ④ `treasury.call{value: amount}("")` → ⑤ 失败 `revert ForwardFailed()`。
+
+改址的硬规则(**每一条都要有对应测试**,§九-B):
+
+| 规则 | 为什么 |
+|:--|:--|
+| 新地址必须 `code.length > 0`,否则 `NotAContract` | **个人热钱包不可能成为金库** —— 需方口径写进代码,不靠自觉 |
+| 新地址非零、且 `!= treasury`,否则 `SameTreasury` | 挡误操作与无意义操作 |
+| 有待生效时再排程 → `PendingExists` | 同一时刻只能有一次待生效改址,不能叠加 |
+| `executeTreasuryChange` 要求 `block.timestamp >= treasuryEta`,否则 `TooEarly(eta)` | 48h 是硬的,不是文案 |
+| 执行成功:清空 `pendingTreasury`/`treasuryEta`,`GOVERNOR_ROLE` **从旧 Safe 转给新 Safe** | 否则旧 Safe 手里还留着改址权,公司迁移等于没迁 |
+| 待生效期间,捐款仍进 `treasury`(旧 Safe) | 不留「钱进了哪个金库」的灰区;页面同时显示两个地址 + ETA |
+| `proposalHash != 0`,并进事件 | 让「我签的是哪份提案」可核对(§七) |
 
 ### 2.2 为什么 v1 不需要 `ReentrancyGuard`(偏离 1)
 
@@ -81,7 +121,9 @@ contract HushFusionDonationVault is Pausable, AccessControl {
 
 | 不做 | 原因 |
 |:--|:--|
-| 无 `setTreasury` / 无代理 / 无 `delegatecall` / 无 `selfdestruct` | 没有 admin 函数可以被钓鱼;换金库 = 部署 v2(§2.5) |
+| 无代理 / 无 `delegatecall` / 无 `selfdestruct` | 合约不可升级:逻辑不会被换掉。改址是**有约束的治理事件**,不是后台开关(§2.5) |
+| 无单步改址 / 无 `setTreasury(address)` | 只有 `schedule → ≥48h → execute` 一条路;不存在"一个人现在就能改"的入口 |
+| 不接受 EOA 作为金库 | `NotAContract` 挡住个人热钱包 —— 托管方必须是合约(Safe) |
 | 无 `string` / `bytes` / memo 参数 | 链上文本不可删;一旦开了口,合约就变成永久公告栏与违法内容载体 |
 | 不发 NFT / 代币 / 收据 | 可转让的凭证长得像份额,别去碰证券叙事的边 |
 | 不记姓名 / 邮箱 / IP / 留言 | 与计划一致;事件只含 `donor` 地址 + 金额 + 桶 |
@@ -94,19 +136,43 @@ contract HushFusionDonationVault is Pausable, AccessControl {
 - 它**动不了** Safe 里一分钱。
 - ⇒ `PAUSER_ROLE` 是一个"拒绝服务级"权限,最坏后果公开可见、可恢复。因此 v1 建议**直接把 PAUSER 交给 Safe**(3/5,慢但无双人风险);若要"一键停"的热键,必须写明最坏后果 = 短时拒绝新捐赠。
 - 页面必须在 `paused` 时显示「新捐赠已暂停」+ 原因 + 恢复预期,而不是让按钮静默失败。
+- **与 48h 改址的关系(重要)**:时间锁买到的**是 48 小时的可见性,不是否决权**。多签若被完全控制,它既能排程也能执行 —— 唯一能"止血"的动作是 `pause()` 停住新捐赠 + 立刻公告。因此:
+  - 建议 `PAUSER_ROLE` 与 `GOVERNOR_ROLE` **分离**(不同钥匙):否则被控的多签可以一边排程一边维持运行,外部没人能踩刹车;
+  - `pause()` 从来不是"冻结资金":它只让新的捐款交易失败、钱回到捐赠人;已经进了 Safe 的钱,只有 Safe 自己能动。
 
-### 2.5 金库地址不可变的代价与预案(偏离 3)
+### 2.5 金库地址可换:一条路、两步、48 小时(偏离 3,2026-09-22 需方决策改写)
 
-计划的「固定金库地址」+「不允许单一管理员更换」只有一种诚实实现:**`immutable`**。代价要写清:
+原稿推荐"地址不可变 + 重部署"。需方的决策把它改了,理由是实的:**公司还没成立,个人只是过渡主体,成立后金库必须交给公司** —— 地址不可变意味着第一次主体迁移就要换合约、换前端、重发公告;而公司成立是可预期的事,不是意外。
 
-| 情形 | 后果 | 预案 |
+"可换"被关进一条窄路(左列是顺序,**不能跳步**):
+
+| 步 | 谁能做 | 动作 | 公开产物 |
+|:--|:--|:--|:--|
+| 1 排程 | 当前 Safe(GOVERNOR,需多签提案) | `scheduleTreasuryChange(newSafe, proposalHash)` | 提案文件(id = sha256 前 16)+ `TreasuryChangeScheduled(from, to, executeAfter, hash)` |
+| 2 审阅 | 任何人 | 读事件 / 页面看双地址 + ETA + 倒计时 / 提反对意见(进仓库) | 页面 `treasury-pending` 状态(§6.2) |
+| 3 取消 | 当前 Safe | `cancelTreasuryChange()` | `TreasuryChangeCancelled` —— **到期前随时可撤** |
+| 4 执行 | **任何人**(无需许可) | `executeTreasuryChange()` | `TreasuryChangeExecuted` + `GOVERNOR_ROLE` 转给新 Safe |
+
+配套要求(缺一条都算没做完这次迁移):
+
+- 页面同时显示**旧地址、新地址、提案哈希、执行时间、当前状态**;不允许只显示新地址让人以为已经切了;
+- 仓库 commit + 站内公告 + **第二渠道**(§九-D)同步;只改 `config.json` 不算迁移;
+- 新地址必须是合约(§2.1 表),`NotAContract` 把 EOA 挡在代码外。
+
+可选的加强(§13-11):给 `executeTreasuryChange` 加 `GUARDIAN_ROLE` 二次确认(第二把独立钥匙)。公司阶段建议开;过渡阶段可先不开,换流程简单。
+
+被控多签的诚实分析:**时间锁不是否决权**。超过阈值的钥匙被控时,攻击者能排程也能执行;48 小时给你的是三样东西 —— 看得见、能停新捐赠、能公告。谁要是说"我们的时间锁能防止被控的多签改地址",谁在骗人。
+
+与旧方案的对比:
+
+| | 不可变 + 重部署(原稿) | **可换 + 48h(已选)** |
 |:--|:--|:--|
-| 多签成员轮换 / 阈值变更 | Safe 地址**不变**(owners 存在代理存储里) | 无事 |
-| 签署人丢失 / 需要换 Safe 版本 | 旧合约仍会把钱转给**旧 Safe** | 1) 部署 v2(同源码,新 `TREASURY`)→ 2) 改 `config.json` 一行 → 3) 页面顶部公告「旧合约已停用 @ 区块 N」并保留旧合约只读页 → 4) 第二渠道(仓库 commit + 公告)同步 |
-| Safe 被入侵 | 出账被劫 | 没有救世主:只能靠"钱少、多签、公开"。合约不可变不代表钱不可追(全部在链上) |
+| 主体迁移(个人 → 公司) | 重新部署合约 + 改前端 + 重发公告 | 一次治理事件,合约与地址不变 |
+| admin 面 | 无 | 有,但只有「Safe + 48h + 事件 + 可撤 + 任意人可执行」这一条路 |
+| 审计面 | 更小 | 多一个改址状态机(测试与演练见 §九-B) |
+| 新地址约束 | 编译期写死 | 运行期只接受合约地址(EOA 挡在代码外) |
 
-备选(若不接受重部署):`treasury` 改成状态变量,**只能由 Safe 调用**,且两段式 + 48h timelock + `TreasuryChangeScheduled` 事件。
-代价:多签一旦被控就能**静默改收款地址**。**推荐:不可变 + 重部署** —— 因为合约不持币,重部署成本 ≈ 一次部署费 + 改一行配置,而"多签能静默改地址"的风险无法用代码消除。
+**资金迁移是两件事,顺序不能反**:① 先把未来捐赠的路由切到公司 Safe(上面这条路径)→ ② 再由旧 Safe 发一笔多签交易,把存量资金转到公司 Safe → ③ 对账完成后旧 Safe 只读保留、签署人钥匙退役/轮换。完整流程见 §13.1-B。
 
 ### 2.6 资金桶编码与一句必须写在页面上的话
 
@@ -155,7 +221,7 @@ contract HushFusionMilestoneRegistry is AccessControl {
     event MilestoneOpened(bytes32 indexed id, bytes32 indexed bucket, bytes32 contentHash, uint128 budgetCap);
     event SpendAttested(bytes32 indexed id, uint256 amount, bytes32 safeTxHash, bytes32 evidenceHash);
     event MilestoneClosed(bytes32 indexed id, bytes32 outcomeHash);
-    // 非托管:不收钱、不转账、不能改 vault;写权限只有 Safe
+    // 非托管:不收钱、不转账、不能碰 vault / treasury;写权限只有 Safe
 }
 ```
 
@@ -205,10 +271,11 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 |:--|:--|
 | 形态 | Safe(浏览器多签),**3/5** |
 | 为何不是 2/3 | 5 人里允许 1 人失联 + 1 人钥丢失仍能签;2/3 里任意两人即可被动用,且一人失踪就卡死 |
-| 角色分工 | 科学判断(提提案)/ 资金审批(多签签)/ 技术安全(能否决,靠"不签")—— 三种角色不集中在同一人 |
+| 角色分工 | 科学判断(提提案)/ 资金审批(多签签)/ 技术安全(能否决,靠"不签")—— 三种角色不集中在同一人;**公司阶段**再加独立 GUARDIAN(改址二次确认,§2.5) |
+| 过渡主体(个人)→ 公司 | 过渡期由 **Safe** 承担托管,不得用个人热钱包当唯一控制点(合约层 `NotAContract` 已挡);公司成立后按 §13.1-B 迁移,`GOVERNOR_ROLE` 随 `executeTreasuryChange` 转到公司 Safe —— 不存在"个人私下改掉地址"的路径 |
 | 签名纪律(硬性) | ① 签名前必须逐字比对 Safe 界面的 `to` / `value` / `data` 与提案文件内容;② 至少两人独立验证;③ 提案文件的哈希必须出现在被签的交易数据里(§七) |
 | 备份 | 硬件钱包;助记词离线异地;至少一位签署人在不同司法辖区;签署人名单不公开但阈值公开 |
-| 绝不设 | 「紧急单人提款」;任何形式的托管人改址开关 |
+| 绝不设 | 「紧急单人提款」;任何**单人**就能改收款地址的开关(改址只有 §2.5 那条路,且新地址必须是合约) |
 
 ---
 
@@ -233,6 +300,7 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 | `confirmed` | ≥12 区块(≈24s) | 「已确认 @ 区块 N」 | 不说"最终"(L1 最终性更长) |
 | `failed` | 4001 / revert | 静默回落 `ready` + 一句人话原因(不弹红框) | 不自动重试 |
 | `paused` | 链上 `paused() === true` | 「新捐赠已暂停」+ 原因 + 恢复预期 + Safe 链接 | 不得让按钮静默失败 |
+| `treasury-pending` | 链上 `pendingTreasury != 0` | 顶部横幅:旧地址 → 新地址 + 提案哈希 + 执行时间(倒计时)+ 「到期前可撤」;明写「捐款仍进**旧**地址」 | 不得只显示新地址、不得暗示已切换 |
 
 ### 6.3 `config.json` 增量(站点唯一配置源)
 
@@ -246,8 +314,8 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
   "indexer": "https://hushfusion-donate.<account>.workers.dev",
   "explorer": "https://basescan.org",
   "vault": null,
-  "treasury": null,
-  "vaultCodeHash": null,
+  "treasury": null,          // 只当作"写下来的当前值";真相以链上 treasury() 为准,不一致就报警(§6.5)
+  "vaultCodeHash": null,     // pendingTreasury / treasuryEta / treasuryProposalHash **不进** config,只从链上读
   "testnet": {
     "chainId": 84532, "chainIdHex": "0x14a34",
     "rpc": ["https://sepolia.base.org"], "explorer": "https://sepolia.basescan.org"
@@ -257,7 +325,7 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 
 规则:
 1. `enabled: false` 时地址字段一律 `null`;**禁用时页面不得回退到任何硬编码地址**。
-2. 地址**只在 `config.json` 出现一次**(§9.6 的静态注入是唯一例外,且必须脚本同源)。
+2. 地址**只在 `config.json` 出现一次**(§6.6 的静态注入是唯一例外,且必须脚本同源)。
 3. 改地址 = 一次 commit = 公开审计线索;`config.json` 与 `app.js` 同 `?v=N`,避免旧缓存。
 
 ### 6.4 连接与提交(EIP-1193)
@@ -280,7 +348,7 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 | 层 | 做法 | 失败时 |
 |:--|:--|:--|
 | ① 存在性 | `eth_getCode(vault)` 非空 | 不显示捐赠按钮 |
-| ② 行为 | `vault.TREASURY()` 返回值 == `config.treasury`(纯 `eth_call`,不引入任何库) | 同上 + 显示告警 |
+| ② 行为 | `vault.treasury()` 返回值 == `config.treasury`(纯 `eth_call`,不引入任何库);**若链上 `pendingTreasury != 0`,同时展示并将状态标为「迁移待生效」** | 同上 + 显示告警 |
 | ③ 人可核验路径 | 页面给出:BaseScan 上**源码已验证**的合约页 + 仓库里 `config.json` 的 commit 链接 + 论文/公告中出现的同一地址 | 文案不得断言"已验证",只说"可自行核验" |
 | ④(可选,Worker 侧) | Worker 算 `keccak256(eth_getCode(vault))` 与 `vaultCodeHash` 比对 | 同上 |
 
@@ -327,6 +395,53 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 
 这一步是整个系统里**最容易被社会工程打败**的地方(钱包界面只显示你看得懂的一小段)。纪律:**看不懂就不签**。
 
+### 7.1 治理原则(可执行条款,不是口号)
+
+| # | 原则 | 落地方式 |
+|:--|:--|:--|
+| 1 | 角色分离 | 科学判断 / 资金审批 / 技术安全 / 改址二次确认(GUARDIAN)分属不同人;一个人不能同时是提案人和唯一审批人 |
+| 2 | 提案即文件 | 每笔出账、每次改址都对应仓库里一份提案文件;哈希进交易 `data` 与链上事件 |
+| 3 | 时间锁只用于改址 | 改址 48h(§2.5);出账走多签即时执行,**没有**"紧急后门" |
+| 4 | 无链上投票 | 不做代币化权重;声誉来自贡献与领域评审,不进合约 |
+| 5 | 否决 = 不签 | 反对的签署人不需要"投票按钮",只要不签;但反对意见**必须**留痕(仓库 + 哈希) |
+| 6 | 利益冲突回避 | 给自己或关联方发钱,必须由其他人提案;提案人不得是唯一受益人 |
+| 7 | 终止/退款/转桶 | 必须单独提案 + 公开结算(链上余额 → 处置表 → 执行交易哈希) |
+| 8 | 争议通道 | 公开质疑入口(仓库 issue / 邮件)常开;回应写进 log,不删质疑 |
+
+### 7.2 审计原则(谁审、审什么、多久、公开到什么程度)
+
+| 层 | 谁来做 | 频率 | 产出 |
+|:--|:--|:--|:--|
+| 代码审计 | **独立第三方**(不是写代码的人) | 部署前;每次合约变更(含改址状态机变更)后 | 公开报告(可脱敏),未修项逐条列 |
+| 资金审计 | 独立第三方或社区志愿者 | 每季度 | Safe 流水 ↔ 提案 ↔ 贡献者合同 **三方对账表** |
+| 自动对账 | 定时任务(§九 末注) | 每日 | 链上 `snapshot()`/余额 ↔ 页面渲染值,不一致即告警 |
+| 内部纪律 | 签署人 | 每次敏感操作 | 改址、阈值变更、超阈值出账 **双人复核**;签署人不做自己提案的唯一复核人 |
+| 档案 | 仓库 + git 历史 | 永久 | 提案文件 + 事件哈希 + 审计报告全部进 git;审计底稿按税务/合规要求保留(≥5 年) |
+| 口径 | —— | —— | **未完成的审计一律写"未审计"**,不得写"审计中"暗示已通过 |
+
+### 7.3 三套账与利益分配边界(需方 2026-09-22 决策)
+
+| 账 | 资金来源 | 用途 | 审批 | 公开到什么粒度 |
+|:--|:--|:--|:--|:--|
+| **捐赠账** | 链上捐款(经收款合约进 Safe) | 科研、审计、基础设施、安全、运营、应急储备 | 提案 + Safe 多签 | 总额 / 按桶 / 每笔出账 + tx 哈希 + 提案哈希 |
+| **贡献者账** | 由捐赠账按提案拨入(+ 公司成立后的自有资金) | 工资、服务费、研究合同、里程碑奖金、报销 | 合同/协议 + 提案 + 多签 | 类别 + 预算 + 里程碑 + 合计;个人薪酬可只公开合计或区间,**不得伪装成科研拨款** |
+| **商业收益账** | 公司产品、授权、专利、服务收入 | 按公司章程、劳动/服务合同、知识产权与投资协议分配 | 由公司法与合同法决定,链上只留痕 | 与捐赠账**分开披露**;不把商业收益算作捐赠来源 |
+
+硬边界(与页面文案一致):
+
+- 捐赠**不产生**股权、分红、回购权、收益权、代币、积分或任何可转让凭证;
+- 未来商业收益的分配依据是**公司章程与合同**,不是捐赠金额;
+- 智能体**不是**天然股东或收款主体:它产出可计费工作时,由背后能承担法律责任的个人/公司/机构签约并收款;
+- 不把"贡献积分"包装成股份、债权或收益凭证(§十二-1)。
+
+### 7.4 用哪些链上规范(选了的说清,不选的也说清)
+
+**用**:EIP-55(地址校验显示)· EIP-1193(钱包连接)· EIP-681(移动端深链)· EIP-712(若引入链下结构化签名)· Safe Transaction Service(待签名交易 JSON 可读)· 通用惯例中的 **event-first + two-step + delay**(改址)。
+
+**不用**:不发行 ERC-20 / 721 / 1155(无可转让凭证)· 不做链上投票(无 Governor / ERC-5805)· 不做代理升级(无 ERC-1967)· 不做 ERC-4626 类收益金库 · 不接跨链桥。
+
+**"基本链上共识"的边界**(与 §13.1-D 一致):链上确认只保证"到账 / 出账 / 改址 / 提案哈希没有被悄悄改写",它**不等于**科学共识,也**不等于**治理合法性。
+
 ---
 
 ## 八 智能体的参与边界(落实计划的五条禁令)
@@ -345,7 +460,7 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 
 **A 合约** — 单测 ≥90% 行覆盖(含 `paused` / revert / 桶越界 / 零额 / Safe 拒收路径)· 模糊 + 不变量测试(`address(vault).balance == 0` 恒成立;`totalReceived == Σ 事件金额`)· 静态分析 · 独立第三方审计(范围含源码 + 部署脚本)· 浏览器源码验证 · 部署可复现(记录 solc 版本/优化器/evm_version,并比对 bytecode 一致)
 
-**B 运维** — Safe 3/5 建成且**每位**签署人独立完成一笔测试交易 · pause/unpause 演练 · 失败交易演练(故意让 treasury 拒收,确认 revert 且不计数)· 轮换演练(部署 v2 + 改 config + 页面公告)· 主网真钱小额演练一次(≤ $1)
+**B 运维** — Safe 建成且**每位**签署人独立完成一笔测试交易 · pause/unpause 演练 · 失败交易演练(故意让 treasury 拒收,确认 revert 且不计数)· **改址演练四条路径**:① 排程 → 到期前取消 ② 排程 → 到期前执行(应 `TooEarly(eta)`)③ 排程 → 到期后**由非签署人**执行 ④ 给 EOA 排程(应 `NotAContract`)· **公司迁移演练**(Sepolia:另建一个临时 Safe 当"公司",验证 `GOVERNOR_ROLE` 转移 + 旧地址不再有改址权)· 主网真钱小额演练一次(≤ $1)
 
 **C 前端** — 多钱包实测(MetaMask / Rabby / Coinbase Wallet / 手机钱包深链)· 切链 / 拒签 / 超时 / 断网各一次 · 静态注入地址 == `config.json` 断言 · `enabled=false` 时无连接按钮断言 · 375px 窄屏 · 无 JS 兜底可见
 
@@ -362,7 +477,7 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 | 不可逆 | 链上无退款机制 ⇒ 「不可退款」必须写在按钮下方(§6.8) |
 | 境内监管口径 | 2021 年十部门《关于进一步防范和处置虚拟货币交易炒作风险的通知》把虚拟货币相关业务活动定性为非法金融活动。**面向境内公开募集加密资产**的合规性必须有专业意见 ⇒ 法律审查**先于**地址公开 |
 | 最小化姿态(降低暴露面) | 不发行、不承诺回报、不设金额榜、不面向境内公众推广、只公示金库地址与流向 |
-| 主体 | 个人 / 公司 / 开源组织 / 基金会 —— 直接决定税务与可执行性,待定(§13-9) |
+| 主体 | **已选:个人过渡主体 → 公司主体**(§13.1-B)。过渡期不得用个人热钱包当唯一控制点;公司成立的时点同时决定"存量资金迁移 + 旧 Safe 退役"的时点。过渡期的个人责任、税务口径、退款政策必须在开放地址前书面确认(§13-9) |
 | 税务 | 接受捐赠的入账与申报口径需与会计确认 |
 | 数据 | 不采集个人信息;但钱包地址在个保法/GDPR 语境下的定性需写进隐私政策 |
 
@@ -377,6 +492,7 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 | 内容完整性 | 四桶 4 条 + 治理原则 3 条 + 不可退款提示各至少 1 处 |
 | 无 JS | 关闭 JS 抓文本仍能读到「通道未开放」 |
 | enabled=true 夹具(本地注入 config) | 地址出现且通过 EIP-55 校验 · explorer 链接指向 BaseScan · 按钮存在 · 静态注入地址 == config 地址 |
+| `treasury-pending` 夹具(本地链上打桩) | 双地址 + 提案哈希 + 倒计时同时出现;文案明写「捐款仍进旧地址」;不得出现"已切换"字样 |
 | 主题 | 新区块在夜/昼两套令牌下对比度达标(沿用现有 7 项主题断言的写法) |
 | 图标 | 不变(3 项) |
 
@@ -387,7 +503,7 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 1. 不发代币 / 不发可转让收据 NFT(一旦可转让就像份额)
 2. 不做金额排行榜、"捐赠墙"排名
 3. 不在链上存任何文本
-4. 不做可升级代理、不留 admin 提款函数
+4. 不做可升级代理、不留 admin 提款函数;**改址不留单人路径**(只有 §2.5 那条:合约地址 + 48h + 可撤 + 任何人可执行)
 5. 不让智能体持钥,不用"禁止条款"代替"没有权限"
 6. 不做"捐得多 → 提案优先"
 7. 页面不出现"投资 / 回报 / 份额 / 收益"字样
@@ -396,6 +512,10 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 10. 不显示 USD 估值(除非价格源经过 §6.7 的口径确认)
 11. 不承诺匿名、不承诺可退款、不承诺"链上最终"
 12. 不在 `enabled=false` 时显示任何地址或捐赠按钮
+13. 不把 EOA 设成金库(合约层 `NotAContract` 挡住;页面也不得展示 EOA 收款地址)
+14. 不在待生效期间只显示新地址、或暗示已经切换
+15. 不把"链上确认"说成"科学共识";不把"审计中"说成"已审计"
+16. 不把捐赠金额与任何形式的分配权挂钩(股权 / 分红 / 积分 / 排名)
 
 ---
 
@@ -403,7 +523,7 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 
 | # | 决策 | 取值 A | 取值 B |
 |:--|:--|:--|:--|
-| 1 | 金库地址 | **不可变 + 重部署**(推荐):无 admin,但换金库要发公告 | 可改 + 48h timelock:能静默改收款地址 |
+| 1 | 金库地址 | 不可变 + 重部署:最小权限,但公司成立后需换合约 | **可改 + 48h timelock(已选)**:仅 Safe 提案,延时后执行,全程留痕 |
 | 2 | `PAUSER_ROLE` | 归 **Safe 3/5**(推荐):安全,停一次要凑签名 | 归单人 ops key:能秒停,但能滥用成拒绝服务 |
 | 3 | v1 范围 | **只做 vault**(推荐):一次审计走得完 | 同时做 registry:里程碑上链更硬,但两倍审计面 |
 | 4 | 首页本轮 | 落 **preview 态**(推荐):诚实、无死按钮 | 先不进页面:少一次 `?v=N` 全站升版 |
@@ -411,14 +531,83 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 | 6 | 合约许可 | **MIT / Apache-2.0**:与源码验证配套 | 站点仍"保留所有权利";两者可并存,但需确认口径 |
 | 7 | 单笔上限 | **不设**:简单 | 设上限:反粉尘/反刷量,但要多一个常量与文案 |
 | 8 | USD 估值 | **不显示**(推荐):少一个价格源依赖 | 显示:多一个隐私/可用性依赖 |
-| 9 | 主体与税务 | 先定主体再公开地址(法律项前置) | 先公开地址:法律风险自担 |
+| 9 | 主体与税务 | **个人过渡主体 → 公司迁移(已选)**:先完成法律/税务意见 | 先公开地址:法律风险自担 |
 | 10 | 上线网络 | **先 Base Sepolia 演示一轮**(推荐) | 直接主网:审计与演练须先完成 |
+| 11 | 改址二次确认 | 加 `GUARDIAN_ROLE`(第二把独立钥匙,公司阶段建议开) | 不加:流程简单,但被控多签只剩"看得见"这一层 |
+| 12 | 过渡 Safe 阈值 | **3/5**(推荐):容 1 人失联 + 1 人丢钥 | 2/3:更快,但两人即可被动用 |
+| 13 | `PAUSER` 是否随迁移转移 | 跟随 `GOVERNOR` 一并交给公司 Safe(推荐):主体唯一 | 不跟随:过渡期钥匙留在个人手里,公司阶段要单独处置 |
+| 14 | 48h 够不够 | 保持 48h(推荐,§2.5 写死) | 公司迁移用更长延时(如 7 天):要改常数或加"分档延时"逻辑 |
 
 ---
+
+## 13.1 2026-09-22 需方决策:过渡主体、可迁移金库与利益分配
+
+### A. 金库与收款合约的关系
+
+本方案采用“Safe 托管 + pass-through 收款合约”:
+
+- 捐赠合约不持有资金,收到的原生币在同一笔交易内转给当前 Safe。
+- Safe 才是实际托管金库,负责出账、拨款与公司迁移。
+- 合约允许更换当前 Safe,但没有单人改址权限。
+- 收款地址变更必须由当前 Safe 发起,写入提案哈希,等待至少 48 小时,再由公开可调用的执行函数生效。
+- 变更产生 `TreasuryChangeScheduled` / `TreasuryChangeCancelled` / `TreasuryChangeExecuted` 事件(签名级定义见 §2.1);期间页面显示旧地址、新地址、提案哈希、执行时间和状态。
+- 任何地址变更都必须同步更新仓库 commit、站点公告和第二公告渠道;只改 `config.json` 不算完成迁移。
+
+### B. 个人过渡主体 → 公司主体
+
+公司尚未成立时,个人是法律与税务上的过渡主体,但不得使用个人热钱包作为唯一资金控制点。真实资金开放前应满足:
+
+1. 建立过渡 Safe,明确 3/5 或经法律意见确认的多签阈值。
+2. 公开“过渡主体”身份、责任范围、税务处理和不可退款提示。
+3. 公司成立后,注册公司 Safe,准备公司章程/授权文件/税务信息的哈希。
+4. 提交主体迁移提案:新 Safe 地址、公司文件哈希、余额快照、未完成拨款、旧 Safe 停用区块。
+5. 48 小时公开审阅期后,先把未来捐赠路由切到公司 Safe,再由旧 Safe 通过另一笔多签交易把存量资金迁移到公司 Safe。
+6. 完成链上余额、页面配置、源码/地址校验和双渠道公告后,旧 Safe 进入只读保留状态。
+
+迁移不是后台改配置,也不是个人单方面转账;它是一个有前后顺序、可回溯、可对账的治理事件。
+
+### C. 利益分配边界
+
+捐赠资金与未来商业收益必须分账:
+
+- **捐赠资金**只能用于公开提案批准的科研、基础设施、审计、运营和安全支出,不向捐赠人承诺分红、回购或收益。
+- **贡献者回报**可以通过经批准的工资、服务费、研究合同、里程碑奖金或费用报销实现,每笔支出绑定提案哈希和预算。
+- **未来商业收益**由公司独立账户接收,按照公司章程、劳动/服务合同、知识产权和投资协议分配;不能从捐赠账本直接推导股权或收益权。
+- 不发行可交易治理代币,不把“贡献积分”包装成股份、债权或收益凭证。
+- 对外公开总额、类别、预算和交易哈希;个人薪酬隐私可只公开合计或区间,但不得伪造为科研拨款。
+
+智能体不是天然的股东或收款主体。智能体产生的可计费工作,必须由可承担法律责任的个人、公司或机构签订合同并收款;
+智能体只能参与提案、审计、监测和生成待签名交易。未来若给代理执行权限,也必须独立设定限额、时限、目标地址和人工终审。
+
+### D. 基本链上共识与治理规范
+
+本项目把“链上共识”限定为可验证的事实层,不把区块确认误称为科学共识:
+
+- 区块链确认:捐赠到账、Safe 出账、地址变更和提案哈希不可悄悄改写。
+- 社区共识:提案、证据、反对意见、审议时间和最终决定公开留痕。
+- 科学共识:由可复现数据、同行/领域审查和实验结果形成,不由捐款额或链上投票单独决定。
+- 执行共识:Safe 多签签名人核对交易目标、金额、数据和提案哈希,至少两名签署人独立复核。
+- 终止共识:项目暂停、终止、退款或转桶必须有单独提案和公开财务结算。
+
+> 本节是**决策记录**;它的可执行版本是 §2.5(改址状态机)、§7.1(治理原则)、§7.2(审计原则)、§7.3(三套账)、§7.4(链上规范)。
+> 两处若有出入,**以本节为准并回头修正文**(需方口径优先)。
+
+### E. 新增上线门槛
+
+在主体与公司迁移方案未完成法律/税务审查前,首页只保留 `preview` 态;不显示真实地址、钱包按钮或捐赠金额。
+在主网开放前,必须额外验证:
+
+- Safe 过渡主体的签署人、阈值与备份流程;
+- 48 小时地址迁移的调度、取消和执行路径;
+- 旧 Safe 到公司 Safe 的存量资金对账;
+- 捐赠资金与商业收益的双账本方案;
+- 贡献者/研究者/智能体服务费用的合同与审批模板;
+- 地址变更的站内公告、仓库 commit 和第二渠道一致性。
 
 ## 十四 本轮不做(边界)
 
 - 不写 `.sol` 文件、不部署、不验证源码、不接受真实资金
+- 2026-09-22 第二轮(需方决策落地):只把**决策写进设计**(可换金库 + 两步 48h、个人过渡 → 公司迁移、三套账、治理与审计原则);**没有**写合约、没有建 Safe、没有开放任何地址
 - 首页区块本轮**最多**落 `preview` 态(取决于 §13-4)
 - 里程碑 registry、Worker 索引器、监测任务:只在本文件里定接口与职责,**不实现**
 - 产物:本文 + wiki 页 + raw 登记 + 门禁
