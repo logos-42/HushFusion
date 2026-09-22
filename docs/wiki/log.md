@@ -1,5 +1,21 @@
 # Wiki 日志
 
+## [2026-09-22] 冻结 + 法律闸门 | 阶段一六件套出稿 · 金库身份校验修正 · 两条合规路线与降级路线
+
+| 日期 | 类别 | 变更 | 说明 |
+|------|------|------|------|
+| 2026-09-22 | docs | 新增 **设计冻结 v1.1** `docs/DONATION-FREEZE.md` | 阶段一六件套:合约状态机(13 条转移)· 角色权限矩阵 · 威胁模型(T1–T13)· 主体迁移流程(9 步 + 回退)· 资金分配章程 · 智能体章程;附 11 条不变量与六阶段门禁 |
+| 2026-09-22 | fix | **安全修正**:金库只接受**经验证的 Safe** | `code.length > 0` 只能证明"是个合约" ⇒ `_isVerifiedSafe` 五项:代理 runtime `codehash` + 单例槽 + `VERSION()` + `threshold ≥ 2` + `owners ≥ 3`(常量实测自 Base 主网,含复算命令) |
+| 2026-09-22 | fix | **GUARDIAN 二次确认:可选 → 必须** | `approveTreasuryChange` 成为 `executeTreasuryChange` 的前置条件;执行权仍公开(不能因"钥匙不在"卡死迁移) |
+| 2026-09-22 | docs | **法律闸门**(§10.1):两条合规路线 + 上线闸门顺序 | 境内科研支持(人民币 + 合同 + 会计,链上只放哈希)/ 境外加密捐赠(先落主体、受众、税务、AML/KYC 与资格);顺序 = 主体 → 受众法域 → 书面意见 → 才能谈审计 |
+| 2026-09-22 | docs | 新增**降级路线**:`ResearchRecordAnchor`(不含钱的那一半) | 无 `payable`/`receive`、不显示地址、不连钱包;首页区块从「公开支持」改为「公开记录」;可先于法律意见落地 |
+| 2026-09-22 | chore | 两份需方输入登记 raw | `donation-security-and-phases-20260922.md` · `donation-legal-gate-20260922.md` → `manifests/raw_sources.csv` |
+| 2026-09-22 | docs | 回写 wiki | `wiki/donation-open-research-fund.md` 加法律闸门 / 双路线 / 降级路线;`current-status.md` 同步 |
+
+> 边界照旧且**更严**:不写 `.sol`、不建 Safe、不公开地址、不连钱包、不接受捐赠、不启用 `config.donate.enabled`、不开放首页按钮。
+> 首页在法域判断前只有 `preview`:**「通道未开放,待主体、法律和安全审查完成。」**
+
+
 ## [2026-09-22] 收敛 | 需方决策:可迁移金库(两步 + 48h)· 个人过渡 → 公司主体 · 三套账
 
 | 日期 | 类别 | 变更 | 说明 |
