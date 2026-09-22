@@ -69,6 +69,11 @@ bash scripts/deploy.sh
 │   ├── DESIGN-PLAN.md         ★ 前端设计计划(实现规范,可直接交给前端 agent)
 │   ├── CONTENT-SOURCES.md     每一句文案的来源(源图 / 展开 / 待填)
 │   ├── ASSETS.md              素材清单与分辨率纪律
+│   ├── RECORDS-LAYER-PLAN.md  ★ 公开记录层设计(首页 #records / records.json / 核验路径 / 验收断言)
+│   ├── FUNDING-JURISDICTION-SCREENING.md  境外募资:法域与主体筛选表(不含任何结论)
+│   ├── GUARDIAN-DESIGN.md     GUARDIAN 候选机制(换人机制 / 绕过风险 / 招募一页纸)
+│   ├── DONATION-FREEZE.md     设计冻结(阶段一六件套:状态机 / 权限矩阵 / 威胁模型 / 迁移 / 分账 / 智能体)
+│   ├── DONATION-FUND-PLAN.md  收款侧实现规范(**当前冻结**:法域未定 + 无独立 GUARDIAN)
 │   └── screenshots/           真浏览器验收产出的截图(四页全页 + 窄屏导航实拍)
 ├── tools/
 │   ├── slice_assets.py        海报切片(唯一入口;--all 连备用素材一起切)
@@ -128,6 +133,8 @@ bash scripts/deploy.sh
 | 1 | 待批准的设计决策(强调色取印刷码还是实测值、纸块 vs 透明底…) | `docs/DESIGN-PLAN.md` §12 |
 | 2 | 低分辨率素材的矢量 / 高清重绘(标志、app icon、插画) | `docs/DESIGN-PLAN.md` §10.3 |
 | 3 | 仍需需方定:合作与资助、时变引力场的「公开细节」、关键指标数值、岗位参数(级别/人数/地点/待遇) | `docs/CONTENT-SOURCES.md` §二·九 |
+| 4 | 公开记录层待落地:`records.json` + `docs/records/` + 首页 `#records` 区块(本轮只出设计,未改 HTML) | `docs/RECORDS-LAYER-PLAN.md` |
+| 5 | 资金路线唯一硬阻塞:**没有独立第三方 GUARDIAN**(到位前收款侧冻结) | `docs/GUARDIAN-DESIGN.md` |
 | 4 | 口径句(反引力场 / 无噪音·无限能源 / 可控引力场飞行器)如需改措辞:落点见 `docs/CONTENT-SOURCES.md` §二·五~二·六 | `docs/CONTENT-SOURCES.md` |
 | 5 | 低分辨率转写文字的复核(自述段标点、海报批注) | `docs/CONTENT-SOURCES.md` §4 |
 | 6 | **最小信息披露纪律**:公开页不写仓库路径 / 尺寸 / 命令行 / 过程话术 —— 新增内容前先读 `docs/DESIGN-PLAN.md` §4 纪律 11 | `docs/DESIGN-PLAN.md` |

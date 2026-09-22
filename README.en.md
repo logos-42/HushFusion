@@ -70,6 +70,11 @@ bash scripts/deploy.sh
 │   ├── DESIGN-PLAN.md         ★ the front-end design plan (implementation spec)
 │   ├── CONTENT-SOURCES.md     where every sentence on the site comes from
 │   ├── ASSETS.md              asset inventory and resolution discipline
+│   ├── RECORDS-LAYER-PLAN.md  ★ public-records layer (#records / records.json / verification / assertions)
+│   ├── FUNDING-JURISDICTION-SCREENING.md  offshore funding: jurisdiction & entity screening (no conclusions)
+│   ├── GUARDIAN-DESIGN.md     GUARDIAN mechanism (rotation / bypass risk / one-page brief)
+│   ├── DONATION-FREEZE.md     design freeze (state machine / permission matrix / threat model / migration…)
+│   ├── DONATION-FUND-PLAN.md  donation-side spec (**currently frozen**: jurisdiction TBD, no GUARDIAN)
 │   └── screenshots/           screenshots produced by the verification run
 ├── tools/
 │   ├── slice_assets.py        poster slicer (single entry point; --all includes spare crops)
@@ -130,6 +135,8 @@ reads as a blank page and you would "confirm" a broken site.
 | 1 | Design decisions still awaiting approval (printed vs sampled accent colour, paper blocks vs transparency…) | `docs/DESIGN-PLAN.md` §12 |
 | 2 | Vector / high-resolution re-draw of low-res assets (marks, app icon, illustration) | `docs/DESIGN-PLAN.md` §10.3 |
 | 3 | Still open with the client: partners & funding, the public detail for the time-varying-field track, key metric values, and role parameters (level / headcount / location / pay) | `docs/CONTENT-SOURCES.md` §二·九 |
+| 4 | Public-records layer to build: `records.json` + `docs/records/` + the `#records` section (design only this round; HTML untouched) | `docs/RECORDS-LAYER-PLAN.md` |
+| 5 | Single hard blocker on the funding path: **no independent third-party GUARDIAN** (donation side stays frozen) | `docs/GUARDIAN-DESIGN.md` |
 | 4 | Rewording the logic/motive sentence (anti-gravity field / silent energy / gravity-controlled flight) | `docs/CONTENT-SOURCES.md` §二·五 |
 | 5 | Proof-reading of low-res transcriptions (intro punctuation, poster annotations) | `docs/CONTENT-SOURCES.md` §4 |
 | 6 | **Minimum-disclosure rule**: public pages carry no repo paths, pixel sizes, shell commands or process talk — read `docs/DESIGN-PLAN.md` §4 rule 11 before adding copy | `docs/DESIGN-PLAN.md` |

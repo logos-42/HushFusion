@@ -586,14 +586,18 @@ PY
 localStorage 记住 / `theme-color` 跟着换 / 切回夜复原),并把「底色 == #080F1A」改成
 「**body 底色 == `--bg` 令牌**」—— 两套主题下都成立。
 
-### 7.7 2026-09-22 追加:首页「公开支持 / Open Research Fund」区块(**只设计,未实现**)
+### 7.7 2026-09-22 追加:首页「公开记录 / Open Research Records」区块(**只设计,未实现**)
+
+> **2026-09-22 路线更新**:原「公开支持 / Open Research Fund」区块**取消**。资金路线改为境外募资(法域未定 + 无独立 GUARDIAN → 收款侧冻结),首页只做记录层:
+> 区块 id `#records`、kicker `— 03 · Records`、标题「公开记录 / Open Research Records」;**无地址、无钱包、无金额、无 CTA**。
+> 细节(数据格式 `records.json` / 核验路径 / 验收断言 / 反模式)见 [`RECORDS-LAYER-PLAN.md`](./RECORDS-LAYER-PLAN.md)。
 
 | 项 | 口径 |
 |:--|:--|
 | 位置 | `index.html` 的 `#status`(— 02 · Status)之后、`</main>` 之前 → `当前阶段 → 公开支持 → 页脚` |
-| 骨架 | `<section class="band" id="support" data-state="preview">`;kicker `— 03 · Support`;文案走 `data-zh`/`data-en` |
+| 骨架 | `<section class="band" id="records" data-state="records">`;kicker `— 03 · Records`;文案走 `data-zh`/`data-en` |
 | 组件 | 全部复用现有语义,不新增 CSS 概念:`band` · `section-head`(+`kicker`/`section-title`/`section-lede`)· `cap-list`(+`cap-no`/`cap-body`/`cap-tag`)· `quiet-cta` / `quiet-cta--solid` · `status` · `reveal` |
-| 本轮落哪一态 | **`preview`(通道未开放)**:只做「四桶 + 治理原则 + 为什么现在不开」,**不显示任何地址、不显示连接钱包按钮** —— 没有死按钮,也没有"看起来能捐"的暗示。文案用冻结口径:**「通道未开放,待主体、法律和安全审查完成。」** |
+| 本轮落哪一态 | 记录层:**记录列表**(无 CTA);若记录尚未就绪则显示「暂无公开记录」。前置的收款区块 `preview` 语态**只作为历史留档** —— 原「通道未开放」:只做「四桶 + 治理原则 + 为什么现在不开」,**不显示任何地址、不显示连接钱包按钮** —— 没有死按钮,也没有"看起来能捐"的暗示。文案用冻结口径:**「通道未开放,待主体、法律和安全审查完成。」** |
 | 法律闸门 | 法域与受众判断 + 书面法律/税务意见完成前,这一区块**不得**升级到 `ready`(§`DONATION-FUND-PLAN.md` §10.1)。若结论是"不能公开募资",本区块改做**公开记录**:锚定报告哈希(`ResearchRecordAnchor`,不收钱、不连钱包)—— 那时连"捐赠"这个词都不出现 |
 | 上线态 | `ready` / `connected` / `wrong-chain` / `pending` / `confirmed`(≥12 区块)/ `failed` / `paused` / **`treasury-pending`**(链上 `pendingTreasury != 0`:旧地址 → 新地址 + 提案哈希 + ETA 横幅,明写「捐款仍进旧地址」);`data-state` 由 `config.json` 的 `donate.enabled` + 链上读值驱动 |
 | 配置 | `config.json` 增 `donate` 段(地址的**唯一**来源;`enabled:false` 时地址为 `null`);无 JS 兜底地址由 `deploy.sh` 打包期注入,`verify-site.mjs` 断言两处一致 |

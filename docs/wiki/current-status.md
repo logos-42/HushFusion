@@ -41,6 +41,11 @@ status: current
 
 ## 待补 / 未决
 
+- 需方路线已选:境外募资路线;首页先落“公开记录”而不是捐赠入口
+- 资金路线阻塞条件:目前没有独立第三方 GUARDIAN;在确定独立机构/签署人及备份前,不部署收款合约、不建募资 Safe、不公开收款地址
+- 本阶段只推进三件(其余全部暂不推进):① 公开记录页面设计 ② 境外法域与主体筛选 ③ GUARDIAN 候选机制设计 → 三份设计文档已出稿:`docs/RECORDS-LAYER-PLAN.md`(区块 `#records` / `records.json` / 核验路径 / 验收断言)· `docs/FUNDING-JURISDICTION-SCREENING.md`(给律师的 12 问 + 13 维评分表,不含任何法域结论)· `docs/GUARDIAN-DESIGN.md`(六条资格 + 换人机制)
+- 记录层**不需要 GUARDIAN**(没有钱可丢)⇒ 当前唯一能先落地的一件;收款侧在 GUARDIAN 到位前冻结
+- 本轮新发现(已写进冻结文档 v1.2):若 GOVERNOR 能单方面撤销 GUARDIAN,被控多签可"撤 GUARDIAN → 排程 → 48h → 执行"⇒ 合约层不得留单人撤 GUARDIAN 路径(状态机 T-G4,威胁 T1b)
 - **法律闸门升级为第一优先级**:上链不自动等于非法集资,但境内面向公众用虚拟货币公开收款不得按普通捐赠处理;在书面法律/税务意见前,首页只保留 preview,不显示地址、不接真实资金
 
 - **公开支持 / Open Research Fund:第二轮收敛(需方 2026-09-22 决策)** —— 术语定为「**Safe 托管金库 + pass-through 收款合约**(合约不持币,余额恒 0)」

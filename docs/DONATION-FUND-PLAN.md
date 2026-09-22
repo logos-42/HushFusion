@@ -120,6 +120,7 @@ contract HushFusionDonationVault is Pausable, AccessControl {
 |:--|:--|
 | 新地址必须过 `_isVerifiedSafe` 五项:① 有代码 ② `codehash == SAFE_PROXY_RUNTIME_HASH` ③ `masterCopy() == SAFE_L2_SINGLETON` ④ `VERSION() == "1.4.1"` ⑤ `threshold ≥ 2` 且 `owners ≥ 3`,否则 `NotVerifiedSafe` | `code.length > 0` **只能证明「是个合约」**,恶意合约照样能过 —— 必须证明**「这是一个配置合规的真 Safe」**(需方 2026-09-22 安全修正) |
 | 必须 GUARDIAN 已 `approveTreasuryChange()`,否则 `NotApproved` | 第二把**独立**钥匙:多签之外还有另一个独立的人/机构要点头 |
+| **GOVERNOR 不得单方面撤销 GUARDIAN**(没有单人 `revokeRole(GUARDIAN_ROLE)` 路径) | 否则被控多签可以"撤 GUARDIAN → 排程 → 48h → 执行",防线形同不存在;换人只能走握手或 30 天公开路径(见 [`GUARDIAN-DESIGN.md`](./GUARDIAN-DESIGN.md) §四) |
 | 新地址非零、且 `!= treasury`,否则 `SameTreasury` | 挡误操作与无意义操作 |
 | 有待生效时再排程 → `PendingExists` | 同一时刻只能有一次待生效改址,不能叠加 |
 | `executeTreasuryChange` 要求 `block.timestamp >= treasuryEta`,否则 `TooEarly(eta)` | 48h 是硬的,不是文案 |
@@ -544,7 +545,9 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 | 四桶 / 治理 / 审计原则的文字部分 | 「捐赠」「支持」「资助」等措辞 |
 
 对应形态是一个**没有 `payable`、没有 `receive`、不收一分钱**的 `ResearchRecordAnchor`:只有 `record(kind, contentHash, ref)` + 公开事件 + 只读查询,提交权限控制在项目自己的钥匙(或 Safe)手里 —— 因为**没有钱可丢**,这里不要求多签,但要有密钥轮换与提交记录公开。
-它**承担不了募资,也不会变成募资入口** —— 这正是它低风险的原因。设计见 [`DONATION-FREEZE.md`](./DONATION-FREEZE.md) §九。
+它**承担不了募资,也不会变成募资入口** —— 这正是它低风险的原因。
+
+**2026-09-22 决策更新**:这条路已经是**当前首页路线**(不是"如果不行再说")。页面设计、数据格式、核验路径、验收断言见 [`RECORDS-LAYER-PLAN.md`](./RECORDS-LAYER-PLAN.md);锚定合约接口见那里的 §五。收款侧同时**冻结**:法域与主体未定 + 无独立第三方 GUARDIAN。
 
 ## 十一 验收断言(给 `verify-site.mjs` 的增量清单)
 
@@ -579,6 +582,8 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 14. 不在待生效期间只显示新地址、或暗示已经切换
 15. 不把"链上确认"说成"科学共识";不把"审计中"说成"已审计"
 16. 不把捐赠金额与任何形式的分配权挂钩(股权 / 分红 / 积分 / 排名)
+17. 不留"GOVERNOR 单方面撤 GUARDIAN"的路径 —— 那等于把 §2.5 的防线拆掉
+18. 不在没有独立 GUARDIAN 时进入真实资金部署(当前状态:收款侧冻结)
 
 ---
 
@@ -600,6 +605,7 @@ curl -s https://mainnet.base.org -X POST -H 'Content-Type: application/json' \
 | 12 | 过渡 Safe 阈值 | **3/5**(推荐):容 1 人失联 + 1 人丢钥 | 2/3:更快,但两人即可被动用 |
 | 13 | `PAUSER` 是否随迁移转移 | 跟随 `GOVERNOR` 一并交给公司 Safe(推荐):主体唯一 | 不跟随:过渡期钥匙留在个人手里,公司阶段要单独处置 |
 | 14 | 48h 够不够 | 保持 48h(推荐,§2.5 写死) | 公司迁移用更长延时(如 7 天):要改常数或加"分档延时"逻辑 |
+| 15 | GUARDIAN 换人机制 | 握手换人 + 30 天失联路径(推荐) | 不可变(换人=重部署合约)/ 单方 + 30 天(最弱) |
 
 ---
 
