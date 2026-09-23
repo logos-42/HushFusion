@@ -1,0 +1,4 @@
+# 公开页改过名 —— 旧地址必须还能落到新页。
+# Cloudflare Pages 读部署产物根目录的这个文件;每行:/源  /目标  [状态码]
+/theory.html  /docs.html  301
+/theory       /docs.html  301

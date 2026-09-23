@@ -52,7 +52,8 @@ if missing:
     sys.exit('缺文件,拒绝部署:\n  ' + '\n  '.join(missing))
 
 # 清单也带上,便于线上对照素材来源
-for extra in ('assets/manifest.json', 'assets/palette.json'):
+# _redirects 也要上线:改名后的旧地址靠它落地,不带上线等于没有
+for extra in ('_redirects', 'assets/manifest.json', 'assets/palette.json'):
     if (root / extra).exists():
         dest = stage / extra; dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(root / extra, dest)

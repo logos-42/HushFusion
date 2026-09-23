@@ -704,3 +704,25 @@ localStorage 记住 / `theme-color` 跟着换 / 切回夜复原),并把「底色
 
 **改名纪律**:只改文件名与引用,不改可见文案 —— 导航空中仍写「理论 / Theory」;历史 `log.md` 条目保持原样(当时确实叫 `theory.html`),
 新条目记录改名;`docs/screenshots/theory.png` 下线,由验收重新产出 `docs.png`。
+
+### 7.10 改名纪律:旧地址必须还能落到新页(`_redirects`)
+
+第 7.9 条把公开页从 `theory.html` 改成 `docs.html`。改名之后立刻发现:CF Pages 会把
+`/theory.html` **308 到 `/theory`**(干净路径),而那个文件已经不存在 —— 老链接(外部转发、
+浏览器历史、别人收藏)直接 404。改名不算做完,「旧地址还能落地」才算。
+
+做法:
+
+```text
+_redirects(仓库根,部署产物根)      /theory.html  /docs.html  301
+                                    /theory       /docs.html  301
+scripts/deploy.sh                  把 _redirects 一起放进暂存目录(不带上线,文件存在也是空话)
+scripts/verify-site.mjs            HISTORIC_PAGES 逐个断言:有落点 + 落点文件真实存在;
+                                   再断言部署脚本确实会传它
+```
+
+门齿验证:抽掉 `_redirects` 里 `/theory.html` 那条 → 该断言变红;复原 → 变绿。
+线上核对:`/theory.html` 与 `/theory` 均 301 → `/docs.html`(308 → `/docs`)→ 200。
+
+**下一次改名照做**:① 改文件名与全部引用;② 在 `_redirects` 追加一条(源=旧名与新名的无后缀形式);
+③ 把旧名加进 `verify-site.mjs` 的 `HISTORIC_PAGES`;④ 部署后 `curl -I` 两个旧形式,确认是 30x 而不是 404。

@@ -13,7 +13,7 @@
    ========================================================================== */
 
 import { spawn } from 'node:child_process';
-import { mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdirSync, writeFileSync, rmSync, readFileSync } from 'node:fs';
 import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -33,11 +33,6 @@ const CHROME_CANDIDATES = [
 ].filter(Boolean);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-function findChrome() {
-  for (const p of CHROME_CANDIDATES) if (existsSync(p)) return p;
-  return null;
-}
 
 /* ── 极简 CDP 客户端 ─────────────────────────────────────────────────── */
 class CDP {
@@ -127,6 +122,36 @@ const cdp = new CDP(ws);
 
 let passed = 0;
 const failures = [];
+
+/* ── 改名纪律(文件级,与浏览器无关)────────────────────────────────────
+   公开页改过名之后,老链接不能直接 404:CF Pages 会把 /theory.html 308 到 /theory,
+   而那个文件已经不存在 —— 必须靠根目录 `_redirects` 落回现名。
+   历史页名写死在这里而不是去查 git:门不该依赖本机仓库状态(浅克隆/无 git 就假红)。 */
+const HISTORIC_PAGES = ['theory.html', 'theory'];
+{
+  const redPath = path.join(process.cwd(), '_redirects');
+  const rules = existsSync(redPath)
+    ? readFileSync(redPath, 'utf8').split('\n').map((l) => l.trim())
+        .filter((l) => l && !l.startsWith('#')).map((l) => l.split(/\s+/))
+    : [];
+  for (const old of HISTORIC_PAGES) {
+    const rule = rules.find((r) => r[0] === '/' + old || r[0] === old);
+    const target = rule ? String(rule[1]).replace(/^\//, '') : null;
+    check('_redirects', `历史页名 ${old} 仍能落到现存页`,
+      !!rule && !!target && existsSync(path.join(process.cwd(), target)),
+      rule ? `→ ${rule[1]}` : '没有 _redirects 条目(老链接会 404)');
+  }
+  const deploySrc = readFileSync(path.join(process.cwd(), 'scripts', 'deploy.sh'), 'utf8');
+  check('_redirects', '部署脚本会把它一起上传', /_redirects/.test(deploySrc),
+    'deploy.sh 没带 _redirects —— 文件存在也是空话');
+  check('_redirects', '_redirects 存在', rules.length > 0, `${rules.length} 条规则`);
+}
+
+function findChrome() {
+  for (const p of CHROME_CANDIDATES) if (existsSync(p)) return p;
+  return null;
+}
+
 
 function check(page, name, ok, detail = '') {
   if (ok) { passed++; console.log(`  ✓ ${page} · ${name}`); }
