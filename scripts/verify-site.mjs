@@ -20,7 +20,10 @@ import path from 'node:path';
 
 const BASE = (process.argv[2] || 'http://127.0.0.1:8898').replace(/\/$/, '');
 const PAGES = ['index.html', 'about.html', 'hibs.html', 'progress.html', 'docs.html'];
-const SHOT_DIR = path.join(process.cwd(), 'docs', 'screenshots');
+// 截图目录:默认写仓库(本地验收的证据),可用 SHOT_DIR 指到别处 ——
+// 部署脚本的「线上复验」必须指到临时目录,否则会把线上渲染覆盖掉本地证据,
+// 每部署一次工作树就脏一次(还分不清是代码变了还是截图变了)。
+const SHOT_DIR = process.env.SHOT_DIR || path.join(process.cwd(), 'docs', 'screenshots');
 const PORT = 9333 + Math.floor(Math.random() * 500);
 
 const CHROME_CANDIDATES = [
@@ -161,6 +164,12 @@ const HISTORIC_PAGES = ['theory.html', 'theory'];
     badLabel.length === 0, badLabel.join(' | '));
 
   const deploySrc = readFileSync(path.join(process.cwd(), 'scripts', 'deploy.sh'), 'utf8');
+  /* 不变量:跑「线上复验」那一行必须带着 SHOT_DIR(临时目录怎么造的不归门管)。
+     第一版把临时目录的写法写死成 `$(mktemp`,部署脚本换个写法就假红 —— 门自己坏了。 */
+  const livePassLine = deploySrc.split('\n').find((l) => /verify-site\.mjs\s+"?https/.test(l)) || '';
+  check('_redirects', '线上复验的截图不会覆盖仓库证据(那一行带着 SHOT_DIR)',
+    /SHOT_DIR=\S*\s+node\s+scripts\/verify-site\.mjs/.test(livePassLine),
+    livePassLine ? `线上复验那一行: ${livePassLine.trim()}` : 'deploy.sh 里找不到线上复验那一行');
   check('_redirects', '部署脚本会把它一起上传', /_redirects/.test(deploySrc),
     'deploy.sh 没带 _redirects —— 文件存在也是空话');
   check('_redirects', '_redirects 存在', rules.length > 0, `${rules.length} 条规则`);
@@ -802,7 +811,7 @@ if (failures.length) {
   console.log('\n失败明细:');
   failures.forEach((f) => console.log('  - ' + f));
 }
-console.log(`全页截图 → ${SHOT_DIR}`);
+console.log(`全页截图 → ${SHOT_DIR}${process.env.SHOT_DIR ? '(临时目录,不覆盖仓库证据)' : ''}`);
 
 ws.close();
 child.kill();

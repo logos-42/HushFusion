@@ -72,5 +72,8 @@ echo "→ 生产地址 https://$PROJECT.pages.dev"
 # 凡是用 location.pathname 做的判断(当前页高亮等)在线上都拿不到 .html。
 if [ "${VERIFY:-1}" = "1" ]; then
   echo "→ 线上真浏览器验收"
-  node scripts/verify-site.mjs "https://$PROJECT.pages.dev" 2>&1 | tail -4
+  # 截图写到临时目录:线上复验的证据和本地证据分开,别把 docs/screenshots 重写掉
+  LIVE_SHOTS="$(mktemp -d)/live-shots"
+  SHOT_DIR="$LIVE_SHOTS" node scripts/verify-site.mjs "https://$PROJECT.pages.dev" 2>&1 | tail -4
+  echo "   (线上截图:$LIVE_SHOTS —— 本地证据 docs/screenshots 未被覆盖)"
 fi
