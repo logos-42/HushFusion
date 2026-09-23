@@ -141,6 +141,25 @@ const HISTORIC_PAGES = ['theory.html', 'theory'];
       !!rule && !!target && existsSync(path.join(process.cwd(), target)),
       rule ? `→ ${rule[1]}` : '没有 _redirects 条目(老链接会 404)');
   }
+  /* 改名纪律(二):文件叫 docs.html,导航标签就得是「文档 / Docs」——
+     改了文件名却留着旧标签,读者得自己在两套名字之间翻译。 */
+  const badLabel = [];
+  for (const f of PAGES) {
+    const html = readFileSync(path.join(process.cwd(), f), 'utf8');
+    for (const tag of html.match(/<a href="docs\.html"[^>]*>/g) || []) {
+      const zh = (tag.match(/data-zh="([^"]*)"/) || [])[1] || '';
+      const en = (tag.match(/data-en="([^"]*)"/) || [])[1] || '';
+      if (!zh.includes('文档') || !/Docs/i.test(en)) badLabel.push(`${f}: ${zh}/${en}`);
+    }
+  }
+  {
+    const d = readFileSync(path.join(process.cwd(), 'docs.html'), 'utf8');
+    if (!/<h1[^>]*data-zh="文档"/.test(d)) badLabel.push('docs.html: h1 的 data-zh 不是「文档」');
+    if (!/<title>文档/.test(d)) badLabel.push('docs.html: <title> 没跟着改');
+  }
+  check('_label', '指向 docs.html 的标签是「文档 / Docs」(文件名改了标签也要改)',
+    badLabel.length === 0, badLabel.join(' | '));
+
   const deploySrc = readFileSync(path.join(process.cwd(), 'scripts', 'deploy.sh'), 'utf8');
   check('_redirects', '部署脚本会把它一起上传', /_redirects/.test(deploySrc),
     'deploy.sh 没带 _redirects —— 文件存在也是空话');
@@ -265,6 +284,51 @@ for (const page of PAGES) {
     return { ok: pending.length === 0, pending, waited: Date.now() - t0 };
   })()`);
   check(page, '揭示动画后内容可见', reveal.ok === true, (reveal.pending || []).join(' | '));
+
+  /* 7.4 三本账分栏:宽屏进左侧空白,窄一个像素就退回上下堆叠 ──────────────
+     这一栏是「挪进容器左边那块空白」—— 所以两边都要验:宽屏必须真的并排且不越界,
+     阈值以下必须干脆退回堆叠(而不是挤成一团)。 */
+  const WIDE = 1680, NARROW = 1560;
+  const railProbe = `(() => {
+    const docs = document.querySelector('.docs');
+    const led = document.querySelector('.doc-ledgers'), toc = document.querySelector('.doc-toc');
+    const pane = document.querySelector('.doc-pane:not([hidden])');
+    const r = (el) => { const b = el.getBoundingClientRect();
+      return { l: Math.round(b.left), r: Math.round(b.right), t: Math.round(b.top), b: Math.round(b.bottom), w: Math.round(b.width) }; };
+    const gap = parseFloat(getComputedStyle(docs).columnGap) || 0;
+    const L = r(led), T = r(toc), D = r(docs), P = r(pane);
+    return { vw: window.innerWidth, led: L, toc: T, pane: P, docs: D, gap,
+             sideBySide: L.r <= T.l + 1, stacked: L.b <= T.t + 1,
+             dug: Math.round(T.l - D.l), expectDug: Math.round(L.w + gap),
+             label: document.querySelector('.doc-ledgers .toc-title')?.textContent.trim() || '',
+             bilingual: (() => { const e = document.querySelector('.doc-ledgers .toc-title'); return !!(e && e.dataset.zh && e.dataset.en); })(),
+             overflowX: document.documentElement.scrollWidth - window.innerWidth };
+  })()`;
+  if (page === 'docs.html') {
+  for (const [w, mode] of [[WIDE, 'wide'], [NARROW, 'narrow']]) {
+    await cdp.send('Emulation.setDeviceMetricsOverride',
+      { width: w, height: 900, deviceScaleFactor: 1, mobile: false }, sessionId);
+    await sleep(420);
+    const g = await evaluate(sessionId, railProbe);
+    if (mode === 'wide') {
+      check(page, `文档区:${w}px 三本账成一栏且落在容器左侧空白里`,
+        g.sideBySide && !g.stacked && g.led.l >= 8 && g.led.l < g.toc.l && g.led.r + 8 <= g.toc.l,
+        JSON.stringify({ 栏: g.led, 目录: g.toc }));
+      check(page, '文档区:分栏没有把「本页目录」和正文挪位(只往里挖了「栏宽 + 栏间距」)',
+        Math.abs(g.dug - g.expectDug) <= 2 && g.pane.w > 0,
+        `目录左移了 ${g.dug}px,应等于 栏宽+间距 ${g.expectDug}px`);
+      check(page, '文档区:三本账这一栏有自己的双语小标题',
+        g.label.length > 0 && g.bilingual, JSON.stringify({ 标题: g.label, 双语: g.bilingual }));
+    } else {
+      check(page, `文档区:${w}px 退回上下堆叠(不做半吊子挤压)`, g.stacked && !g.sideBySide,
+        JSON.stringify({ 栏: g.led, 目录: g.toc }));
+    }
+    check(page, `文档区:${w}px 分栏后无横向溢出`, g.overflowX <= 1, `溢出 ${g.overflowX}px`);
+  }
+  await cdp.send('Emulation.setDeviceMetricsOverride',
+    { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false }, sessionId);
+  await sleep(300);
+  }
 
   /* 8 语言切换真的改变文案 */
   const norm = 'document.querySelector("[data-zh][data-en]").textContent.replace(/\\s+/g, " ").trim()';

@@ -12,6 +12,8 @@
 | 2026-09-23 | test | `verify-site.mjs` 新增 5 项文档区断言 + 2 项深链断言 | 三本账单选 / 单面板可见 / 切到最后一本地址栏跟上 / 新册不是一片空白 / 切回默认态;`#doc-moire` 直达第 03 册、`#boolean` 自动切回 01 册。**本地 194/194 全绿** |
 | 2026-09-23 | chore | 公开页改名 **`theory.html` → `docs.html`**(需方口述) | 导航可见文案仍是「理论 / Theory」,只改文件名与全部引用:五页 mast-links · `verify-site.mjs` PAGES 与 3 条深链断言 · README 中英 · `docs/ASSETS.md`/`DESIGN-PLAN.md`/wiki 当前态文档;历史条目保持原样(当时确实叫 theory.html) |
 | 2026-09-23 | feat | 文档区补齐 doc 产品的标准件:**本页目录(Anchor Navigation)+ 滚动高亮(Scroll Spy)** · **面包屑** · **上一本/下一本(Prev/Next)** · **记住上一次读的那一本(Navigation Persistence)** | 目录不写死:从当前册带 id 的小节生成(页面加一节自动多一项);高亮取「顶部刚越过阅读线」的那一节(相交回调在多节同屏时没有正确答案);窄屏目录隐藏,只留横向标签条 |
+| 2026-09-23 | feat | 三本账**挪进容器左侧空白,自己成一栏**,与「本页目录」并排(≥1600px;1599 以下退回上下堆叠) | 栅格往左挖 260px(栏 200 + 间距 60)+ `.doc-nav{display:contents}` 让两块各自成栅格子项;目录与正文横坐标一点没动(1668px:314 / 610);两栏各有小标题;门齿:阈值抬到 1700 → 断言红 |
+| 2026-09-23 | chore | 导航标签「理论 / Theory」→ **「文档 / Docs」**(文件名已改,标签跟着改) | 五页导航 + 三处面包屑 + title + kicker + h1 + 侧栏 aria-label;出处行「来源 · 理论的形式化与数值验证」保持不动;新增断言「指向 docs.html 的标签必须是 文档/Docs」 |
 | 2026-09-23 | fix | 改名留下 404:`/theory.html` 被 Pages 308 到 `/theory`,而后者已不存在 | 新增根目录 `_redirects`(`/theory.html`·`/theory` → `/docs.html` 301)+ `deploy.sh` 把它一起上线 + `verify-site.mjs` 增「历史页名必须仍有落点」断言(抽掉那条规则会红);线上 `curl -I` 两形式确认 301 |
 | 2026-09-23 | fix | **窄屏正文被裁** —— 栅格子项是 `.doc-panes` 而非 `.doc-pane`,没设 `min-width:0`,列宽被宽表格顶开,正文被 `overflow-x` 切掉 | 页面 `scrollWidth` 仍是 0,所以「无横向溢出」那条断言看不见它 → 改用 `minmax(0,1fr)` + `.doc-panes{min-width:0}`;并新增**逐册量块右边缘**的断言(第一版只量了当时露着的那一本,反向验证发现门是空的) |
 | 2026-09-23 | chore | 8 张图的来源按 §1.5 登记 `manifests/raw_sources.csv`(+9 行:8 图 + 1 条**排除**记录) | 沿用 bolloon 封面池的先例(外部来源也入册);排除的那条写成 `archived` + 理由,免得后人当漏登 |

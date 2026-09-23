@@ -547,6 +547,8 @@ table.doc td:first-child { color: var(--ink); }
   align-items: start;
 }
 .doc-nav { position: sticky; top: 92px; }
+.doc-ledgers { min-width: 0; }
+
 /* 侧栏两段:上 = 三本账(单选标签),下 = 本页目录(锚点导航 + 滚动高亮) */
 .doc-tabs { display: flex; flex-direction: column; border-top: 1px solid var(--hairline-strong); }
 .doc-tab {
@@ -610,6 +612,7 @@ table.doc td:first-child { color: var(--ink); }
 
 /* ── 侧栏第二段:本页目录(Anchor Navigation)+ 滚动高亮 ────────────────── */
 .doc-toc { margin-top: 24px; }
+.doc-ledgers .toc-title { margin-bottom: 10px; }
 .toc-title { font-family: var(--mono); font-size: 11px; letter-spacing: 1.4px;
              text-transform: uppercase; color: var(--ink-3); opacity: .72; margin-bottom: 10px; }
 .toc-list { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--hairline); }
@@ -640,3 +643,25 @@ table.doc td:first-child { color: var(--ink); }
              text-transform: uppercase; color: var(--ink-3); }
 .pager-name { color: var(--ink-2); font-size: .96rem; transition: color .18s ease; }
 .pager-link:hover .pager-name { color: var(--accent); }
+
+/* 说明:这一段必须排在所有基础 .doc-* 规则**之后** —— 媒体查询不加权重,
+   同为单类选择器时靠源码顺序决胜;放在前面会被后面那条 .doc-name 覆盖掉。 */
+/* ── 宽屏:三本账进容器左侧那块空白,自己成一栏;本页目录留在原处 ──────────
+   容器(max-width 1200)居中时,`.docs` 左边的空白 =(100vw-1200)/2 + 80。
+   栅格往左挖 260px(= 栏宽 200 + 栏间距 60),于是「本页目录」和正文的横坐标
+   **一点不动**,只有三本账被放进那块空白里(两者并排,不再上下堆叠)。
+   条件:rail.left =(vw-1200)/2 + 80 - 260 ≥ 16 ⟹ vw ≥ 1584,取 1600 留余量;
+   不够宽就退回「上下堆叠」(下方 980px 那套的上一档),不做半吊子的挤压。 */
+@media (min-width: 1600px) {
+  .docs { grid-template-columns: 200px 236px minmax(0, 1fr); column-gap: 60px;
+          margin-left: -260px; width: calc(100% + 260px); }   /* 200 + 60 */
+  .doc-nav { display: contents; }                 /* 两块各自成为栅格子项,才好分栏 */
+  .doc-ledgers, .doc-toc { position: sticky; top: 92px; align-self: start; }
+  .doc-toc { margin-top: 0; }
+  .doc-ledgers .doc-tabs { border-top: none; }    /* 有标题了,不必再顶一条线 */
+  /* 栏窄了 36px,靠「编号列收窄 + 字号降一档」把名字重新排回一行(否则
+     「控制引力场的代数系统」会在中间断成两行,读起来像坏掉了) */
+  .doc-ledgers .doc-tab { grid-template-columns: 1.7em minmax(0, 1fr); padding-left: 12px; padding-right: 4px; }
+  .doc-ledgers .doc-name { font-size: .86rem; }   /* 与「本页目录」同号 */
+  .doc-ledgers .doc-meta { font-size: 10px; letter-spacing: 1px; }
+}

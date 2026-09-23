@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>理论 · 三本账 · HUSHFUSION</title>
-<meta name="description" content="理论文档区:①控制引力场的代数系统(基元=起伏能量二次型,布尔=层状区域族)②反引力约束稳态自维持聚变环(装置设计与其三道硬门)③魔角石墨烯场天花板(把 1° 石墨烯当线圈用,密度/功率/μ 窗口会变成什么)。左侧切换,每本账可深链。">
+<title>文档 · 三本账 · HUSHFUSION</title>
+<meta name="description" content="文档区:①控制引力场的代数系统(基元=起伏能量二次型,布尔=层状区域族)②反引力约束稳态自维持聚变环(装置设计与其三道硬门)③魔角石墨烯场天花板(把 1° 石墨烯当线圈用,密度/功率/μ 窗口会变成什么)。左侧切换,每本账可深链。">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" data-icon="favicon">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" data-icon="apple">
 <meta name="theme-color" content="#0E1E05" id="theme-color">
 <script>/* 主题先定再上色:避免加载瞬间闪另一种主题(默认夜,显式选过就按存的来) */try{if(localStorage.getItem('hushfusion-theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
-<link rel="stylesheet" href="style.css?v=16">
+<link rel="stylesheet" href="style.css?v=17">
 </head>
 <body>
 
@@ -25,7 +25,7 @@
       <a href="about.html">About</a>
       <a href="hibs.html" data-zh="HIBS 团队" data-en="HIBS Team">HIBS 团队</a>
       <a href="progress.html">Progress</a>
-      <a href="docs.html" data-zh="理论" data-en="Theory">理论</a>
+      <a href="docs.html" data-zh="文档" data-en="Docs">文档</a>
     </nav>
     <div class="mast-meta">
       <button class="nav-toggle" aria-expanded="false" aria-label="打开导航">≡</button>
@@ -45,8 +45,8 @@
   <!-- ◆ 文档区:序厅 + 侧边栏切换三本账 -->
   <section class="band" id="docs">
     <div class="section-head reveal">
-      <p class="kicker" data-zh="— Theory · 理论文档区" data-en="— Theory · Documents">— Theory · 理论文档区</p>
-      <h1 class="display" data-zh="理论" data-en="Theory">理论</h1>
+      <p class="kicker" data-zh="— Docs · 文档区" data-en="— Docs · Documents">— Docs · 文档区</p>
+      <h1 class="display" data-zh="文档" data-en="Docs">文档</h1>
       <p class="lede"
          data-zh="这里放三本账:① &lt;strong&gt;控制引力场的代数系统&lt;/strong&gt;——控制引力的逻辑基元是什么;② &lt;strong&gt;反引力约束聚变环&lt;/strong&gt;——装置长什么样、卡在哪三道门;③ &lt;strong&gt;魔角石墨烯场天花板&lt;/strong&gt;——把 1° 夹角的石墨烯当线圈用,聚变的数字会怎么变。左侧切换,每本账都有自己的地址,可以直接分享。"
          data-en="Three ledgers live here: ① &lt;strong&gt;an algebraic system for controlling gravity&lt;/strong&gt; — what the logic primitive of gravity control actually is; ② &lt;strong&gt;an anti-gravity confinement fusion ring&lt;/strong&gt; — what the device looks like and which three gates it fails; ③ &lt;strong&gt;the magic-angle graphene field ceiling&lt;/strong&gt; — what happens to the fusion numbers when a 1° twisted-graphene coil is the field source. Switch on the left; each ledger has its own URL."
@@ -57,7 +57,9 @@
 
       <!-- ◆ 侧边栏:三本账 -->
       <div class="doc-nav">
-        <nav class="doc-tabs" role="tablist" aria-orientation="vertical" aria-label="理论文档">
+        <div class="doc-ledgers">
+        <p class="toc-title" data-zh="三本账" data-en="Ledgers">三本账</p>
+        <nav class="doc-tabs" role="tablist" aria-orientation="vertical" aria-label="文档区">
         <button class="doc-tab is-active" type="button" role="tab" id="tab-gravity-control"
                 aria-selected="true" aria-controls="doc-gravity-control" data-doc="doc-gravity-control">
           <span class="doc-no">01</span>
@@ -77,6 +79,7 @@
           <span class="doc-meta" data-zh="场源账本 · 4 图" data-en="Field-source ledger · 4 figures">场源账本 · 4 图</span>
         </button>
         </nav>
+        </div><!-- /.doc-ledgers -->
         <div class="doc-toc" data-doc-toc></div>
       </div>
 
@@ -88,7 +91,7 @@
 
         <section class="band" id="theory">
                     <nav class="crumbs reveal" aria-label="面包屑">
-            <a href="docs.html" data-zh="理论" data-en="Theory">理论</a>
+            <a href="docs.html" data-zh="文档" data-en="Docs">文档</a>
             <span class="crumbs-sep" aria-hidden="true">/</span>
             <span data-zh="01 · 控制引力场的代数系统" data-en="01 · An Algebraic System for Controlling Gravity">01 · 控制引力场的代数系统</span>
           </nav>
@@ -273,7 +276,7 @@
 
         <section class="band">
                     <nav class="crumbs reveal" aria-label="面包屑">
-            <a href="docs.html" data-zh="理论" data-en="Theory">理论</a>
+            <a href="docs.html" data-zh="文档" data-en="Docs">文档</a>
             <span class="crumbs-sep" aria-hidden="true">/</span>
             <span data-zh="02 · 反引力约束聚变环" data-en="02 · Anti-Gravity Confinement Ring">02 · 反引力约束聚变环</span>
           </nav>
@@ -422,7 +425,7 @@
 
         <section class="band">
                     <nav class="crumbs reveal" aria-label="面包屑">
-            <a href="docs.html" data-zh="理论" data-en="Theory">理论</a>
+            <a href="docs.html" data-zh="文档" data-en="Docs">文档</a>
             <span class="crumbs-sep" aria-hidden="true">/</span>
             <span data-zh="03 · 魔角石墨烯场天花板" data-en="03 · Magic-Angle Graphene Field Ceiling">03 · 魔角石墨烯场天花板</span>
           </nav>
@@ -732,6 +735,6 @@
   <span>Controlled Fusion Through the Silence.</span>
 </footer>
 
-<script src="app.js?v=16" defer></script>
+<script src="app.js?v=17" defer></script>
 </body>
 </html>
