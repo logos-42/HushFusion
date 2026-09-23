@@ -131,6 +131,25 @@ const failures = [];
    而那个文件已经不存在 —— 必须靠根目录 `_redirects` 落回现名。
    历史页名写死在这里而不是去查 git:门不该依赖本机仓库状态(浅克隆/无 git 就假红)。 */
 const HISTORIC_PAGES = ['theory.html', 'theory'];
+
+/* ── 版本纪律(文件级):五页 style.css / app.js 的 ?v= 必须同号 ────────────
+   改过 style.css/app.js 就要五页一起 bump(§7.8)。只 bump 一部分时,没 bump 的那一页
+   会继续吃缓存里的旧 CSS/JS —— 而它看起来「没坏」,因为改的往往是别的页。
+   这条门是补的:2026-09-23 我自己就把 docs.html 落在 17、其余四页到 18,门当时没有管。 */
+{
+  const rows = [];
+  for (const f of PAGES) {
+    const html = readFileSync(path.join(process.cwd(), f), 'utf8');
+    for (const asset of ['style.css', 'app.js']) {
+      const m = new RegExp(asset.replace('.', '\\.') + '\\?v=(\\d+)').exec(html);
+      rows.push({ page: f, asset, v: m ? Number(m[1]) : null });
+    }
+  }
+  const uniq = [...new Set(rows.map((r) => r.v))];
+  check('版本纪律', '五页 style.css / app.js 的 ?v= 同号(改了就一起 bump)',
+    uniq.length === 1 && uniq[0] > 0, JSON.stringify(rows.filter((r) => r.v !== uniq[0])));
+}
+
 {
   const redPath = path.join(process.cwd(), '_redirects');
   const rules = existsSync(redPath)
