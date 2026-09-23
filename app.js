@@ -342,6 +342,16 @@ document.documentElement.classList.add('js');
       pending.forEach(function (el) { io2.observe(el); });
     };
 
+    /* 「这一下焦点是键盘来的,还是链接来的?」—— 浏览器把片段导航也算进 :focus-visible,
+       所以面板被深链聚焦时会凭空画一圈框。这里自己记键盘标志,只给真键盘焦点画框。 */
+    var kbFocus = false;
+    document.addEventListener('keydown', function (e) { if (e.key === 'Tab') kbFocus = true; }, true);
+    document.addEventListener('pointerdown', function () { kbFocus = false; }, true);
+    document.addEventListener('focusin', function (e) {
+      var el = e.target;
+      if (el && el.classList && el.classList.contains('doc-pane')) el.classList.toggle('is-kb-focus', kbFocus);
+    }, true);
+
     var showDoc = function (id, focusTab) {
       if (docIds.indexOf(id) < 0) return;
       try { localStorage.setItem(DOC_KEY, id); } catch (e) { /* 隐私模式忽略 */ }
@@ -353,6 +363,16 @@ document.documentElement.classList.add('js');
           t.classList.toggle('is-active', on);
           t.tabIndex = on ? 0 : -1;          // 单选标签:Tab 只停在选中项上
           if (on && focusTab) t.focus();
+          // 窄屏标签条是横向可滑的,选中那一本可能在屏幕外(深链直达时必然如此)——
+          // 把条滚到它身上,否则读者看不到「现在是哪一本」。桌面栏不横向滚,这段自然跳过。
+          if (on && t.parentNode) {
+            var strip = t.parentNode;
+            if (strip.scrollWidth > strip.clientWidth + 4) {
+              var sr = strip.getBoundingClientRect(), tr = t.getBoundingClientRect();
+              if (tr.left < sr.left + 8) strip.scrollLeft -= (sr.left + 8 - tr.left);
+              else if (tr.right > sr.right - 8) strip.scrollLeft += (tr.right - (sr.right - 8));
+            }
+          }
         });
         docPanes.forEach(function (p) {
           if (p.getAttribute('data-doc-pane') !== each) return;

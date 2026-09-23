@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>文档 · 三本账 · HUSHFUSION</title>
-<meta name="description" content="文档区:①控制引力场的代数系统(基元=起伏能量二次型,布尔=层状区域族)②反引力约束稳态自维持聚变环(装置设计与其三道硬门)③魔角石墨烯场天花板(把 1° 石墨烯当线圈用,密度/功率/μ 窗口会变成什么)。左侧切换,每本账可深链。">
+<title>文档 · HUSHFUSION</title>
+<meta name="description" content="文档区:①控制引力场的代数系统(基元=起伏能量二次型,布尔=层状区域族)②反引力约束稳态自维持聚变环(装置设计与其三道硬门)③魔角石墨烯场天花板(把 1° 石墨烯当线圈用,密度/功率/μ 窗口会变成什么)④声子能帮上什么(常规超导的场 ≈ 1.84 × T_c,量级换算)。左侧切换,共四项,每项可深链。">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" data-icon="favicon">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" data-icon="apple">
 <meta name="theme-color" content="#0E1E05" id="theme-color">
@@ -42,23 +42,23 @@
 
 <main>
 
-  <!-- ◆ 文档区:序厅 + 侧边栏切换三本账 -->
+  <!-- ◆ 文档区:序厅 + 侧边栏切换(目录:四项) -->
   <section class="band" id="docs">
     <div class="section-head reveal">
       <p class="kicker" data-zh="— Docs · 文档区" data-en="— Docs · Documents">— Docs · 文档区</p>
       <h1 class="display" data-zh="文档" data-en="Docs">文档</h1>
       <p class="lede"
-         data-zh="这里放三本账:① &lt;strong&gt;控制引力场的代数系统&lt;/strong&gt;——控制引力的逻辑基元是什么;② &lt;strong&gt;反引力约束聚变环&lt;/strong&gt;——装置长什么样、卡在哪三道门;③ &lt;strong&gt;魔角石墨烯场天花板&lt;/strong&gt;——把 1° 夹角的石墨烯当线圈用,聚变的数字会怎么变。左侧切换,每本账都有自己的地址,可以直接分享。"
-         data-en="Three ledgers live here: ① &lt;strong&gt;an algebraic system for controlling gravity&lt;/strong&gt; — what the logic primitive of gravity control actually is; ② &lt;strong&gt;an anti-gravity confinement fusion ring&lt;/strong&gt; — what the device looks like and which three gates it fails; ③ &lt;strong&gt;the magic-angle graphene field ceiling&lt;/strong&gt; — what happens to the fusion numbers when a 1° twisted-graphene coil is the field source. Switch on the left; each ledger has its own URL."
-         data-html="1">这里放三本账:① <strong>控制引力场的代数系统</strong>——控制引力的逻辑基元是什么;② <strong>反引力约束聚变环</strong>——装置长什么样、卡在哪三道门;③ <strong>魔角石墨烯场天花板</strong>——把 1° 夹角的石墨烯当线圈用,聚变的数字会怎么变。左侧切换,每本账都有自己的地址,可以直接分享。</p>
+         data-zh="这里是目录:左侧切换,每一项都有自己的地址,可以直接分享。前三项来自本仓的形式化与数值验证,第四项&lt;strong&gt;声子&lt;/strong&gt;是量级换算 —— 两类内容的证据强度不一样,每一项开头都写明了。"
+         data-en="Four ledgers live here. Switch on the left; each ledger has its own URL and can be shared directly. The first three come from this repository's formalisation and numerical checks; the fourth — &lt;strong&gt;phonons&lt;/strong&gt; — is order-of-magnitude arithmetic; the two kinds of evidence differ, and each entry says so at the top."
+         data-html="1">这里是目录:左侧切换,每一项都有自己的地址,可以直接分享。前三项来自本仓的形式化与数值验证,第四项<strong>声子</strong>是量级换算 —— 两类内容的证据强度不一样,每一项开头都写明了。</p>
     </div>
 
     <div class="docs" data-docs>
 
-      <!-- ◆ 侧边栏:三本账 -->
+      <!-- ◆ 侧边栏:目录 -->
       <div class="doc-nav">
         <div class="doc-ledgers">
-        <p class="toc-title" data-zh="三本账" data-en="Ledgers">三本账</p>
+        <p class="toc-title" data-zh="目录" data-en="Contents">目录</p>
         <nav class="doc-tabs" role="tablist" aria-orientation="vertical" aria-label="文档区">
         <button class="doc-tab is-active" type="button" role="tab" id="tab-gravity-control"
                 aria-selected="true" aria-controls="doc-gravity-control" data-doc="doc-gravity-control">
@@ -77,6 +77,12 @@
           <span class="doc-no">03</span>
           <span class="doc-name" data-zh="魔角石墨烯场天花板" data-en="Magic-Angle Graphene Field Ceiling">魔角石墨烯场天花板</span>
           <span class="doc-meta" data-zh="场源账本 · 4 图" data-en="Field-source ledger · 4 figures">场源账本 · 4 图</span>
+        </button>
+        <button class="doc-tab" type="button" role="tab" id="tab-phonon"
+                aria-selected="false" aria-controls="doc-phonon" data-doc="doc-phonon">
+          <span class="doc-no">04</span>
+          <span class="doc-name" data-zh="声子能帮上什么" data-en="What Phonons Can Buy">声子能帮上什么</span>
+          <span class="doc-meta" data-zh="机制候选 · 1 表" data-en="Mechanism candidate · 1 table">机制候选 · 1 表</span>
         </button>
         </nav>
         </div><!-- /.doc-ledgers -->
@@ -708,6 +714,109 @@
 
       </article>
 
+      <article class="doc-pane" id="doc-phonon" data-doc-pane="doc-phonon"
+               role="tabpanel" aria-labelledby="tab-phonon" tabindex="0" hidden>
+
+        <section class="band">
+          <nav class="crumbs reveal" aria-label="面包屑">
+            <a href="docs.html" data-zh="文档" data-en="Docs">文档</a>
+            <span class="crumbs-sep" aria-hidden="true">/</span>
+            <span data-zh="04 · 声子能帮上什么" data-en="04 · What Phonons Can Buy">04 · 声子能帮上什么</span>
+          </nav>
+<div class="section-head reveal">
+            <p class="kicker">— Doc 04 · 机制候选</p>
+            <h2 class="display" data-zh="声子能帮上什么" data-en="What Phonons Can Buy">声子能帮上什么</h2>
+            <p class="lede"
+               data-zh="声子(晶格振动的量子)是 1957 年 BCS 拿去解释常规超导的那件东西,也是「石墨烯为什么超导」最常见的候选解释。这一本账不加新物理,只把&lt;strong&gt;配对机制&lt;/strong&gt;这一项单独拎出来:换一条材料路线(碳基 → 常规金属与合金),场能到多少、上限由什么决定。"
+               data-en="A phonon — a quantum of lattice vibration — is what BCS used in 1957 to explain conventional superconductivity, and it is the most common candidate explanation for why graphene superconducts. This ledger adds no new physics: it isolates the &lt;strong&gt;pairing mechanism&lt;/strong&gt; and asks, for a different material family (carbon-based → conventional metals and alloys), how much field is reachable and what sets the ceiling."
+               data-html="1">声子(晶格振动的量子)是 1957 年 BCS 拿去解释常规超导的那件东西,也是「石墨烯为什么超导」最常见的候选解释。这一本账不加新物理,只把<strong>配对机制</strong>这一项单独拎出来:换一条材料路线(碳基 → 常规金属与合金),场能到多少、上限由什么决定。</p>
+            <p class="lede" style="margin-top:12px"
+               data-zh="用的是教材公式与实测参照,&lt;strong&gt;没有我们的数值&lt;/strong&gt; —— 这一本的口径是量级换算,证据强度与前三本不同。"
+               data-en="It uses textbook formulae and measured references — &lt;strong&gt;none of our own numbers&lt;/strong&gt;. The register here is order-of-magnitude arithmetic, and its evidence is weaker than the first three ledgers."
+               data-html="1">用的是教材公式与实测参照,<strong>没有我们的数值</strong> —— 这一本的口径是量级换算,证据强度与前三本不同。</p>
+          </div>
+        </section>
+
+        <section class="band" id="ph-facts">
+          <div class="section-head reveal">
+            <p class="kicker">— 01 · 已知事实</p>
+            <h2 class="section-title" data-zh="哪些是教材、哪些还在争" data-en="What Is Textbook, What Is Still Contested">哪些是教材、哪些还在争</h2>
+          </div>
+          <dl class="spec-list reveal">
+            <div><dt data-zh="教材" data-en="Textbook">教材</dt><dd data-zh="声子是晶格振动的量子。BCS(1957)用它解释了常规超导:电子通过晶格畸变互相吸引。配对强弱由两个数说话 —— 电声耦合 λ 与库仑赝势 μ*。" data-en="A phonon is a quantum of lattice vibration. BCS (1957) used it to explain conventional superconductivity: electrons attract each other through a lattice distortion. The pairing strength is set by two numbers — the electron-phonon coupling λ and the Coulomb pseudopotential μ*.">声子是晶格振动的量子。BCS(1957)用它解释了常规超导:电子通过晶格畸变互相吸引。配对强弱由两个数说话 —— 电声耦合 λ 与库仑赝势 μ*。</dd></div>
+            <div><dt data-zh="还在争" data-en="Still contested">还在争</dt><dd data-zh="魔角石墨烯的配对机制<strong>没有定论</strong>:电声耦合是最老牌的候选,但电子机制(自旋涨落、等离激元)同样在候选名单上。所以在这一本账里,「声子」是一条<strong>待验证的路</strong>,不是已确认的机制。" data-en="The pairing mechanism in magic-angle graphene is <strong>not settled</strong>: electron-phonon coupling is the oldest candidate, but electronic mechanisms (spin fluctuations, plasmons) are on the same list. So here a phonon is a <strong>candidate route</strong>, not a confirmed mechanism.">魔角石墨烯的配对机制<strong>没有定论</strong>:电声耦合是最老牌的候选,但电子机制(自旋涨落、等离激元)同样在候选名单上。所以在这一本账里,「声子」是一条<strong>待验证的路</strong>,不是已确认的机制。</dd></div>
+            <div><dt data-zh="不是另起一条路" data-en="Not a separate road">不是另起一条路</dt><dd data-zh="03 账本里的魔角石墨烯本来就是声子路线的候选之一。这一本换的不是「有没有声子」,而是<strong>材料体系</strong>:碳基 → 常规金属与合金 —— 后者的临界温度与临界场有几十年的工程积累。" data-en="The magic-angle graphene of ledger 03 is itself one of the phonon candidates. What changes here is not phonons but the <strong>material family</strong>: carbon-based → conventional metals and alloys, which have decades of engineering behind their critical temperature and field.">03 账本里的魔角石墨烯本来就是声子路线的候选之一。这一本换的不是「有没有声子」,而是<strong>材料体系</strong>:碳基 → 常规金属与合金 —— 后者的临界温度与临界场有几十年的工程积累。</dd></div>
+          </dl>
+        </section>
+
+        <section class="band" id="ph-ceiling">
+          <div class="section-head reveal">
+            <p class="kicker">— 02 · 天花板</p>
+            <h2 class="section-title" data-zh="场 ≈ 1.84 × T_c:这是一条乘法,不是材料" data-en="Field ≈ 1.84 × T_c: a Multiplication, Not a Material">场 ≈ 1.84 × T_c:这是一条乘法,不是材料</h2>
+          </div>
+          <p class="section-lede reveal"
+             data-zh="常规(声子媒介、弱耦合、s 波)超导有一道顺磁上限:库珀对的塞曼能一旦超过凝聚能,配对就被拆散。写成式子就是 μ0H_P ≈ 1.84 · T_c[K](Clogston / Chandrasekhar, 1962)。它<strong>只依赖 T_c</strong> —— 剩下全是除法。" data-en="常规(声子媒介、弱耦合、s 波)超导有一道顺磁上限:库珀对的塞曼能一旦超过凝聚能,配对就被拆散。写成式子就是 μ0H_P ≈ 1.84 · T_c[K](Clogston / Chandrasekhar, 1962)。它<strong>只依赖 T_c</strong> —— 剩下全是除法。">常规(声子媒介、弱耦合、s 波)超导有一道顺磁上限:库珀对的塞曼能一旦超过凝聚能,配对就被拆散。写成式子就是 μ0H_P ≈ 1.84 · T_c[K](Clogston / Chandrasekhar, 1962)。它<strong>只依赖 T_c</strong> —— 剩下全是除法。</p>
+          <div class="table-wrap reveal" style="margin-top:clamp(24px,3.4vw,38px)">
+            <table class="doc">
+              <caption data-zh="把场换成需要的临界温度(μ0H_P ÷ 1.84),μ* = 0.10" data-en="Turning a field into the critical temperature it requires (μ0H_P ÷ 1.84), μ* = 0.10">把场换成需要的临界温度(μ0H_P ÷ 1.84),μ* = 0.10</caption>
+              <thead><tr><th>场档</th><th>这是什么</th><th>需要的 T_c</th></tr></thead>
+              <tbody><tr><td><strong>1.0991 T</strong></td><td>本仓参考设计的场地板(a = 0.2 m,β = 1)</td><td><strong>0.60 K</strong></td></tr><tr><td>3.0 T</td><td>常见实验室螺线管</td><td>1.63 K</td></tr><tr><td>12.2 T</td><td>SPARC 级(现役最强聚变磁体之一)</td><td>6.63 K</td></tr><tr><td>35 T</td><td>本仓「压缩层」档</td><td>19.0 K</td></tr></tbody>
+            </table>
+          </div>
+          <p class="section-lede reveal"
+             data-zh="第一行是关键:<strong>参考设计只需要 T_c ≥ 0.60 K</strong>,而 03 账本里魔角石墨烯器件本身就有 1–3 K。也就是说,「场」这一项在声子路线上<strong>不难过</strong> —— 真正难的是 04 节那条窄路,以及 03 账本卡人的另外两道门。" data-en="第一行是关键:<strong>参考设计只需要 T_c ≥ 0.60 K</strong>,而 03 账本里魔角石墨烯器件本身就有 1–3 K。也就是说,「场」这一项在声子路线上<strong>不难过</strong> —— 真正难的是 04 节那条窄路,以及 03 账本卡人的另外两道门。">第一行是关键:<strong>参考设计只需要 T_c ≥ 0.60 K</strong>,而 03 账本里魔角石墨烯器件本身就有 1–3 K。也就是说,「场」这一项在声子路线上<strong>不难过</strong> —— 真正难的是 04 节那条窄路,以及 03 账本卡人的另外两道门。</p>
+        </section>
+
+        <section class="band" id="ph-ref">
+          <div class="section-head reveal">
+            <p class="kicker">— 03 · 实测参照</p>
+            <h2 class="section-title" data-zh="真实材料把这条线放在哪" data-en="Where Real Materials Put That Line">真实材料把这条线放在哪</h2>
+          </div>
+          <p class="section-lede reveal"
+             data-zh="拿唯一大量商用的高场超导材料当参照:Nb<sub>3</sub>Sn。它的每 K 换场,是这条经验线最好的检验。" data-en="拿唯一大量商用的高场超导材料当参照:Nb<sub>3</sub>Sn。它的每 K 换场,是这条经验线最好的检验。">拿唯一大量商用的高场超导材料当参照:Nb<sub>3</sub>Sn。它的每 K 换场,是这条经验线最好的检验。</p>
+          <div class="table-wrap reveal" style="margin-top:clamp(24px,3.4vw,38px)">
+            <table class="doc">
+              <caption data-zh="Nb3Sn:T_c 与上临界场(实测)" data-en="Nb3Sn: critical temperature and upper critical field (measured)">Nb3Sn:T_c 与上临界场(实测)</caption>
+              <thead><tr><th>量</th><th>值</th><th>折算</th></tr></thead>
+              <tbody><tr><td>T_c</td><td>18.3 K</td><td>—</td></tr><tr><td>μ0Hc2(4.2 K),合金导线</td><td>24–26.5 T</td><td>1.3–1.4 T/K</td></tr><tr><td>μ0Hc2(0),化学计量比块材</td><td>最高 31.4 T</td><td>1.7 T/K</td></tr><tr><td>Pauli 线</td><td>1.84 × 18.3 K = 33.7 T</td><td>实测压在它下面</td></tr></tbody>
+            </table>
+          </div>
+          <p class="section-lede reveal"
+             data-zh="实测的每 K 换场都落在 1.84 以下 —— 这条线成立。反过来说:常规超导想扛 12–35 T,唯一的路是把 T_c 抬到 7–19 K,也就是<strong>走到强耦合那条窄路</strong>。" data-en="实测的每 K 换场都落在 1.84 以下 —— 这条线成立。反过来说:常规超导想扛 12–35 T,唯一的路是把 T_c 抬到 7–19 K,也就是<strong>走到强耦合那条窄路</strong>。">实测的每 K 换场都落在 1.84 以下 —— 这条线成立。反过来说:常规超导想扛 12–35 T,唯一的路是把 T_c 抬到 7–19 K,也就是<strong>走到强耦合那条窄路</strong>。</p>
+        </section>
+
+        <section class="band" id="ph-warn">
+          <div class="section-head reveal">
+            <p class="kicker">— 04 · 别信简单公式</p>
+            <h2 class="section-title" data-zh="McMillan 不能拿来外推" data-en="Do Not Extrapolate McMillan">McMillan 不能拿来外推</h2>
+          </div>
+          <p class="section-lede reveal"
+             data-zh="教材里的 McMillan 公式 T_c = (Θ_D / 1.45) · exp[ −1.04(1+λ) / (λ − μ*(1+0.62λ)) ] 看起来可以<strong>直接算</strong> T_c。代一套常见参数(Θ_D = 700 K、λ = 1.0、μ* = 0.10)得 40 K,而 Nb<sub>3</sub>Sn 实测 18.3 K —— <strong>高了一倍多</strong>。" data-en="教材里的 McMillan 公式 T_c = (Θ_D / 1.45) · exp[ −1.04(1+λ) / (λ − μ*(1+0.62λ)) ] 看起来可以<strong>直接算</strong> T_c。代一套常见参数(Θ_D = 700 K、λ = 1.0、μ* = 0.10)得 40 K,而 Nb<sub>3</sub>Sn 实测 18.3 K —— <strong>高了一倍多</strong>。">教材里的 McMillan 公式 T_c = (Θ_D / 1.45) · exp[ −1.04(1+λ) / (λ − μ*(1+0.62λ)) ] 看起来可以<strong>直接算</strong> T_c。代一套常见参数(Θ_D = 700 K、λ = 1.0、μ* = 0.10)得 40 K,而 Nb<sub>3</sub>Sn 实测 18.3 K —— <strong>高了一倍多</strong>。</p>
+          <p class="section-lede reveal"
+             data-zh="原因是它在 λ ≳ 1.2 已经失真,强耦合要 Allen–Dynes 或 Eliashberg。所以这一本账<strong>不用公式外推 T_c</strong>,只用「÷ 1.84」这一条不依赖模型的经验线。这不是偷懒,是口径:能算的算,算不了的明说。" data-en="原因是它在 λ ≳ 1.2 已经失真,强耦合要 Allen–Dynes 或 Eliashberg。所以这一本账<strong>不用公式外推 T_c</strong>,只用「÷ 1.84」这一条不依赖模型的经验线。这不是偷懒,是口径:能算的算,算不了的明说。">原因是它在 λ ≳ 1.2 已经失真,强耦合要 Allen–Dynes 或 Eliashberg。所以这一本账<strong>不用公式外推 T_c</strong>,只用「÷ 1.84」这一条不依赖模型的经验线。这不是偷懒,是口径:能算的算,算不了的明说。</p>
+        </section>
+
+        <section class="band" id="ph-gaps">
+          <div class="section-head reveal">
+            <p class="kicker">— 05 · 缺口</p>
+            <h2 class="section-title" data-zh="这一本没有我们的数值" data-en="No Numbers of Ours Live Here">这一本没有我们的数值</h2>
+          </div>
+          <dl class="spec-list reveal">
+            <div><dt data-zh="没有 λ" data-en="No λ">没有 λ</dt><dd data-zh="既没取魔角石墨烯的 λ / α²F,也没取常规超导的 —— 两条路的电声耦合谱都没有接进来。" data-en="Neither the magic-angle graphene λ / α²F nor a conventional one has been taken up; the electron-phonon spectra of both routes are outside this work.">既没取魔角石墨烯的 λ / α²F,也没取常规超导的 —— 两条路的电声耦合谱都没有接进来。</dd></div>
+            <div><dt data-zh="没有形式化" data-en="No formalisation">没有形式化</dt><dd data-zh="没有 Lean 条目。这一本的公式全部来自教材,不是从三公理推出来的。" data-en="No Lean entry exists. Every formula here is textbook, not derived from the three axioms.">没有 Lean 条目。这一本的公式全部来自教材,不是从三公理推出来的。</dd></div>
+            <div><dt data-zh="没有算 Hc2" data-en="No Hc2 computed">没有算 Hc2</dt><dd data-zh="顺磁支与轨道支都没算;材料只用了文献量级,没有第一性原理。" data-en="Neither the paramagnetic nor the orbital branch has been computed; materials are used at literature magnitude only, with no first-principles input.">顺磁支与轨道支都没算;材料只用了文献量级,没有第一性原理。</dd></div>
+            <div><dt data-zh="没回答「另外两道门」" data-en="The other two gates are untouched">没回答「另外两道门」</dt><dd data-zh="03 账本真正卡人的是<strong>超流密度与临界电流</strong>,那是材料工艺问题,与配对机制无关 —— 换材料路线动不了它们,得单独算。" data-en="What actually blocks ledger 03 is <strong>superfluid density and critical current</strong> — a materials-processing problem independent of the pairing mechanism. Changing the material family does not move them; that needs its own ledger.">03 账本真正卡人的是<strong>超流密度与临界电流</strong>,那是材料工艺问题,与配对机制无关 —— 换材料路线动不了它们,得单独算。</dd></div>
+            <div><dt data-zh="下一步三步" data-en="Next three steps">下一步三步</dt><dd data-zh="① 取一条真材料(Nb<sub>3</sub>Sn 或 MgB<sub>2</sub>)的 λ 与 Θ_D 文献值;② 用 Allen–Dynes 重算 T_c 并与实测校准;③ 用同一套 MFC 链条算 Hc2 与所需 μ,看是否仍在 FC11 地板之外。" data-en="① Take literature λ and Θ_D for one real material (Nb<sub>3</sub>Sn or MgB<sub>2</sub>); ② recompute T_c with Allen–Dynes and calibrate against measurement; ③ run Hc2 and the required μ through the same MFC chain to see whether it still sits outside the FC11 floor.">① 取一条真材料(Nb<sub>3</sub>Sn 或 MgB<sub>2</sub>)的 λ 与 Θ_D 文献值;② 用 Allen–Dynes 重算 T_c 并与实测校准;③ 用同一套 MFC 链条算 Hc2 与所需 μ,看是否仍在 FC11 地板之外。</dd></div>
+          </dl>
+        </section>
+
+          <p class="cite-links reveal" style="margin-top:clamp(28px,4vw,44px)">
+            <span class="mono" style="color:var(--ink-3);font-size:12px;letter-spacing:1px" data-zh="来源 · 教材公式与实测文献(BCS 1957 · Clogston 1962 · Nb3Sn 的 Hc2 测量)" data-en="Source · textbook formulae and measured literature (BCS 1957 · Clogston 1962 · measured Hc2 of Nb3Sn)">来源 · 教材公式与实测文献(BCS 1957 · Clogston 1962 · Nb3Sn 的 Hc2 测量)</span>
+            <a href="https://doi.org/10.1063/1.1774604" rel="noopener">doi.org/10.1063/1.1774604</a>
+            <span class="mono" style="color:var(--ink-3);font-size:12px;letter-spacing:1px" data-zh="· 这一本不是本仓形式化的产物" data-en="· this ledger is not a product of our own formalisation">· 这一本不是本仓形式化的产物</span>
+          </p>
+      </article>
+
       </div><!-- /.doc-panes -->
     </div><!-- /.docs -->
   </section>
@@ -719,7 +828,7 @@
       <h2 class="section-title" data-zh="代码仓库" data-en="Repositories">代码仓库</h2>
     </div>
     <p class="cite-links reveal">
-      <span class="mono" style="color:var(--ink-3);font-size:12px;letter-spacing:1px" data-zh="三本账的形式化、数值验证与图纸" data-en="Formalisation, numerical checks and figures for all three ledgers">三本账的形式化、数值验证与图纸</span>
+      <span class="mono" style="color:var(--ink-3);font-size:12px;letter-spacing:1px" data-zh="前三项的形式化、数值验证与图纸" data-en="Formalisation, numerical checks and figures for the first three entries">前三项的形式化、数值验证与图纸</span>
       <a href="https://github.com/logos-42/Hibs-Physics" rel="noopener">github.com/logos-42/Hibs-Physics</a>
     </p>
     <p class="cite-links reveal" style="margin-top:14px">

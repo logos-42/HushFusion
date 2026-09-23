@@ -65,6 +65,8 @@ status: current
 - 可保留的降级路线:**`ResearchRecordAnchor`** —— 只锚定报告/提案/对账表哈希,无 `payable`/`receive`、不显示地址、不连钱包;首页区块可改成「公开记录」
 - 余下待拍板 14 项 + 冻结文档 7 项:`docs/DONATION-FUND-PLAN.md` §13 · `docs/DONATION-FREEZE.md` §十一
 - 合作与资助(合作机构 / 资助来源):`about.html#timeline`
+- 文档区(`docs.html`)是**目录切换**的文档区:①`#doc-gravity-control` 控制引力场的代数系统 ②`#doc-antigravity` 反引力约束聚变环 ③`#doc-moire` 魔角石墨烯场天花板 ④`#doc-phonon` 声子能帮上什么 —— 每一项都有独立地址,可直接分享
+- 第 ④ 项的证据强度与前三项**不同**:它是教科书公式 + 实测文献的量级换算,不是本仓形式化产物(逐条出处:`docs/CONTENT-SOURCES.md` §六)
 - 时变引力场的「公开细节」与关键指标数值:`progress.html#tech`
 - 岗位参数(级别 / 人数 / 地点 / 待遇,措辞已改「待定」):`hibs.html#join`
 - 三条回路的职责说明(各一句话):`hibs.html#team`

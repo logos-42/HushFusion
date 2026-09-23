@@ -294,7 +294,7 @@ for (const page of PAGES) {
   })()`);
   check(page, '揭示动画后内容可见', reveal.ok === true, (reveal.pending || []).join(' | '));
 
-  /* 7.4 三本账分栏:宽屏进左侧空白,窄一个像素就退回上下堆叠 ──────────────
+  /* 7.4 目录栏分栏:宽屏进左侧空白,窄一个像素就退回上下堆叠(账本数会变,断言不许写死) ──
      这一栏是「挪进容器左边那块空白」—— 所以两边都要验:宽屏必须真的并排且不越界,
      阈值以下必须干脆退回堆叠(而不是挤成一团)。 */
   const WIDE = 1680, NARROW = 1560;
@@ -320,13 +320,28 @@ for (const page of PAGES) {
     await sleep(420);
     const g = await evaluate(sessionId, railProbe);
     if (mode === 'wide') {
-      check(page, `文档区:${w}px 三本账成一栏且落在容器左侧空白里`,
+      check(page, `文档区:${w}px 目录栏成一栏且落在容器左侧空白里`,
         g.sideBySide && !g.stacked && g.led.l >= 8 && g.led.l < g.toc.l && g.led.r + 8 <= g.toc.l,
         JSON.stringify({ 栏: g.led, 目录: g.toc }));
       check(page, '文档区:分栏没有把「本页目录」和正文挪位(只往里挖了「栏宽 + 栏间距」)',
         Math.abs(g.dug - g.expectDug) <= 2 && g.pane.w > 0,
         `目录左移了 ${g.dug}px,应等于 栏宽+间距 ${g.expectDug}px`);
-      check(page, '文档区:三本账这一栏有自己的双语小标题',
+      /* 名字必须排一行:栏宽是算过的(最长「控制引力场的代数系统」= 10 字全角),
+         字号一涨就会换行,而换行不会让别的门变红 —— 所以单立一条。 */
+      const nameLines = await evaluate(sessionId, `(() => {
+        const items = [...document.querySelectorAll('.doc-ledgers .doc-tab .doc-name')];
+        if (!items.length) return { skip: true };
+        const rows = items.map(el => { const lh = parseFloat(getComputedStyle(el).lineHeight) || 0;
+          return { t: el.textContent.trim().slice(0, 12), 行数: lh ? Math.round(el.getBoundingClientRect().height / lh) : -1,
+                   字号: parseFloat(getComputedStyle(el).fontSize) }; });
+        return { rows, 换行的: rows.filter(r => r.行数 !== 1).map(r => r.t) };
+      })()`);
+      if (!nameLines.skip) {
+        check(page, `文档区:目录栏每一项的名字都排一行(${nameLines.rows.length} 项)`,
+          nameLines.换行的.length === 0, JSON.stringify(nameLines.换行的.length ? nameLines.换行的 : nameLines.rows));
+      }
+
+      check(page, '文档区:目录栏有自己的双语小标题',
         g.label.length > 0 && g.bilingual, JSON.stringify({ 标题: g.label, 双语: g.bilingual }));
     } else {
       check(page, `文档区:${w}px 退回上下堆叠(不做半吊子挤压)`, g.stacked && !g.sideBySide,
@@ -370,7 +385,7 @@ for (const page of PAGES) {
     await sleep(100);
   }
 
-  /* 9.2 文档区(理论页:侧边栏切换三本账)。只在真有侧边栏的页面上跑 ——
+  /* 9.2 文档区(侧边栏切换账本)。只在真有侧边栏的页面上跑 ——
      断言的是「单选 + 单面板可见 + 地址栏跟上 + 新册不是一片空白」,
      最后切回第一本,免得后面的全页截图停在第 03 册(那是个会骗人的假象)。 */
   const docTabCount = await evaluate(sessionId, 'document.querySelectorAll(".doc-tab").length');
@@ -457,8 +472,9 @@ for (const page of PAGES) {
 
     const lastIdx = docTabCount - 1;
     await evaluate(sessionId, `document.querySelectorAll('.doc-tab')[${lastIdx}].click()`);
-    await sleep(900);   // 揭示动画约 0.7s,等它走完再量 opacity
-    const docSwitch = await evaluate(sessionId, `(() => {
+    /* 揭示(reveal)是动画,时长不写死:轮询到 opacity≈1 再判,超时才红。
+       曾经写死 sleep(900) 直接量 —— 页面加长到四本账之后量到 0.61 的中间态(假失败)。 */
+    const docSwitchExpr = `(() => {
       const shown = [...document.querySelectorAll('.doc-pane')].filter(p => !p.hasAttribute('hidden'));
       const first = shown.length ? shown[0].querySelector('.reveal') : null;
       return {
@@ -470,7 +486,13 @@ for (const page of PAGES) {
         firstOpacity: first ? parseFloat(getComputedStyle(first).opacity) : -1,
         toc: document.querySelectorAll('.toc-link').length
       };
-    })()`);
+    })()`;
+    let docSwitch = null;
+    for (let i = 0; i < 12; i++) {
+      docSwitch = await evaluate(sessionId, docSwitchExpr);
+      if (docSwitch.firstOpacity >= 0.9) break;
+      await sleep(250);
+    }
     check(page, '文档区:切到最后一本,只露一册且地址栏跟上',
       docSwitch.visible === 1 && docSwitch.selected === 1 &&
       docSwitch.hash === '#' + docSwitch.id, JSON.stringify(docSwitch));
@@ -569,7 +591,7 @@ for (const page of PAGES) {
 
   /* 10.1 文档区在窄屏的「被裁掉」检查:页面级 scrollWidth 是 0 也照样可能被裁 ——
      只要某个块比视口宽,body 的 overflow-x 就把它切掉,而文档本身不滚。
-     所以量的是块自己的右边缘,而且**三本账都要量**:第一次只量了当时露着的那一本
+     所以量的是块自己的右边缘,而且**每本账都要量**:第一次只量了当时露着的那一本
      (01 册的表最窄),结果把门开成了空的 —— 反向验过:把 CSS 改回 `1fr` 它也照样绿。
      表格的横滑框(.table-wrap)算在内:它比视口宽同样是裁。 */
   const docNarrowAll = await evaluate(sessionId, `(async () => {
@@ -593,8 +615,32 @@ for (const page of PAGES) {
   })()`);
   if (!docNarrowAll.skip) {
     const bad = docNarrowAll.rows.filter(r => r.over.length || r.paneW > docNarrowAll.vw);
-    check(page, '文档区:三本账在窄屏都没被裁',
+    check(page, '文档区:账本在窄屏都没被裁',
       bad.length === 0, JSON.stringify(bad.length ? bad : docNarrowAll.rows));
+  }
+
+  /* 10.2 窄屏标签条是横向可滑的:选中的那一本可能在屏幕外(深链直达时必然如此)——
+     门要问的是「滚进来没有」,不是「有条没有」。 */
+  const stripProbe = await evaluate(sessionId, `(async () => {
+    const tabs = [...document.querySelectorAll('.doc-tab')];
+    if (tabs.length < 2) return { skip: true };
+    const strip = tabs[0].parentNode;
+    if (strip.scrollWidth <= strip.clientWidth + 4) return { skip: true };
+    const last = tabs[tabs.length - 1];
+    last.click();
+    await new Promise(r => setTimeout(r, 360));
+    const sr = strip.getBoundingClientRect(), tr = last.getBoundingClientRect();
+    const out = { 选中: last.querySelector('.doc-name').textContent.trim(),
+                  scrollLeft: Math.round(strip.scrollLeft),
+                  在可视区: tr.left >= sr.left - 1 && tr.right <= sr.right + 1,
+                  标签右缘: Math.round(tr.right), 条右缘: Math.round(sr.right) };
+    tabs[0].click();
+    await new Promise(r => setTimeout(r, 320));
+    return out;
+  })()`);
+  if (!stripProbe.skip) {
+    check(page, '文档区:窄屏横条把选中的那一本滚进可视区',
+      stripProbe.在可视区 === true, JSON.stringify(stripProbe));
   }
 
   /* 9.6 窄屏导航折叠:390px 汉堡出现 → 点开 → Esc 收起 */
@@ -780,6 +826,45 @@ for (const page of PAGES) {
   const deep = await evaluate(sessionId, probe);
   check('docs.html', '文档区:深链 #doc-moire 直达第 03 册',
     deep.n === 1 && deep.id === 'doc-moire' && deep.selected === 1, JSON.stringify(deep));
+
+  /* 新增的第 04 本账也必须「有自己的地址」—— 深链直达它。
+     带 query 才是**真加载**:只换哈希属同文档导航,浏览器不会把焦点交给片段目标,
+     那样测「深链不画焦点框」就测了个寂寞(第一次就是这么假失败的)。 */
+  const deepNewLoad = cdp.waitFor('Page.loadEventFired', sessionId);
+  await cdp.send('Page.navigate', { url: `${BASE}/docs.html?deep=1#doc-phonon` }, sessionId);
+  await deepNewLoad;
+  await sleep(700);
+  const deepNew = await evaluate(sessionId, probe);
+  check('docs.html', '文档区:深链 #doc-phonon 直达第 04 册(新账本自己也有地址)',
+    deepNew.n === 1 && deepNew.id === 'doc-phonon' && deepNew.selected === 1, JSON.stringify(deepNew));
+
+  /* 焦点框:片段导航会把面板程序聚焦,但不该给它画框(浏览器把片段导航也算 focus-visible);
+     真的按 Tab 进来时必须看得见 —— 两条是一对,只测一条的话「把框全关掉」也能过。 */
+  const ringOf = `(e => { const c = getComputedStyle(e);
+    return c.outlineStyle !== 'none' && parseFloat(c.outlineWidth) > 0; })`;
+  const ringDeep = await evaluate(sessionId, `(() => {
+    const p = [...document.querySelectorAll('.doc-pane')].filter(x => !x.hasAttribute('hidden'))[0];
+    return { 焦点在面板上: document.activeElement === p, 画了框: ${ringOf}(p),
+             焦点元素: document.activeElement.tagName + '.' + document.activeElement.className.slice(0, 30) };
+  })()`);
+  // 前置条件单列一条:浏览器把焦点交给片段目标,是这条链的上游。它要是变了,
+  // 下面那条「不画框」会自动变绿(无焦点自然无框)—— 所以必须先把前置点亮出来。
+  check('docs.html', '文档区:深链后焦点落在面板上(前置:浏览器把焦点交给片段目标)',
+    ringDeep.焦点在面板上 === true, JSON.stringify(ringDeep));
+  check('docs.html', '文档区:深链不画焦点框',
+    ringDeep.画了框 === false, JSON.stringify(ringDeep));
+  await cdp.send('Input.dispatchKeyEvent',
+    { type: 'rawKeyDown', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9, nativeVirtualKeyCode: 9 }, sessionId);
+  await cdp.send('Input.dispatchKeyEvent',
+    { type: 'keyUp', key: 'Tab', code: 'Tab', windowsVirtualKeyCode: 9, nativeVirtualKeyCode: 9 }, sessionId);
+  const ringKb = await evaluate(sessionId, `(async () => {
+    const p = [...document.querySelectorAll('.doc-pane')].filter(x => !x.hasAttribute('hidden'))[0];
+    p.focus();
+    await new Promise(r => setTimeout(r, 80));
+    return { focused: document.activeElement === p, ring: ${ringOf}(p) };
+  })()`);
+  check('docs.html', '文档区:键盘 Tab 进来时焦点框看得见',
+    ringKb.focused === true && ringKb.ring === true, JSON.stringify(ringKb));
 
   // 同文档换 hash 不会再触发 load —— 用 hashchange + 等一拍
   await cdp.send('Page.navigate', { url: `${BASE}/docs.html#boolean` }, sessionId);
