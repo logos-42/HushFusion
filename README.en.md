@@ -9,7 +9,8 @@
 
 ## What this is
 
-* `index.html` / `about.html` / `hibs.html` / `progress.html` — a four-page, dark, exhibition-style static site
+* `index.html` / `about.html` / `hibs.html` / `progress.html` / `docs.html` — a five-page, dark, exhibition-style static site
+* `docs.html` — **Theory: three ledgers** (① an algebraic system for controlling gravity ② an anti-gravity confinement fusion ring ③ the magic-angle graphene field ceiling); sidebar switching, each ledger has its own URL (`#doc-moire` …), a horizontal tab strip on narrow screens. The two new ledgers state only known results, computed numbers and open gaps — sources in `docs/CONTENT-SOURCES.md` §5
 * `assets/` — **8 poster slices + 4 icon products** (slices carry sha256 and their source crop boxes; the icons come from a second source image, see "The two source images" below / `docs/ASSETS.md` §8)
 * `docs/` — design brief, design plan (an implementation spec you can hand to a front-end agent), content-source table, asset inventory, real-browser screenshots
 * `tools/` + `scripts/` — the deterministic slicer and the real-browser verification script
@@ -32,7 +33,7 @@ contrast are in `docs/DESIGN-PLAN.md` §7.6. To re-colour, edit the two token bl
 python3 -m http.server 8898
 #   then open http://127.0.0.1:8898
 
-# 2 Real-browser verification (105 assertions across 4 pages + full-page screenshots)
+# 2 Real-browser verification (194 assertions across 5 pages + full-page screenshots)
 node scripts/verify-site.mjs http://127.0.0.1:8898
 
 # 3 Replay every asset slice from the source image (deterministic; recomputes sha256 + palette)
@@ -57,10 +58,12 @@ bash scripts/deploy.sh
 ├── about.html                 About: why fusion, why "hush" + the technical logic and the motive
 ├── hibs.html                  HIBS Team: three tracks + how to join
 ├── progress.html              Progress: current stage + technology (01 time-varying gravity / 02 AI control)
+├── docs.html                ★ Theory: three ledgers (sidebar switching; the confinement device figures + the graphene seven-layer ledger)
 ├── style.css                  the single design system (tokens + every component)
-├── app.js                     language switch / tabs / copy / scroll reveal / mobile nav
+├── app.js                     language switch / tabs / docs-area switcher (three ledgers) / copy / scroll reveal / mobile nav
 ├── assets/
 │   ├── manifest.json          source crop box / size / bytes / sha256 per slice
+│   ├── figures.manifest.json  ★ the 8 theory figures: source path / source commit / size / bytes / sha256 (incl. exclusions)
 │   ├── palette.json           sampled palette values + the printed hex from the design board
 │   ├── hero/  brand/  art/    key visual / brand / illustration slices
 │   └── cover/                 accent pool: 80 brush covers at 512×682 (from bolloon, see docs/ASSETS.md §7)
@@ -75,11 +78,12 @@ bash scripts/deploy.sh
 │   ├── GUARDIAN-DESIGN.md     GUARDIAN mechanism (rotation / bypass risk / one-page brief)
 │   ├── DONATION-FREEZE.md     design freeze (state machine / permission matrix / threat model / migration…)
 │   ├── DONATION-FUND-PLAN.md  donation-side spec (**currently frozen**: jurisdiction TBD, no GUARDIAN)
-│   └── screenshots/           screenshots produced by the verification run
+│   └── screenshots/           screenshots produced by the verification run (five pages + narrow-screen nav)
 ├── tools/
 │   ├── slice_assets.py        poster slicer (single entry point; --all includes spare crops)
 │   ├── make_icons.py          icon generator (second source image → favicons / masthead mark / app icon)
 │   ├── import_covers.py       imports the bolloon cover pool (copy + sha256 registry)
+│   ├── import_figures.py      imports the theory figures from logos-42/Hibs-Physics (proportional downscale + sha256 registry; --check verifies only)
 │   └── instrument_i18n.py     adds data-zh / data-en pairs to copy
 ├── config.json                ★ single source of truth: apply inbox / endpoint / sender / origin allow-list
 ├── apply-worker/              apply backend: Cloudflare Worker (validation + honeypot + send_email)

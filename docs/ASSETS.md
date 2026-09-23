@@ -231,3 +231,43 @@ sha256    bb25bf8911fa095ae3ef06a6348525b9f91fb96724ca050e8cb0bb341dc116e5
 
 > 图标是**细笔迹线稿**:26px 显示时比原来的实心闪电轻。要更有分量,把 `style.css` 里
 > `.brand-mark` 的 26px 调到 28px 即可(一处改动)。
+
+---
+
+## 九 理论页科学图:`assets/art/`(2026-09-23)
+
+> 这批**不是切图,是从形式化仓库导入的科学图**:不重绘、不改色、不加特效,只做**等比降采样**。
+> 机器可校验版本 = **`assets/figures.manifest.json`**(逐文件 sha256 / 尺寸 / 字节 / 源路径 / **源提交号**);
+> 重放 = `python3 tools/import_figures.py`,`--check` 只校验不写(重放两次逐字节一致)。
+> 源 = `https://github.com/logos-42/Hibs-Physics` · commit `fea6a3e`
+
+| 站内文件 | 尺寸 | 字节 | sha256(前 16) | 源(仓库内路径) |
+|:--|:--|:--|:--|:--|
+| `assets/art/antigravity-ring.png` | 1100×1144 | 327 KB | `b1f959a3116d2271…` | `artifacts/antigravityconfinement/fig_confinement_ring.png` |
+| `assets/art/antigravity-mu-window.png` | 1400×727 | 186 KB | `a22c995565486e26…` | `artifacts/antigravityconfinement/fig_mu_working_window.png` |
+| `assets/art/antigravity-field-map.png` | 1348×1101 | 168 KB | `1e22a111cc66c943…` | `artifacts/antigravityconfinement/fig_field_map.png` |
+| `assets/art/antigravity-field-line.png` | 1340×1101 | 397 KB | `08ad30b8818a08c6…` | `artifacts/antigravityconfinement/fig_field_line.png` |
+| `assets/art/moire-field-ceiling.png` | 1350×840 | 123 KB | `d2cabd4312746279…` | `artifacts/moirefield/fig_field_ceiling_scaling.png` |
+| `assets/art/moire-mu-verdict.png` | 1350×840 | 87 KB | `6fc952df66241576…` | `artifacts/moirefield/fig_mu_window_verdict.png` |
+| `assets/art/moire-bdeath-size.png` | 1350×840 | 78 KB | `c1170f012856b277…` | `artifacts/moirefield/fig_Bdeath_vs_size.png` |
+| `assets/art/moire-gate-gaps.png` | 1350×750 | 41 KB | `f6ba5c2e7cb25319…` | `artifacts/moirefield/fig_gate_gaps.png` |
+
+**规则**
+
+```text
+MAX_W = 1400      站内版心 1200px,1400 给 2× 屏留余量(逐图可覆盖:CAP)
+CAP(ring) = 1100  示意图字大 ⇒ 收窄省字节(336 KB);场图线细 ⇒ 保持 1340–1400 宽
+不做锐化/不调色     科学图的信息在坐标轴与色带上,后处理只会造假
+```
+
+**排除项(明写,免得后人当漏做)**
+
+```text
+artifacts/antigravityconfinement/fig_material.png
+  材料清单(BOM):含逐件「参考价」⇒ 公开页不放未核实的成本数字(金额不入站)。
+  内部留档在 Hibs-Physics 仓库 artifacts/ 下;理由同时写在 figures.manifest.json 的 excluded。
+```
+
+**页面上怎么用(`docs.html`)**:每张图包在 `.plate`(纸色托板)里 —— 科学图多是白底,直接贴在深绿底上会像一块白洞,
+托板在两个主题下都读得清;图本身外面套一层 `<a class="plate-link">` 指向原图(`target="_blank"`),
+因为手机上 1100px 的示意图缩到 ~310px 时小字看不清,点开看原图比在页面里硬放大诚实。

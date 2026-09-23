@@ -20,8 +20,13 @@ status: current
 - 前端位置已定(未实现):`当前阶段 → 公开支持 → 页脚`,即 `#status` 之后、`</main>` 之前;
   本轮只落 **`preview` 态**(`config.donate.enabled=false` ⇒ 不显示任何地址与连接钱包按钮);`DESIGN-PLAN.md` §7.7 登记
 - 需方计划原文登记 raw:`internal_sources/donation-plan/donation-plan-ai-draft-20260922.md`
-- 新增第五页「理论」`theory.html`:控制引力场的代数系统(基元 = 起伏能量二次型,布尔 = 层状区域族;三个类比 + 锁定 = 交换子不为零);附 GitHub 来源链接 `logos-42/Hibs-Physics` 与本站 `logos-42/HushFusion`
+- 新增第五页「理论」`docs.html`:控制引力场的代数系统(基元 = 起伏能量二次型,布尔 = 层状区域族;三个类比 + 锁定 = 交换子不为零);附 GitHub 来源链接 `logos-42/Hibs-Physics` 与本站 `logos-42/HushFusion`
 - 五页导航补「理论」入口,`verify-site.mjs` 纳入新页
+- **理论页升级为「三本账」(2026-09-23)`:① 控制引力场的代数系统(原有内容逐字保留)② **反引力约束稳态自维持聚变环**(三层同心装置 / μ 工作区间 / 场反位形 / 三道硬门,FC5 锁定标为未证)③ **魔角石墨烯场天花板**(`1°` 夹角⟹超导但**非常温超导**;七层账本:场天花板→密度→功率→μ 窗口→制冷;面外 0.12 T 下 μ 可行集为**空**——这是唯一的严格证明性结论)
+- 理论页结构:序厅 h1「理论」+ 侧边栏 `role=tablist` 切换三本账;每本账有自己的地址(`#doc-moire` 等),链到册内小节(如 `#boolean`)会自动切回所属那本;窄屏折成横向标签条
+- 文档区(2026-09-23 二形态,文件名 `docs.html`):侧栏 = 三本账单选标签 + **本页目录**(按当前册小节生成,配**滚动高亮**);册头有**面包屑**,册末有**上一本/下一本**;
+  **记住上一次读的那一本**(`localStorage['hushfusion-doc']`,地址栏 hash 优先);窄屏:横向标签条 + 目录隐藏 + 上下本纵排
+- 理论页 8 张科学图由 `tools/import_figures.py` 从 `logos-42/Hibs-Physics`(commit `fea6a3e`)导入,逐图 sha256/源提交号在 `assets/figures.manifest.json`;**BOM 报价图排除,金额不入站**
 - 站点四页在线:`https://hushfusion.pages.dev`(资源版本 `?v=15`)
 - 双主题上线:夜(默认)/ 昼,开关在顶栏「中/EN」左边并记忆选择;浏览器 theme-color 同步
 - 配色:夜底取 `assets/cover/thumbnail_375.jpg` 的绿族 `#0E1E05`;昼底 = 浅海蓝绿 `#C9DDD5` + 浅卡其面 `#F4EFE1`(需方 2026-09-17 口径);**强调色 = 图标 logo 的靛蓝**(夜 `#93A4FF` / 昼 `#1B2C7A`)

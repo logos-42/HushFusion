@@ -9,7 +9,8 @@
 
 ## 这是什么
 
-* `index.html` / `about.html` / `hibs.html` / `progress.html` —— 四页深色展览式静态站
+* `index.html` / `about.html` / `hibs.html` / `progress.html` / `docs.html` —— 五页深色展览式静态站
+* `docs.html` —— **理论:三本账**(① 控制引力场的代数系统 ② 反引力约束聚变环 ③ 魔角石墨烯场天花板);左侧栏切换,每本账有自己的地址(`#doc-moire` 等),窄屏折成横向标签条。两本新账只写「已知结论 + 已算数字 + 缺口」,来源见 `docs/CONTENT-SOURCES.md` §五
 * `assets/` —— **8 个海报切片 + 4 个图标产物**（切片带 sha256 与源图裁剪框记录；图标来自第二张源图，见下「素材的两张源图」/ `docs/ASSETS.md` §八）
 * `docs/` —— 设计简报、设计计划（可交给前端 agent 的实现规范）、内容来源表、素材清单、真浏览器截图
 * `tools/` + `scripts/` —— 确定性切图脚本与真浏览器验收脚本
@@ -29,7 +30,7 @@
 python3 -m http.server 8898
 #   然后打开 http://127.0.0.1:8898
 
-# 2 真浏览器验收(四页 105 项断言 + 自动出全页截图)
+# 2 真浏览器验收(五页 194 项断言 + 自动出全页截图)
 node scripts/verify-site.mjs http://127.0.0.1:8898
 
 # 3 从源图重放全部素材切片(确定性,会重算 sha256 与色板采样)
@@ -54,12 +55,14 @@ bash scripts/deploy.sh
 ├── about.html                 About:为什么是聚变,为什么是「消音」+ 技术逻辑与动机
 ├── hibs.html                  HIBS 团队:三条回路 + 加入方式
 ├── progress.html              Progress:当前阶段 + 技术栏(01 时变引力场 / 02 AI 控制)
+├── docs.html                ★ 理论:三本账(侧边栏切换;含反引力约束装置图与魔角石墨烯七层账本)
 ├── style.css                  唯一设计系统(令牌 + 全部组件)
-├── app.js                     交互:语言 / 标签 / 复制 / 滚动揭示 / 移动端导航 / 投递表单
+├── app.js                     交互:语言 / 标签 / 文档区切换(三本账) / 复制 / 滚动揭示 / 移动端导航 / 投递表单
 ├── config.json                ★ 站点唯一配置源:投递邮箱 / 后端地址 / 发信地址 / 来源白名单
 ├── apply-worker/              投递后端:Cloudflare Worker(校验 + 蜜罐 + send_email 直发)
 ├── assets/
 │   ├── manifest.json          每个切片的源图裁剪框 / 尺寸 / 字节 / sha256
+│   ├── figures.manifest.json  ★ 理论页 8 张科学图:源路径 / 源提交号 / 尺寸 / 字节 / sha256(含排除项)
 │   ├── palette.json           色板实测值 + 设计板印刷 hex
 │   ├── hero/  brand/  art/    主视觉 / 品牌 / 插画切片
 │   └── cover/                 点缀素材池:80 张 512×682 笔触封面(来自 bolloon,见 docs/ASSETS.md §7)
@@ -74,11 +77,12 @@ bash scripts/deploy.sh
 │   ├── GUARDIAN-DESIGN.md     GUARDIAN 候选机制(换人机制 / 绕过风险 / 招募一页纸)
 │   ├── DONATION-FREEZE.md     设计冻结(阶段一六件套:状态机 / 权限矩阵 / 威胁模型 / 迁移 / 分账 / 智能体)
 │   ├── DONATION-FUND-PLAN.md  收款侧实现规范(**当前冻结**:法域未定 + 无独立 GUARDIAN)
-│   └── screenshots/           真浏览器验收产出的截图(四页全页 + 窄屏导航实拍)
+│   └── screenshots/           真浏览器验收产出的截图(五页全页 + 窄屏导航实拍)
 ├── tools/
 │   ├── slice_assets.py        海报切片(唯一入口;--all 连备用素材一起切)
 │   ├── make_icons.py          图标生成(第二张源图 → favicon / 顶栏标识 / app icon)
 │   ├── import_covers.py       导入 bolloon 封面图素材池(复制 + 登记 sha256)
+│   ├── import_figures.py      从 logos-42/Hibs-Physics 导入理论页科学图(等比降采样 + 登记 sha256,--check 只校验)
 │   └── instrument_i18n.py     给文案加 data-zh / data-en 双属性
 ├── scripts/
 │   ├── verify-site.mjs        零依赖真浏览器验收(CDP 驱动 headless Chrome)

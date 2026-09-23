@@ -11,7 +11,7 @@ status: current
 
 # 控制引力场的代数系统
 
-对应公开页 `theory.html`（第五页，导航「理论」）。内容源 `logos-42/Hibs-Physics`
+对应公开页 `docs.html`（第五页，导航「理论」）。内容源 `logos-42/Hibs-Physics`
 仓库的 `GravityControl.lean`（GCA0–GCA7）与 `scripts/verify_gravity_control.py`。
 
 ## 结论
@@ -76,3 +76,30 @@ FC5 / FC10 / TM2 三条锁定定理是同一个代数事实的多个指纹——
 全部定理 = 代数恒等 + 序关系 + 有限维见证（真但平凡）；「抹平 = 引力关闭」属解释层
 （与弱场 GR 数值不可区分，且只关区域内部、边界跳变保留）；基元选择由四条判据支撑
 而非公理推出；μ 主动产生仍是第二输入缺口；无新物理预言。
+
+---
+
+## 页面结构变更(2026-09-23):这一页现在是「三本账」的第 01 本
+
+`docs.html` 从单篇文档升级为**文档区**:序厅(h1 只有「理论」一个)+ 左侧 `nav[role=tablist]` 切换三本账
++ 三个 `article[role=tabpanel]`。**本文件对应的 01 本账正文逐字未改**,只是标题从 h1 降为 h2。
+
+| 序 | id | 标题 | 来源(仓库内文件) |
+|:--|:--|:--|:--|
+| 01 | `doc-gravity-control` | 控制引力场的代数系统 | `GravityControl.lean`(GCA0–GCA7)+ `scripts/verify_gravity_control.py` |
+| 02 | `doc-antigravity` | 反引力约束稳态自维持聚变环 | `artifacts/antigravityconfinement/`(装置设计与绘图脚本)+ FC4/FC5/FC11b/TM2b 形式化条目 |
+| 03 | `doc-moire` | 魔角石墨烯场天花板 | `MoireField.lean`(MFC1–MFC7)+ `scripts/verify_moire_field.py`(M1–M8);外部实验上限见 `manifests/raw_sources.csv` |
+
+- **深链**:每本账有自己的地址(`#doc-gravity-control` / `#doc-antigravity` / `#doc-moire`);
+  链到册内小节(如 `docs.html#boolean`)会自动切回所属那本 —— 否则从别处分享来的小节链接会落在一片空白上。
+- **切换与揭示**:`.reveal` 是按视口相交触发的,藏在 `[hidden]` 里的元素永远不相交 ⇒ 切换时对新册重新挂观察器(`app.js`),否则「切过去一片空白」。
+- **验收**:`scripts/verify-site.mjs` 增 5 项文档区断言 + 2 项深链断言(本地 194/194)。
+- 素材:8 张科学图与逐图出处见 `assets/figures.manifest.json`;文案外部来源见 `docs/CONTENT-SOURCES.md` §五。
+
+### 二形态(2026-09-23):公开文件改名 + 侧栏标准件
+
+- **文件名**:`theory.html` → **`docs.html`**(可见文案仍是「理论 / Theory」;历史 log 条目保持原样)
+- 侧栏两段:上 = 三本账单选标签;下 = **本页目录**(按当前册带 `id` 的小节生成,页面加一节自动多一项),配 **Scroll Spy**(取顶部刚越过阅读线的那一节)
+- 其余标准件:**面包屑** · **上一本/下一本**(册末,由标签数据生成) · **Navigation Persistence**(`localStorage['hushfusion-doc']`,hash 优先)
+- 窄屏:横向标签条 + 目录隐藏 + 上下本纵排;**修掉正文被裁的 bug**:栅格子项是 `.doc-panes`,需 `min-width:0`,窄屏列用 `minmax(0,1fr)` —— 详见 `docs/DESIGN-PLAN.md` §7.9
+- 没做的(明说):Collapsible Groups / Search / Command Palette / Version Selector / Sidebar Drawer —— 三本账的体量下是装饰

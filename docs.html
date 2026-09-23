@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>理论 · 三本账 · HUSHFUSION</title>
+<meta name="description" content="理论文档区:①控制引力场的代数系统(基元=起伏能量二次型,布尔=层状区域族)②反引力约束稳态自维持聚变环(装置设计与其三道硬门)③魔角石墨烯场天花板(把 1° 石墨烯当线圈用,密度/功率/μ 窗口会变成什么)。左侧切换,每本账可深链。">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" data-icon="favicon">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" data-icon="apple">
+<meta name="theme-color" content="#0E1E05" id="theme-color">
+<script>/* 主题先定再上色:避免加载瞬间闪另一种主题(默认夜,显式选过就按存的来) */try{if(localStorage.getItem('hushfusion-theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<link rel="stylesheet" href="style.css?v=16">
+</head>
+<body>
+
+<!-- ◆ 顶栏 -->
+<div class="topnav">
+  <header class="masthead">
+    <a class="brand" href="index.html" aria-label="HUSHFUSION 首页">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-word">HUSHFUSION</span>
+    </a>
+    <nav class="mast-links" aria-label="主导航">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="hibs.html" data-zh="HIBS 团队" data-en="HIBS Team">HIBS 团队</a>
+      <a href="progress.html">Progress</a>
+      <a href="docs.html" data-zh="理论" data-en="Theory">理论</a>
+    </nav>
+    <div class="mast-meta">
+      <button class="nav-toggle" aria-expanded="false" aria-label="打开导航">≡</button>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换到白天模式">
+        <span class="theme-glyph" aria-hidden="true">☾</span><span class="theme-word" data-zh="夜" data-en="Night">夜</span>
+      </button>
+      <div class="lang-toggle">
+        <button data-lang-btn="zh" class="is-active" aria-label="中文">中</button>
+        <button data-lang-btn="en" aria-label="English">EN</button>
+      </div>
+    </div>
+  </header>
+</div>
+
+<main>
+
+  <!-- ◆ 文档区:序厅 + 侧边栏切换三本账 -->
+  <section class="band" id="docs">
+    <div class="section-head reveal">
+      <p class="kicker" data-zh="— Theory · 理论文档区" data-en="— Theory · Documents">— Theory · 理论文档区</p>
+      <h1 class="display" data-zh="理论" data-en="Theory">理论</h1>
+      <p class="lede"
+         data-zh="这里放三本账:① &lt;strong&gt;控制引力场的代数系统&lt;/strong&gt;——控制引力的逻辑基元是什么;② &lt;strong&gt;反引力约束聚变环&lt;/strong&gt;——装置长什么样、卡在哪三道门;③ &lt;strong&gt;魔角石墨烯场天花板&lt;/strong&gt;——把 1° 夹角的石墨烯当线圈用,聚变的数字会怎么变。左侧切换,每本账都有自己的地址,可以直接分享。"
+         data-en="Three ledgers live here: ① &lt;strong&gt;an algebraic system for controlling gravity&lt;/strong&gt; — what the logic primitive of gravity control actually is; ② &lt;strong&gt;an anti-gravity confinement fusion ring&lt;/strong&gt; — what the device looks like and which three gates it fails; ③ &lt;strong&gt;the magic-angle graphene field ceiling&lt;/strong&gt; — what happens to the fusion numbers when a 1° twisted-graphene coil is the field source. Switch on the left; each ledger has its own URL."
+         data-html="1">这里放三本账:① <strong>控制引力场的代数系统</strong>——控制引力的逻辑基元是什么;② <strong>反引力约束聚变环</strong>——装置长什么样、卡在哪三道门;③ <strong>魔角石墨烯场天花板</strong>——把 1° 夹角的石墨烯当线圈用,聚变的数字会怎么变。左侧切换,每本账都有自己的地址,可以直接分享。</p>
+    </div>
+
+    <div class="docs" data-docs>
+
+      <!-- ◆ 侧边栏:三本账 -->
+      <div class="doc-nav">
+        <nav class="doc-tabs" role="tablist" aria-orientation="vertical" aria-label="理论文档">
+        <button class="doc-tab is-active" type="button" role="tab" id="tab-gravity-control"
+                aria-selected="true" aria-controls="doc-gravity-control" data-doc="doc-gravity-control">
+          <span class="doc-no">01</span>
+          <span class="doc-name" data-zh="控制引力场的代数系统" data-en="An Algebraic System for Controlling Gravity">控制引力场的代数系统</span>
+          <span class="doc-meta" data-zh="逻辑基元 · 6 节" data-en="Primitive · 6 parts">逻辑基元 · 6 节</span>
+        </button>
+        <button class="doc-tab" type="button" role="tab" id="tab-antigravity"
+                aria-selected="false" aria-controls="doc-antigravity" data-doc="doc-antigravity">
+          <span class="doc-no">02</span>
+          <span class="doc-name" data-zh="反引力约束聚变环" data-en="Anti-Gravity Confinement Ring">反引力约束聚变环</span>
+          <span class="doc-meta" data-zh="装置设计 · 4 图" data-en="Device design · 4 figures">装置设计 · 4 图</span>
+        </button>
+        <button class="doc-tab" type="button" role="tab" id="tab-moire"
+                aria-selected="false" aria-controls="doc-moire" data-doc="doc-moire">
+          <span class="doc-no">03</span>
+          <span class="doc-name" data-zh="魔角石墨烯场天花板" data-en="Magic-Angle Graphene Field Ceiling">魔角石墨烯场天花板</span>
+          <span class="doc-meta" data-zh="场源账本 · 4 图" data-en="Field-source ledger · 4 figures">场源账本 · 4 图</span>
+        </button>
+        </nav>
+        <div class="doc-toc" data-doc-toc></div>
+      </div>
+
+      <div class="doc-panes">
+
+      <!-- ══ 01 · 控制引力场的代数系统 ══════════════════════════════════ -->
+      <article class="doc-pane is-active" id="doc-gravity-control" data-doc-pane="doc-gravity-control"
+               role="tabpanel" aria-labelledby="tab-gravity-control" tabindex="0">
+
+        <section class="band" id="theory">
+                    <nav class="crumbs reveal" aria-label="面包屑">
+            <a href="docs.html" data-zh="理论" data-en="Theory">理论</a>
+            <span class="crumbs-sep" aria-hidden="true">/</span>
+            <span data-zh="01 · 控制引力场的代数系统" data-en="01 · An Algebraic System for Controlling Gravity">01 · 控制引力场的代数系统</span>
+          </nav>
+<div class="section-head reveal">
+            <p class="kicker">— Doc 01 · 控制引力场的代数系统</p>
+            <h2 class="display" data-zh="控制引力场的代数系统" data-en="An Algebraic System for Controlling Gravity">控制引力场的代数系统</h2>
+            <p class="lede"
+               data-zh="能不能根据现在推导出的物理学,设计一种控制引力场的代数系统?答案是&lt;strong&gt;有,而且大有可能&lt;/strong&gt;。但要先想清楚的不是怎么做出来,而是&lt;strong&gt;怎么解释、怎么使用&lt;/strong&gt;。"
+               data-en="Can we design an algebraic system to control the gravitational field, from the physics we have now derived? The answer is &lt;strong&gt;yes, and quite likely&lt;/strong&gt;. But the first thing to work out is not how to build it — it is &lt;strong&gt;how to explain it, and how to use it&lt;/strong&gt;."
+               data-html="1">能不能根据现在推导出的物理学,设计一种控制引力场的代数系统?答案是<strong>有,而且大有可能</strong>。但要先想清楚的不是怎么做出来,而是<strong>怎么解释、怎么使用</strong>。</p>
+            <p class="lede"
+               data-zh="基本逻辑的基元,不是真值,而是&lt;strong&gt;起伏能量&lt;/strong&gt;——一个非负二次型。布尔代数只是控制区域层状时的特例。"
+               data-en="The primitive of the base logic is not a truth value but &lt;strong&gt;fluctuation energy&lt;/strong&gt; — a non-negative quadratic form. Boolean algebra is only the special case where control regions are laminar."
+               data-html="1">基本逻辑的基元,不是真值,而是<strong>起伏能量</strong>——一个非负二次型。布尔代数只是控制区域层状时的特例。</p>
+          </div>
+
+          <div class="paper-chip reveal" style="margin-top:clamp(28px,4vw,44px)">
+            <code style="font-size:1.05rem">Φ = ½|C|<sup>2</sup>&nbsp;&nbsp;&nbsp;&nbsp;Q<sub>A</sub>(v) = Σ<sub>i∈A</sub> (v<sub>i</sub> − <span style="text-decoration:overline">v</span><sub>A</sub>)<sup>2</sup></code>
+          </div>
+
+          <p class="cite-links reveal" style="margin-top:22px">
+            <span class="mono" style="color:var(--ink-3);font-size:12px;letter-spacing:1px" data-zh="来源 · 理论的形式化与数值验证" data-en="Source · formalisation and numerical checks">来源 · 理论的形式化与数值验证</span>
+            <a href="https://github.com/logos-42/Hibs-Physics" rel="noopener">github.com/logos-42/Hibs-Physics</a>
+          </p>
+        </section>
+
+        <!-- ◆ 01 · 为什么基元是起伏能量 -->
+        <section class="band" id="primitive">
+          <div class="section-head reveal">
+            <p class="kicker">— 01 · 逻辑基元</p>
+            <h2 class="section-title" data-zh="为什么是起伏能量,而不是真值" data-en="Why fluctuation energy, not a truth value">为什么是起伏能量,而不是真值</h2>
+            <p class="section-lede"
+               data-zh="引力在此框架里不是实体,是空间场的泛函:Φ = ½|C|²,引力加速度 = −∇Φ。所以「控制引力」就是「控制流动的梯度结构」。一个逻辑基元必须同时满足四件事,只有&lt;strong&gt;起伏能量&lt;/strong&gt;全命中。"
+               data-en="In this framework gravity is not an entity but a functional of the space field — Φ = ½|C|², with acceleration −∇Φ. So 'controlling gravity' is 'controlling the gradient structure of the flow'. A logic primitive must satisfy four things at once; only &lt;strong&gt;fluctuation energy&lt;/strong&gt; hits all four."
+               data-html="1">引力在此框架里不是实体,是空间场的泛函:Φ = ½|C|²,引力加速度 = −∇Φ。所以「控制引力」就是「控制流动的梯度结构」。一个逻辑基元必须同时满足四件事,只有<strong>起伏能量</strong>全命中。</p>
+          </div>
+
+          <ol class="cap-list reveal">
+            <li><span class="cap-no">01</span><div class="cap-body">
+              <h3 data-zh="可观测量" data-en="Observable">可观测量</h3>
+              <p data-zh="一个标量,有限次测量可定——不是抽象的「真」。" data-en="A scalar, fixed by a finite number of measurements — not an abstract 'true'.">一个标量,有限次测量可定——不是抽象的「真」。</p>
+              <span class="cap-tag">Observable</span>
+            </div></li>
+            <li><span class="cap-no">02</span><div class="cap-body">
+              <h3 data-zh="幂等可判定" data-en="Idempotent">幂等可判定</h3>
+              <p data-zh="抹平两次 = 抹平一次(P²=P)。控制是「设定」,不是「累加」。" data-en="Smoothing twice equals smoothing once (P²=P). Control sets a value; it does not accumulate.">抹平两次 = 抹平一次(P²=P)。控制是「设定」,不是「累加」。</p>
+              <span class="cap-tag">Idempotent</span>
+            </div></li>
+            <li><span class="cap-no">03</span><div class="cap-body">
+              <h3 data-zh="二值退化" data-en="Binary collapse">二值退化</h3>
+              <p data-zh="Q&lt;sub&gt;A&lt;/sub&gt; = 0 ⟺ A 内流动常值 ⟺ A 内 ∇Φ = 0 ⟺ 引力关闭。" data-en="Q&lt;sub&gt;A&lt;/sub&gt; = 0 ⟺ the flow is constant on A ⟺ ∇Φ = 0 on A ⟺ gravity off." data-html="1">Q<sub>A</sub> = 0 ⟺ A 内流动常值 ⟺ A 内 ∇Φ = 0 ⟺ 引力关闭。</p>
+              <span class="cap-tag">Binary collapse</span>
+            </div></li>
+            <li><span class="cap-no">04</span><div class="cap-body">
+              <h3 data-zh="代价共轭" data-en="Cost-conjugate">代价共轭</h3>
+              <p data-zh="抹平成本 ∝ 被拿走的起伏²。基元量本身就是代价——布尔真值没有价格,这里有。" data-en="The cost of smoothing is proportional to the fluctuation removed squared. The primitive is itself the price tag — a Boolean truth value has none, this one does.">抹平成本 ∝ 被拿走的起伏²。基元量本身就是代价——布尔真值没有价格,这里有。</p>
+              <span class="cap-tag">Cost-conjugate</span>
+            </div></li>
+          </ol>
+        </section>
+
+        <!-- ◆ 02 · 从量化属性到计算 -->
+        <section class="band" id="chain">
+          <div class="section-head reveal">
+            <p class="kicker">— 02 · 推导链</p>
+            <h2 class="section-title" data-zh="从量化属性到计算" data-en="From a quantitative property to computation">从量化属性到计算</h2>
+          </div>
+
+          <p class="mono reveal" style="color:var(--ink-2);font-size:.95rem;line-height:2">
+            二次型 →(极化恒等式) 内积 →(正交) 正交投影 →(投影族) 逻辑运算<br>
+            布尔代数 = 全部投影可交换的子格
+          </p>
+
+          <dl class="spec-list reveal" style="margin-top:clamp(28px,4vw,44px)">
+            <div><dt data-zh="补元" data-en="Complement">补元</dt><dd data-html="1" data-zh="是&lt;strong&gt;正交补 I − P&lt;/strong&gt;,不是集合补——「取消抹平」≠「制造反向引力」。" data-en="It is the &lt;strong&gt;orthogonal complement I − P&lt;/strong&gt;, not a set complement — 'undo the smoothing' is not 'create reverse gravity'.">是<strong>正交补 I − P</strong>,不是集合补——「取消抹平」≠「制造反向引力」。</dd></div>
+            <div><dt data-zh="别混的两条通道" data-en="Two channels">别混的两条通道</dt><dd data-zh="μ = 1(质量取消、随流 dτ = 0)与 ∇Φ = 0(势平坦)是两条不同的通道,使用前先声明走哪一条。" data-en="μ = 1 (mass cancelled, dτ = 0 along the flow) and ∇Φ = 0 (flat potential) are two different channels; declare which one you are using.">μ = 1(质量取消、随流 dτ = 0)与 ∇Φ = 0(势平坦)是两条不同的通道,使用前先声明走哪一条。</dd></div>
+          </dl>
+        </section>
+
+        <!-- ◆ 03 · 布尔性的边界 -->
+        <section class="band" id="boolean">
+          <div class="section-head reveal">
+            <p class="kicker">— 03 · 布尔性的边界</p>
+            <h2 class="section-title" data-zh="可交换 ⟺ 控制区域层状" data-en="Commutativity ⟺ laminar control regions">可交换 ⟺ 控制区域层状</h2>
+            <p class="section-lede"
+               data-zh="层状 = 两两不交,或一个包含另一个。这是唯一被数值推翻过一次的地方——最初写「真包含 ⟹ 不可交换」,数值一跑就推翻了:嵌套其实是&lt;strong&gt;吸收律&lt;/strong&gt;,最安全。"
+               data-en="Laminar means pairwise disjoint, or one containing the other. This is the one place the numbers overturned an earlier claim — at first we wrote 'proper containment ⟹ non-commuting', but the scan disproved it: nesting is actually an &lt;strong&gt;absorption law&lt;/strong&gt;, the safest case."
+               data-html="1">层状 = 两两不交,或一个包含另一个。这是唯一被数值推翻过一次的地方——最初写「真包含 ⟹ 不可交换」,数值一跑就推翻了:嵌套其实是<strong>吸收律</strong>,最安全。</p>
+          </div>
+
+          <dl class="spec-list reveal">
+            <div><dt data-zh="不交 · GCA6a" data-en="Disjoint · GCA6a">不交 · GCA6a</dt><dd data-zh="两块区域互不干涉 → 可交换 → 布尔子代数。" data-en="Two regions do not interfere → they commute → a Boolean subalgebra.">两块区域互不干涉 → 可交换 → 布尔子代数。</dd></div>
+            <div><dt data-zh="嵌套 · GCA6b" data-en="Nested · GCA6b">嵌套 · GCA6b</dt><dd data-html="1" data-zh="大区域包含小区域 → 小区控制被大区控制&lt;strong&gt;吸收&lt;/strong&gt;(P&lt;sub&gt;A&lt;/sub&gt;∘P&lt;sub&gt;B&lt;/sub&gt; = P&lt;sub&gt;A&lt;/sub&gt;)→ 也可交换。" data-en="A region contains the other → the inner control is &lt;strong&gt;absorbed&lt;/strong&gt; (P&lt;sub&gt;A&lt;/sub&gt;∘P&lt;sub&gt;B&lt;/sub&gt; = P&lt;sub&gt;A&lt;/sub&gt;) → also commutes.">大区域包含小区域 → 小区控制被大区控制<strong>吸收</strong>(P<sub>A</sub>∘P<sub>B</sub> = P<sub>A</sub>)→ 也可交换。</dd></div>
+            <div><dt data-zh="部分重叠 · GCA6c" data-en="Partial overlap · GCA6c">部分重叠 · GCA6c</dt><dd data-zh="先抹 A 再抹 B ≠ 先抹 B 再抹 A → 不可交换 → 分配律失效 → 非布尔。" data-en="Smooth A then B ≠ B then A → non-commuting → distributivity fails → not Boolean.">先抹 A 再抹 B ≠ 先抹 B 再抹 A → 不可交换 → 分配律失效 → 非布尔。</dd></div>
+          </dl>
+
+          <p class="section-lede reveal" style="margin-top:clamp(28px,4vw,44px)"
+             data-zh="工程规则:区域层状 ⟹ 控制程序可像布尔式一样化简、综合;一旦部分重叠,控制词变成有序词,执行次序进入语义。这是装置几何的设计原则,不是事后检查。"
+             data-en="Engineering rule: laminar regions ⟹ the control program simplifies like a Boolean expression; the moment regions partially overlap, the control word becomes an ordered word and execution order enters the semantics. This is a design principle of the device geometry, not an after-the-fact check.">工程规则:区域层状 ⟹ 控制程序可像布尔式一样化简、综合;一旦部分重叠,控制词变成有序词,执行次序进入语义。这是装置几何的设计原则,不是事后检查。</p>
+        </section>
+
+        <!-- ◆ 04 · 三个类比 -->
+        <section class="band" id="analogy">
+          <div class="section-head reveal">
+            <p class="kicker">— 04 · 类比</p>
+            <h2 class="section-title" data-zh="三个通俗类比" data-en="Three plain analogies">三个通俗类比</h2>
+          </div>
+
+          <ol class="cap-list reveal">
+            <li><span class="cap-no">01</span><div class="cap-body">
+              <h3 data-zh="刷墙" data-en="Painting walls">刷墙</h3>
+              <p data-zh="把「控制引力」想成在一面墙上刷漆,每块刷成它自己的均匀色。两块墙不挨着 → 先刷哪块无所谓(可交换 → 布尔);大块包住小块 → 先刷大块,小块被吸收,再刷白刷(吸收律);两块墙部分重叠 → 先刷 A 再刷 B 和反过来,重叠处颜色不同(顺序进入语义 → 非布尔)。"
+                 data-en="Think of gravity control as painting a wall, each patch in its own uniform colour. Two separate patches → order does not matter (commutes → Boolean). A big patch covering a small one → paint the big one first and the small one is absorbed (absorption law). Two overlapping patches → A then B differs from B then A at the overlap (order enters the semantics → not Boolean).">把「控制引力」想成在一面墙上刷漆,每块刷成它自己的均匀色。两块墙不挨着 → 先刷哪块无所谓(可交换 → 布尔);大块包住小块 → 先刷大块,小块被吸收,再刷白刷(吸收律);两块墙部分重叠 → 先刷 A 再刷 B 和反过来,重叠处颜色不同(顺序进入语义 → 非布尔)。</p>
+              <span class="cap-tag" data-zh="层状可交换 vs 部分重叠不可交换" data-en="laminar commutes vs partial overlap does not">层状可交换 vs 部分重叠不可交换</span>
+            </div></li>
+            <li><span class="cap-no">02</span><div class="cap-body">
+              <h3 data-zh="开关 vs 调光旋钮" data-en="Switch vs dimmer knob">开关 vs 调光旋钮</h3>
+              <p data-zh="布尔逻辑像灯开关:0/1,拨两次 = 拨一次,开关随便换顺序。引力控制更像「设定到目标值」的旋钮:设定两次 = 设定一次(还是幂等,能当逻辑门用),但每次设定要耗功,耗多少正比于要抹掉多少起伏(那个二次型)。布尔真值没有价格,这里自带一份账单。"
+                 data-en="Boolean logic is a light switch: 0/1, flip twice equals once, order irrelevant. Gravity control is more like a knob set to a target: setting twice equals setting once (still idempotent, usable as a gate), but each setting costs work, proportional to the fluctuation removed. Boolean truth values come with no invoice; this one does.">布尔逻辑像灯开关:0/1,拨两次 = 拨一次,开关随便换顺序。引力控制更像「设定到目标值」的旋钮:设定两次 = 设定一次(还是幂等,能当逻辑门用),但每次设定要耗功,耗多少正比于要抹掉多少起伏(那个二次型)。布尔真值没有价格,这里自带一份账单。</p>
+              <span class="cap-tag" data-zh="幂等 + 基元带代价" data-en="idempotent + the primitive carries cost">幂等 + 基元带代价</span>
+            </div></li>
+            <li><span class="cap-no">03</span><div class="cap-body">
+              <h3 data-zh="一个旋钮管亮度 + 色温" data-en="One knob for brightness and colour temperature">一个旋钮管亮度 + 色温</h3>
+              <p data-zh="只有旋钮 μ:你一转,亮度和色温同时变,被锁成固定关系——不可能只提亮而色温不动。一个旋钮在一张「亮度 × 色温」二维图上只能画一条线,填不满一个面。要独立控制两个量,必须加第二个旋钮,而且第二个只管色温、不碰亮度(作用在不相交自由度上 = 可交换)。"
+                 data-en="Only knob μ exists: turn it and brightness and colour temperature both move, locked in a fixed relation — you cannot brighten without shifting the tint. One knob traces one curve on a brightness × colour-temperature plane; it cannot fill an area. To control two quantities independently you must add a second knob that touches only the tint (acting on disjoint degrees of freedom = commuting).">只有旋钮 μ:你一转,亮度和色温同时变,被锁成固定关系——不可能只提亮而色温不动。一个旋钮在一张「亮度 × 色温」二维图上只能画一条线,填不满一个面。要独立控制两个量,必须加第二个旋钮,而且第二个只管色温、不碰亮度(作用在不相交自由度上 = 可交换)。</p>
+              <span class="cap-tag" data-zh="锁定 = 单通道驱动双目标" data-en="a lock = one channel driving two targets">锁定 = 单通道驱动双目标</span>
+            </div></li>
+          </ol>
+        </section>
+
+        <!-- ◆ 05 · 锁定 = 交换子不为零 -->
+        <section class="band" id="lock">
+          <div class="section-head reveal">
+            <p class="kicker">— 05 · 统一视角</p>
+            <h2 class="section-title" data-zh="锁定 = 交换子不为零" data-en="A lock is a non-zero commutator">锁定 = 交换子不为零</h2>
+            <p class="section-lede"
+               data-zh="仓库里分散的几条「锁定定理」,是同一个代数事实的多个指纹:对应控制通道&lt;strong&gt;不可交换&lt;/strong&gt;。锁定 = 你缺一个独立(可交换)的控制通道;解法 = 加一个作用在不相交自由度上的通道。"
+               data-en="The scattered 'lock theorems' are several fingerprints of one algebraic fact: the corresponding control channels do &lt;strong&gt;not commute&lt;/strong&gt;. A lock means you are missing an independent (commuting) control channel; the fix is to add one that acts on a disjoint degree of freedom."
+               data-html="1">仓库里分散的几条「锁定定理」,是同一个代数事实的多个指纹:对应控制通道<strong>不可交换</strong>。锁定 = 你缺一个独立(可交换)的控制通道;解法 = 加一个作用在不相交自由度上的通道。</p>
+          </div>
+
+          <div class="table-wrap reveal">
+            <table class="doc">
+              <thead>
+                <tr>
+                  <th data-zh="定理" data-en="Theorem">定理</th>
+                  <th data-zh="表达式" data-en="Expression">表达式</th>
+                  <th data-zh="锁定了什么" data-en="What is locked">锁定了什么</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>FC5</td><td><code>S*(μ)/S*(0) = τ<sub>E</sub>(μ)/τ<sub>E</sub>(0) = 1/√(1−μ)</code></td>
+                    <td data-zh="两个量被同一个 μ 按同一函数锁死。" data-en="Two quantities are locked to the same μ through the same function.">两个量被同一个 μ 按同一函数锁死。</td></tr>
+                <tr><td>FC10</td><td><code>Θ = B²/m<sub>eff</sub></code></td>
+                    <td data-zh="B² 和 m&lt;sub&gt;eff&lt;/sub&gt; 被 μ 反着锁。" data-en="B² and m&lt;sub&gt;eff&lt;/sub&gt; are locked against each other by μ." data-html="1">B² 和 m<sub>eff</sub> 被 μ 反着锁。</td></tr>
+                <tr><td>TM2</td><td><code>m<sub>eff</sub>² = s²(1−μ)²</code></td>
+                    <td data-zh="μ 不到 1 就必有质量。" data-en="Unless μ reaches 1, mass remains.">μ 不到 1 就必有质量。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ◆ 06 · 诚实边界 -->
+        <section class="band" id="honesty">
+          <div class="section-head reveal">
+            <p class="kicker">— 06 · 诚实边界</p>
+            <h2 class="section-title" data-zh="说到哪,没说到哪" data-en="What is claimed, and what is not">说到哪,没说到哪</h2>
+          </div>
+          <dl class="spec-list reveal">
+            <div><dt data-zh="已证" data-en="Proved">已证</dt><dd data-zh="全部定理是代数恒等 + 序关系 + 有限维见证(真但平凡)。" data-en="Every theorem is an algebraic identity, an order relation, or a finite-dimensional witness — true but plain.">全部定理是代数恒等 + 序关系 + 有限维见证(真但平凡)。</dd></div>
+            <div><dt data-zh="解释层" data-en="Interpretation">解释层</dt><dd data-zh="「抹平 = 引力关闭」属解释层,与弱场 GR 数值不可区分;且只关区域内部,边界跳变保留。" data-en="'Smoothing = gravity off' is interpretation: numerically indistinguishable from weak-field GR, and it only switches off inside the region — the boundary jump remains.">「抹平 = 引力关闭」属解释层,与弱场 GR 数值不可区分;且只关区域内部,边界跳变保留。</dd></div>
+            <div><dt data-zh="定义选择" data-en="Definition choice">定义选择</dt><dd data-zh="基元 = 起伏能量,由四条判据支撑,不是从公理推出。" data-en="The primitive is fluctuation energy, supported by four criteria — chosen, not derived from axioms.">基元 = 起伏能量,由四条判据支撑,不是从公理推出。</dd></div>
+            <div><dt data-zh="仍是缺口" data-en="Still open">仍是缺口</dt><dd data-zh="μ 的主动产生 = 第二输入缺口;无新物理预言。" data-en="Producing μ on demand is the second input gap; no new physical predictions.">μ 的主动产生 = 第二输入缺口;无新物理预言。</dd></div>
+          </dl>
+        </section>
+
+      </article>
+
+      <!-- ══ 02 · 反引力约束聚变环 ═══════════════════════════════════════ -->
+      <article class="doc-pane" id="doc-antigravity" data-doc-pane="doc-antigravity"
+               role="tabpanel" aria-labelledby="tab-antigravity" tabindex="0" hidden>
+
+        <section class="band">
+                    <nav class="crumbs reveal" aria-label="面包屑">
+            <a href="docs.html" data-zh="理论" data-en="Theory">理论</a>
+            <span class="crumbs-sep" aria-hidden="true">/</span>
+            <span data-zh="02 · 反引力约束聚变环" data-en="02 · Anti-Gravity Confinement Ring">02 · 反引力约束聚变环</span>
+          </nav>
+<div class="section-head reveal">
+            <p class="kicker">— Doc 02 · 装置设计</p>
+            <h2 class="display" data-zh="反引力约束稳态自维持聚变环" data-en="A Steady-State Fusion Ring Confined by Anti-Gravity">反引力约束稳态自维持聚变环</h2>
+            <p class="lede"
+               data-zh="现有 FRC（场反位形)的问题是&lt;strong&gt;没有利用引力场&lt;/strong&gt;——它靠分段压缩(十级递减线圈堆 B)去压等离子体。这份设计保留 FRC 里「电磁场自发维持」的部分(场反位形自组织 + RMF 旋转磁场维持),&lt;strong&gt;砍掉后续所有分段压缩&lt;/strong&gt;,用反引力场 μ(t) 完成约束,目标是稳态自维持(不是脉冲)。"
+               data-en="The trouble with today's FRC (field-reversed configuration) is that it &lt;strong&gt;does not use the gravitational field at all&lt;/strong&gt; — it squeezes plasma with staged compression (ten stages of decreasing coil field). This design keeps the self-sustaining part of an FRC (self-organised field reversal plus RMF sustainment), &lt;strong&gt;cuts every compression stage&lt;/strong&gt;, and confines with an anti-gravity field μ(t) instead — aiming at steady state rather than pulses."
+               data-html="1">现有 FRC(场反位形)的问题是<strong>没有利用引力场</strong>——它靠分段压缩(十级递减线圈堆 B)去压等离子体。这份设计保留 FRC 里「电磁场自发维持」的部分(场反位形自组织 + RMF 旋转磁场维持),<strong>砍掉后续所有分段压缩</strong>,用反引力场 μ(t) 完成约束,目标是稳态自维持(不是脉冲)。</p>
+          </div>
+
+          <figure class="doc-fig reveal">
+            <div class="plate">
+              <a class="plate-link" href="assets/art/antigravity-ring.png" target="_blank" rel="noopener"><img src="assets/art/antigravity-ring.png" width="1100" height="1144"
+                   alt="反引力约束聚变环装置系统示意图:由内到外为 D-T 燃料区、H 快流环、Cu 慢流环、RMF 旋转磁场线圈,标注闭合磁力线、反向环流抵消与 μ(t)→m_eff↓ 的反引力约束区"></a>
+            </div>
+            <figcaption data-zh="装置系统示意图 · 三层同心:①D-T 燃料区(反引力约束区)②双流环(H 快流环 + Cu 慢流环,反向环流抵消 = 场反位形)③RMF 旋转磁场线圈(时变 μ 的载体)。图由 Hibs-Physics 仓库的绘图脚本生成。" data-en="Device schematic — three concentric layers: ① D-T fuel region (anti-gravity confinement zone) ② twin flow rings (fast H ring + slow Cu ring; counter-circulation cancels = field reversal) ③ RMF rotating-field coil (the carrier of time-varying μ).">装置系统示意图 · 三层同心:①D-T 燃料区(反引力约束区)②双流环(H 快流环 + Cu 慢流环,反向环流抵消 = 场反位形)③RMF 旋转磁场线圈(时变 μ 的载体)。图由 Hibs-Physics 仓库的绘图脚本生成。</figcaption>
+          </figure>
+        </section>
+
+        <section class="band" id="ag-device">
+          <div class="section-head reveal">
+            <p class="kicker">— 01 · 装置形态</p>
+            <h2 class="section-title" data-zh="三层同心,各管一件事" data-en="Three layers, one job each">三层同心,各管一件事</h2>
+          </div>
+          <div class="table-wrap reveal">
+            <table class="doc">
+              <thead>
+                <tr>
+                  <th data-zh="层" data-en="Layer">层</th>
+                  <th data-zh="名称" data-en="Name">名称</th>
+                  <th data-zh="负责什么" data-en="Responsibility">负责什么</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>①</td><td data-zh="聚变燃料区" data-en="Fusion fuel">聚变燃料区</td>
+                    <td data-zh="D-T 等离子体 —— 反引力约束的作用对象。" data-en="D-T plasma — the object the anti-gravity field acts on.">D-T 等离子体 —— 反引力约束的作用对象。</td></tr>
+                <tr><td>②</td><td data-zh="双流环" data-en="Twin flow rings">双流环</td>
+                    <td data-zh="Cu 慢流环(Z=29,惯性锚定)+ H 快流环(Z=1,快响应),反向环流相消 —— 这就是场反位形的几何表达。" data-en="A slow Cu ring (Z=29, inertial anchor) and a fast H ring (Z=1, fast response); opposite circulations cancel — that is field reversal, expressed geometrically.">Cu 慢流环(Z=29,惯性锚定)+ H 快流环(Z=1,快响应),反向环流相消 —— 这就是场反位形的几何表达。</td></tr>
+                <tr><td>③</td><td data-zh="RMF 时变场源" data-en="RMF time-varying source">RMF 时变场源</td>
+                    <td data-zh="旋转磁场线圈:持续变化的电磁场。按 PA4 的桥,变化的电磁场 ⟺ 变化的引力场,所以它同时是约束通道的来源。" data-en="A rotating-field coil: a continuously changing electromagnetic field. Through the PA4 bridge, a changing EM field ⟺ a changing gravitational field — so it is also the source of the confinement channel.">旋转磁场线圈:持续变化的电磁场。按 PA4 的桥,变化的电磁场 ⟺ 变化的引力场,所以它同时是约束通道的来源。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="band" id="ag-tradeoff">
+          <div class="section-head reveal">
+            <p class="kicker">— 02 · 关键取舍</p>
+            <h2 class="section-title" data-zh="为什么敢砍掉分段压缩" data-en="Why the compression stages can be cut">为什么敢砍掉分段压缩</h2>
+            <p class="section-lede"
+               data-zh="分段压缩的本质就是「变化的电磁场」,而变化的电磁场按照这套框架等价于变化的引力场——也就是说,压缩管线里本来就藏着一条引力通道,只是从没被显式用作约束。这份设计把它拿出来当主通道:用 μ(t) 降有效质量(回旋半径缩小、约束时间变长),替代堆 B 的磁压压缩。"
+               data-en="Staged compression is, in essence, a changing electromagnetic field — and by this framework a changing EM field is equivalent to a changing gravitational field. In other words the compression pipeline already contained a gravity channel that was never used as confinement. This design promotes it to the main channel: μ(t) lowers the effective mass (smaller gyro-radius, longer confinement) instead of stacking B for magnetic pressure.">分段压缩的本质就是「变化的电磁场」,而变化的电磁场按照这套框架等价于变化的引力场——也就是说,压缩管线里本来就藏着一条引力通道,只是从没被显式用作约束。这份设计把它拿出来当主通道:用 μ(t) 降有效质量(回旋半径缩小、约束时间变长),替代堆 B 的磁压压缩。</p>
+          </div>
+
+          <p class="mono reveal" style="color:var(--ink-2);font-size:.95rem;line-height:2">
+            RMF 时变磁场 → 时变 μ(t) → m_eff = s(1−μ) 下降 → ρ_i ∝ √m_eff 缩小、τ_E ∝ 1/√(1−μ) 提升<br>
+            θ-pinch 形成场反位形(保留,一次性) · RMF 维持(保留并强化) · 分段压缩(砍掉)
+          </p>
+
+          <dl class="spec-list reveal" style="margin-top:clamp(28px,4vw,44px)">
+            <div><dt data-zh="保留" data-en="Kept">保留</dt><dd data-zh="θ-pinch 形成(一次)→ 场反位形自组织;RMF 旋转磁场维持 —— 这是 μ(t) 的时变载体。" data-en="θ-pinch formation (once) → self-organised field reversal; RMF sustainment — the carrier of time-varying μ.">θ-pinch 形成(一次)→ 场反位形自组织;RMF 旋转磁场维持 —— 这是 μ(t) 的时变载体。</dd></div>
+            <div><dt data-zh="砍掉" data-en="Cut">砍掉</dt><dd data-zh="十级递减线圈的分段压缩管线,以及配套的脉冲储能。" data-en="The ten-stage decreasing-coil compression line, and the pulse energy storage that goes with it.">十级递减线圈的分段压缩管线,以及配套的脉冲储能。</dd></div>
+            <div><dt data-zh="「稳态」的定义" data-en="What 'steady state' means">「稳态」的定义</dt><dd data-zh="不是零输入永动机:是不需要分段压缩脉冲 —— RMF 持续维持 → μ 持续 → 约束持续 → 聚变持续;能量账要满足「聚变产热 ≥ RMF 维持 + 抹平成本 + 损耗」。" data-en="Not a zero-input perpetual motion machine: it means no compression pulses — RMF sustains, so μ sustains, so confinement and fusion sustain. The energy ledger must still balance: fusion heat ≥ RMF sustainment + smoothing cost + losses.">不是零输入永动机:是不需要分段压缩脉冲 —— RMF 持续维持 → μ 持续 → 约束持续 → 聚变持续;能量账要满足「聚变产热 ≥ RMF 维持 + 抹平成本 + 损耗」。</dd></div>
+          </dl>
+        </section>
+
+        <section class="band" id="ag-window">
+          <div class="section-head reveal">
+            <p class="kicker">— 03 · 工作区间</p>
+            <h2 class="section-title" data-zh="μ 只有一个窄窗可用" data-en="μ has exactly one narrow window">μ 只有一个窄窗可用</h2>
+            <p class="section-lede"
+               data-zh="μ 要够大,才谈得上提升约束时间;但两条硬约束把它从上方和下方同时夹住:RMF 驱动窗口要求 μ 小于 1 − m&lt;sub&gt;e&lt;/sub&gt;/m&lt;sub&gt;i&lt;/sub&gt;(D-T 约 0.99978),而 μ 趋近 1 时燃料进入随流态、不碰撞不聚变。所以反引力约束工作在 μ 的&lt;strong&gt;中间区间&lt;/strong&gt;,不追求质量归零。"
+               data-en="μ must be large enough to buy confinement time, yet two hard constraints squeeze it from both sides: the RMF drive window requires μ below 1 − m&lt;sub&gt;e&lt;/sub&gt;/m&lt;sub&gt;i&lt;/sub&gt; (about 0.99978 for D-T), while μ → 1 sends the fuel into the comoving state where it neither collides nor fuses. Anti-gravity confinement therefore works in the &lt;strong&gt;middle of the μ range&lt;/strong&gt; — mass cancellation is not the goal."
+               data-html="1">μ 要够大,才谈得上提升约束时间;但两条硬约束把它从上方和下方同时夹住:RMF 驱动窗口要求 μ 小于 1 − m<sub>e</sub>/m<sub>i</sub>(D-T 约 0.99978),而 μ 趋近 1 时燃料进入随流态、不碰撞不聚变。所以反引力约束工作在 μ 的<strong>中间区间</strong>,不追求质量归零。</p>
+          </div>
+
+          <figure class="doc-fig reveal">
+            <div class="plate">
+              <a class="plate-link" href="assets/art/antigravity-mu-window.png" target="_blank" rel="noopener"><img src="assets/art/antigravity-mu-window.png" width="1400" height="727"
+                   alt="μ 工作区间图:横轴 μ(反引力强度),纵轴 τ_E 相对提升倍数;绿线为 1/√(1−μ) 的约束提升曲线,右侧红虚线为 RMF 天花板 μ=0.99978,黄色竖带标出反引力约束的可行工作带"></a>
+            </div>
+            <figcaption data-zh="μ 工作区间 · 约束提升倍数 τ_E/τ_E(0) = 1/√(1−μ) 对 μ;右侧红虚线为 RMF 天花板(FC11),黄带为可行工作带。" data-en="μ working window — confinement gain τ_E/τ_E(0) = 1/√(1−μ) against μ; the red dashed line is the RMF ceiling (FC11), the amber band is the feasible working range.">μ 工作区间 · 约束提升倍数 τ_E/τ_E(0) = 1/√(1−μ) 对 μ;右侧红虚线为 RMF 天花板(FC11),黄带为可行工作带。</figcaption>
+          </figure>
+
+          <dl class="spec-list reveal" style="margin-top:clamp(28px,4vw,44px)">
+            <div><dt>τ_E ×10</dt><dd data-zh="要约束时间提升 10 倍,需要 μ = 0.99(工作带内,远离天花板)。" data-en="A tenfold confinement gain needs μ = 0.99 — inside the band, well below the ceiling.">要约束时间提升 10 倍,需要 μ = 0.99(工作带内,远离天花板)。</dd></div>
+            <div><dt>μ &lt; 0.99978</dt><dd data-zh="上限来自 FC11:μ 一旦越过 1 − m&lt;sub&gt;e&lt;/sub&gt;/m&lt;sub&gt;i&lt;/sub&gt;,RMF 的驱动窗口消失——推 μ 的通道自己先没了。" data-en="The upper bound is FC11: once μ passes 1 − m&lt;sub&gt;e&lt;/sub&gt;/m&lt;sub&gt;i&lt;/sub&gt; the RMF drive window closes — the channel that pushes μ is gone." data-html="1">上限来自 FC11:μ 一旦越过 1 − m<sub>e</sub>/m<sub>i</sub>,RMF 的驱动窗口消失——推 μ 的通道自己先没了。</dd></div>
+            <div><dt data-zh="μ → 1" data-en="μ → 1">μ → 1</dt><dd data-zh="燃料随流(dτ = 0),不碰撞也不聚变 —— 约束再好,没有反应也没有功率。" data-en="The fuel becomes comoving (dτ = 0): no collisions, no fusion. Perfect confinement, zero reactions.">燃料随流(dτ = 0),不碰撞也不聚变 —— 约束再好,没有反应也没有功率。</dd></div>
+            <div><dt data-zh="维持条件" data-en="Sustainment">维持条件</dt><dd data-zh="每一时刻旋转输入 ≥ 抹平成本(TM3);随场强的能量代价 ∝ B²。" data-en="At every instant, the rotational input must cover the smoothing cost (TM3); that energy cost grows with B².">每一时刻旋转输入 ≥ 抹平成本(TM3);随场强的能量代价 ∝ B²。</dd></div>
+          </dl>
+        </section>
+
+        <section class="band" id="ag-frc">
+          <div class="section-head reveal">
+            <p class="kicker">— 04 · 场反位形</p>
+            <h2 class="section-title" data-zh="被约束的东西长什么样" data-en="What is actually being confined">被约束的东西长什么样</h2>
+            <p class="section-lede"
+               data-zh="场反位形的判据是「内部磁场反向」:分离面(闭合磁力线的边界)上 B_z 归零,面内磁场反向(中心 B_z ≈ −1.718·B_ext),面外是开放磁力线。这两张图是同一套几何的两个视角 —— 强度和走向。"
+               data-en="A field-reversed configuration is defined by an inverted internal field: B_z vanishes on the separatrix (the boundary of closed field lines), the field inside runs reversed (centre B_z ≈ −1.718·B_ext), and outside the lines are open. The two figures below are the same geometry seen as magnitude and as direction.">场反位形的判据是「内部磁场反向」:分离面(闭合磁力线的边界)上 B_z 归零,面内磁场反向(中心 B_z ≈ −1.718·B_ext),面外是开放磁力线。这两张图是同一套几何的两个视角 —— 强度和走向。</p>
+          </div>
+
+          <div class="fig-grid reveal">
+            <figure class="doc-fig">
+              <div class="plate">
+                <a class="plate-link" href="assets/art/antigravity-field-map.png" target="_blank" rel="noopener"><img src="assets/art/antigravity-field-map.png" width="1348" height="1101"
+                     alt="轴向磁场 B_z(r,z) 色带图:内部蓝色表示反向场(约 −1.7 倍外部场),白色表示分离面上 B_z=0,边缘红色表示正向场最大;黑线为分离面轮廓"></a>
+              </div>
+              <figcaption data-zh="轴向磁场分布 · 蓝=反向 / 白=零 / 红=正向(归一化);黑线为分离面。" data-en="Axial field map — blue = reversed, white = zero, red = forward (normalised); black lines mark the separatrix.">轴向磁场分布 · 蓝=反向 / 白=零 / 红=正向(归一化);黑线为分离面。</figcaption>
+            </figure>
+            <figure class="doc-fig">
+              <div class="plate">
+                <a class="plate-link" href="assets/art/antigravity-field-line.png" target="_blank" rel="noopener"><img src="assets/art/antigravity-field-line.png" width="1340" height="1101"
+                     alt="磁力线走向矢量图:分离面内为闭合反向磁力线,分离面外为开放轴向磁力线;颜色表示磁场强度大小"></a>
+              </div>
+              <figcaption data-zh="磁力线走向 · 分离面内闭合(场反位形)/ 面外开放(轴向场)。" data-en="Field-line topology — closed inside the separatrix (the reversed configuration), open outside (axial field).">磁力线走向 · 分离面内闭合(场反位形)/ 面外开放(轴向场)。</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="band" id="ag-gates">
+          <div class="section-head reveal">
+            <p class="kicker">— 05 · 红线与缺口</p>
+            <h2 class="section-title" data-zh="三道硬门,一个缺口" data-en="Three hard gates, one gap">三道硬门,一个缺口</h2>
+          </div>
+
+          <dl class="spec-list reveal">
+            <div><dt data-zh="门一 · 必要性" data-en="Gate 1 · necessity">门一 · 必要性</dt><dd data-zh="质量归零要求 μ 到达 1(TM2b),而聚变要求 μ 小于 1(燃料不随流)。反引力约束只能用中间区间——「把质量抹掉」和「让它聚变」不能同时要。" data-en="Mass cancellation needs μ to reach 1 (TM2b); fusion needs μ below 1 (fuel must not go comoving). Only the middle range is available: erase the mass and let it fuse cannot both be had.">质量归零要求 μ 到达 1(TM2b),而聚变要求 μ 小于 1(燃料不随流)。反引力约束只能用中间区间——「把质量抹掉」和「让它聚变」不能同时要。</dd></div>
+            <div><dt data-zh="门二 · 天花板" data-en="Gate 2 · ceiling">门二 · 天花板</dt><dd data-zh="μ &lt; 1 − m&lt;sub&gt;e&lt;/sub&gt;/m&lt;sub&gt;i&lt;/sub&gt;(D-T 约 0.99978):越过这条线,RMF 窗口关闭。" data-en="μ &lt; 1 − m&lt;sub&gt;e&lt;/sub&gt;/m&lt;sub&gt;i&lt;/sub&gt; (≈0.99978 for D-T): past this line the RMF window closes." data-html="1">μ < 1 − m<sub>e</sub>/m<sub>i</sub>(D-T 约 0.99978):越过这条线,RMF 窗口关闭。</dd></div>
+            <div><dt data-zh="门三 · 未证" data-en="Gate 3 · unproven">门三 · 未证</dt><dd data-zh="FC5 锁定:S*/τ_E 与 m、B 无关,μ 改善输运 ⟹ 稳定性以同因子恶化。本设计主张「几何捕获而非磁压约束」来绕开它,但这条主张尚未证明 —— 这是与既有轮次最需要论证的分歧点。" data-en="The FC5 lock: S*/τ_E is independent of m and B, so improving transport by μ worsens stability by the same factor. The design claims geometric capture rather than magnetic-pressure confinement dodges it — unproven, and the sharpest open disagreement with earlier rounds.">FC5 锁定:S*/τ_E 与 m、B 无关,μ 改善输运 ⟹ 稳定性以同因子恶化。本设计主张「几何捕获而非磁压约束」来绕开它,但这条主张尚未证明 —— 这是与既有轮次最需要论证的分歧点。</dd></div>
+            <div><dt class="hl" data-zh="缺口" data-en="The gap">缺口</dt><dd data-zh="μ 的主动产生机制(电磁场究竟如何抹平空间褶皱)仍是第二输入缺口 —— 图纸上把它显式标成「输入端」,不藏。另有两项未建模:μ 对反应率 ⟨σv⟩ 的影响;反引力几何约束下动力学稳定性的边界值。" data-en="How to produce μ on demand (how an EM field actually smooths the space fabric) remains the second input gap — the schematic labels it as an input, not a detail. Two further items are unmodelled: the effect of μ on the reaction rate ⟨σv⟩, and the stability boundary under geometric confinement.">μ 的主动产生机制(电磁场究竟如何抹平空间褶皱)仍是第二输入缺口 —— 图纸上把它显式标成「输入端」,不藏。另有两项未建模:μ 对反应率 ⟨σv⟩ 的影响;反引力几何约束下动力学稳定性的边界值。</dd></div>
+          </dl>
+
+          <p class="cite-links reveal" style="margin-top:clamp(28px,4vw,44px)">
+            <span class="mono" style="color:var(--ink-3);font-size:12px;letter-spacing:1px" data-zh="来源 · 装置设计与图纸脚本" data-en="Source · design and plotting scripts">来源 · 装置设计与图纸脚本</span>
+            <a href="https://github.com/logos-42/Hibs-Physics" rel="noopener">github.com/logos-42/Hibs-Physics</a>
+          </p>
+        </section>
+
+      </article>
+
+      <!-- ══ 03 · 魔角石墨烯场天花板 ═════════════════════════════════════ -->
+      <article class="doc-pane" id="doc-moire" data-doc-pane="doc-moire"
+               role="tabpanel" aria-labelledby="tab-moire" tabindex="0" hidden>
+
+        <section class="band">
+                    <nav class="crumbs reveal" aria-label="面包屑">
+            <a href="docs.html" data-zh="理论" data-en="Theory">理论</a>
+            <span class="crumbs-sep" aria-hidden="true">/</span>
+            <span data-zh="03 · 魔角石墨烯场天花板" data-en="03 · Magic-Angle Graphene Field Ceiling">03 · 魔角石墨烯场天花板</span>
+          </nav>
+<div class="section-head reveal">
+            <p class="kicker">— Doc 03 · 场源账本</p>
+            <h2 class="display" data-zh="魔角石墨烯,当线圈用会怎样" data-en="Magic-Angle Graphene as a Coil">魔角石墨烯,当线圈用会怎样</h2>
+            <p class="lede"
+               data-zh="把两层石墨烯相对旋转约 1.1°,莫尔超晶格的周期约 12.8 nm,低能电子能带压平,电子关联冒头 —— 于是出现超导。这不是问题;问题在于:&lt;strong&gt;它的临界温度只有开尔文量级&lt;/strong&gt;,而且超导体能承受的磁场有材料上限。这一本账不算新物理,只做一件事:把「受控聚变」这条链里的场源换成一个魔角石墨烯线圈,看&lt;strong&gt;密度、功率、体积、所需 μ&lt;/strong&gt; 各变成什么,以及死在哪一层。"
+               data-en="Rotate two graphene layers by about 1.1° and the moiré superlattice period is ~12.8 nm: the low-energy bands flatten, correlations appear, and superconductivity follows. That is not the issue. The issue is that &lt;strong&gt;its critical temperature is a few kelvin&lt;/strong&gt;, and that every superconductor has a material ceiling on the field it tolerates. This ledger adds no new physics — it swaps the field source in the controlled-fusion chain for a magic-angle graphene coil and asks what happens to &lt;strong&gt;density, power, volume and the required μ&lt;/strong&gt;, and which layer dies."
+               data-html="1">把两层石墨烯相对旋转约 1.1°,莫尔超晶格的周期约 12.8 nm,低能电子能带压平,电子关联冒头 —— 于是出现超导。这不是问题;问题在于:<strong>它的临界温度只有开尔文量级</strong>,而且超导体能承受的磁场有材料上限。这一本账不算新物理,只做一件事:把「受控聚变」这条链里的场源换成一个魔角石墨烯线圈,看<strong>密度、功率、体积、所需 μ</strong> 各变成什么,以及死在哪一层。</p>
+          </div>
+        </section>
+
+        <section class="band" id="mf-facts">
+          <div class="section-head reveal">
+            <p class="kicker">— 01 · 已知事实</p>
+            <h2 class="section-title" data-zh="先分清哪些是实验、哪些是愿望" data-en="Separate the measurements from the wishes">先分清哪些是实验、哪些是愿望</h2>
+          </div>
+
+          <dl class="spec-list reveal">
+            <div><dt data-zh="能做" data-en="Demonstrated">能做</dt><dd data-zh="魔角双层石墨烯(θ ≈ 1.05–1.15°)确实可以超导;三层体系(MATTG)把超导抵抗面内磁场的能耐提高了一个量级。" data-en="Magic-angle bilayer graphene (θ ≈ 1.05–1.15°) does superconduct; the three-layer version (MATTG) raises the in-plane field tolerance by an order of magnitude.">魔角双层石墨烯(θ ≈ 1.05–1.15°)确实可以超导;三层体系(MATTG)把超导抵抗面内磁场的能耐提高了一个量级。</dd></div>
+            <div><dt data-zh="不能做" data-en="Not demonstrated">不能做</dt><dd data-zh="常温超导没有任何证据:器件间临界温度约 1.1–2.1 K(个别报道到 3 K 级),比室温低三个量级。能带压平 ⟹ 关联增强,不等于临界温度会升到室温。" data-en="No evidence for room-temperature superconductivity exists: critical temperatures run 1.1–2.1 K across devices (a few reported near 3 K), three orders of magnitude below ambient. Flattened bands mean stronger correlations — not a route to room temperature.">常温超导没有任何证据:器件间临界温度约 1.1–2.1 K(个别报道到 3 K 级),比室温低三个量级。能带压平 ⟹ 关联增强,不等于临界温度会升到室温。</dd></div>
+            <div><dt data-zh="另一个战场" data-en="The real asymmetry">另一个战场</dt><dd data-zh="真正决定成败的不是「能不能超导」,而是「能扛多强的场」:两层体系的面外上限约 0.12 T(超导一压就退),面内约 1.6 T;三层体系面内超过 10 T(已明显违背泡利极限)。" data-en="What decides the outcome is not whether it superconducts but how much field it survives: the bilayer is limited to about 0.12 T out of plane and 1.6 T in plane, while the trilayer exceeds 10 T in plane (well past the Pauli limit).">真正决定成败的不是「能不能超导」,而是「能扛多强的场」:两层体系的面外上限约 0.12 T(超导一压就退),面内约 1.6 T;三层体系面内超过 10 T(已明显违背泡利极限)。</dd></div>
+          </dl>
+
+          <div class="table-wrap reveal" style="margin-top:clamp(28px,4vw,44px)">
+            <table class="doc">
+              <thead>
+                <tr>
+                  <th data-zh="材料 / 取向" data-en="Material / orientation">材料 / 取向</th>
+                  <th data-zh="临界场上限" data-en="Field ceiling">临界场上限</th>
+                  <th data-zh="这台账里怎么用" data-en="How it enters the ledger">这台账里怎么用</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td data-zh="魔角双层 · 面外(场 ⊥ 膜面)" data-en="Bilayer · out of plane">魔角双层 · 面外(场 ⊥ 膜面)</td><td>≈ 0.12 T</td>
+                    <td data-zh="叠层几何下磁场天然垂直膜面 —— 最省事,也最先死。" data-en="Stacked geometry puts the field perpendicular by default — easiest to build, first to die.">叠层几何下磁场天然垂直膜面 —— 最省事,也最先死。</td></tr>
+                <tr><td data-zh="魔角双层 · 面内(场 ∥ 膜面)" data-en="Bilayer · in plane">魔角双层 · 面内(场 ∥ 膜面)</td><td>≈ 1.6 T</td>
+                    <td data-zh="螺线管里的场本来就大致平行于绕线面,取向这一关可以过。" data-en="In a solenoid the field already runs roughly along the winding plane, so this orientation is attainable.">螺线管里的场本来就大致平行于绕线面,取向这一关可以过。</td></tr>
+                <tr><td data-zh="魔角三层及以上 · 面内" data-en="Trilayer and up · in plane">魔角三层及以上 · 面内</td><td>&gt; 10 T</td>
+                    <td data-zh="同族材料里唯一能和紧凑装置的门槛打平的档位。" data-en="The only tier in the family that matches the threshold of a compact device.">同族材料里唯一能和紧凑装置的门槛打平的档位。</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="section-lede reveal" style="margin-top:clamp(22px,3vw,32px)"
+             data-zh="一句话:&lt;strong&gt;「1° 夹角」不是问题,「两层」才是问题。&lt;/strong&gt;"
+             data-en="In one line: &lt;strong&gt;the 1° twist is not the problem — being two layers is.&lt;/strong&gt;"
+             data-html="1">一句话:<strong>「1° 夹角」不是问题,「两层」才是问题。</strong></p>
+        </section>
+
+        <section class="band" id="mf-ledger">
+          <div class="section-head reveal">
+            <p class="kicker">— 02 · 记账口径</p>
+            <h2 class="section-title" data-zh="七层账本:链条上哪个上限先咬人" data-en="Seven layers: which ceiling bites first">七层账本:链条上哪个上限先咬人</h2>
+            <p class="section-lede"
+               data-zh="链条是:线圈载流 → 约束场 B → 等离子体密度 n → 聚变功率 P ∝ n² → 劳森要求的约束时间 τ → 所需反引力强度 μ → 制冷。每一层都有一个「现实上限」,任何一层上限低于需求,这一层就出局。"
+               data-en="The chain runs: coil current → confinement field B → plasma density n → fusion power P ∝ n² → the confinement time τ Lawson demands → the anti-gravity strength μ required → refrigeration. Each layer has a real-world ceiling; whichever ceiling falls below the requirement eliminates that layer.">链条是:线圈载流 → 约束场 B → 等离子体密度 n → 聚变功率 P ∝ n² → 劳森要求的约束时间 τ → 所需反引力强度 μ → 制冷。每一层都有一个「现实上限」,任何一层上限低于需求,这一层就出局。</p>
+          </div>
+
+          <div class="table-wrap reveal">
+            <table class="doc">
+              <thead>
+                <tr>
+                  <th data-zh="层" data-en="Layer">层</th>
+                  <th data-zh="判据" data-en="Criterion">判据</th>
+                  <th data-zh="本账结果(参照装置:0.2 m,设计密度 1×10²⁰ m⁻³)" data-en="Result (reference device: 0.2 m, design density 1×10²⁰ m⁻³)">本账结果(参照装置:0.2 m,设计密度 1×10²⁰ m⁻³)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td data-zh="① 材料" data-en="① Material">① 材料</td>
+                    <td data-zh="工作温度 ≤ 临界温度的一半" data-en="Operating temperature ≤ half the critical temperature">工作温度 ≤ 临界温度的一半</td>
+                    <td data-zh="0.5–1 K —— 只能上稀释制冷机。" data-en="0.5–1 K — dilution refrigerator territory only.">0.5–1 K —— 只能上稀释制冷机。</td></tr>
+                <tr><td data-zh="② 导体" data-en="② Conductor">② 导体</td>
+                    <td data-zh="片电流 = 临界电流密度 × 厚度(只有约 0.7 nm 载流通道)" data-en="Sheet current = Jc × thickness (a ~0.7 nm conducting channel)">片电流 = 临界电流密度 × 厚度(只有约 0.7 nm 载流通道)</td>
+                    <td data-zh="比成熟高温超导带材低四到五个量级(见 §06)。" data-en="Four to five orders of magnitude below mature HTS tape (see §06).">比成熟高温超导带材低四到五个量级(见 §06)。</td></tr>
+                <tr><td data-zh="③ 场-密度" data-en="③ Field–density">③ 场-密度</td>
+                    <td data-zh="密度上限 ∝ B²;反过来,给定密度需要的最小场 ∝ √n" data-en="Density ceiling ∝ B²; conversely the minimum field for a given density ∝ √n">密度上限 ∝ B²;反过来,给定密度需要的最小场 ∝ √n</td>
+                    <td data-zh="撑住 1×10²⁰ m⁻³ 需要 1.099 T;两层面外上限 0.12 T 只够 1.19×10¹⁸ m⁻³(差 84 倍)。" data-en="Holding 1×10²⁰ m⁻³ needs 1.099 T; the bilayer's 0.12 T ceiling supports only 1.19×10¹⁸ m⁻³ — an 84× shortfall." data-html="1">撑住 1×10²⁰ m⁻³ 需要 1.099 T;两层面外上限 0.12 T 只够 1.19×10¹⁸ m⁻³(差 84 倍)。</td></tr>
+                <tr><td data-zh="④ 功率" data-en="④ Power">④ 功率</td>
+                    <td data-zh="功率密度 ∝ n² ∝ B⁴ ⟹ 同功率所需体积 ∝ B⁻⁴" data-en="Power density ∝ n² ∝ B⁴ ⟹ volume for the same power ∝ B⁻⁴">功率密度 ∝ n² ∝ B⁴ ⟹ 同功率所需体积 ∝ B⁻⁴</td>
+                    <td data-zh="面外 0.12 T:功率密度降到 3.2×10⁻⁸,同功率体积涨 3.2×10⁷ 倍。" data-en="At 0.12 T: power density ×3.2×10⁻⁸, and the volume for the same power ×3.2×10⁷.">面外 0.12 T:功率密度降到 3.2×10⁻⁸,同功率体积涨 3.2×10⁷ 倍。</td></tr>
+                <tr><td data-zh="⑤ 输运" data-en="⑤ Transport">⑤ 输运</td>
+                    <td data-zh="劳森条件:密度 × 约束时间 ≥ 2×10²⁰(m⁻³·s)" data-en="Lawson: density × confinement time ≥ 2×10²⁰ (m⁻³·s)">劳森条件:密度 × 约束时间 ≥ 2×10²⁰(m⁻³·s)</td>
+                    <td data-zh="场一弱,密度就低,要求的约束时间反而更长 —— 于是对 μ 的要求更苛刻。" data-en="A weaker field means lower density, which demands a longer confinement time — making the μ requirement harsher, not milder.">场一弱,密度就低,要求的约束时间反而更长 —— 于是对 μ 的要求更苛刻。</td></tr>
+                <tr><td data-zh="⑥ μ 窗口" data-en="⑥ μ window">⑥ μ 窗口</td>
+                    <td data-zh="可行 ⟺ 所需的 (1−μ) 上限 &gt; 硬地板 m&lt;sub&gt;e&lt;/sub&gt;/m&lt;sub&gt;i&lt;/sub&gt; = 2.19×10⁻⁴" data-en="Feasible ⟺ the required (1−μ) ceiling &gt; the hard floor m&lt;sub&gt;e&lt;/sub&gt;/m&lt;sub&gt;i&lt;/sub&gt; = 2.19×10⁻⁴" data-html="1">可行 ⟺ 所需的 (1−μ) 上限 > 硬地板 m<sub>e</sub>/m<sub>i</sub> = 2.19×10⁻⁴</td>
+                    <td data-zh="面外 0.12 T 下所需 (1−μ) ≤ 4.6×10⁻⁸,比地板低 4800 倍 ⟹ 无解(§05)。" data-en="At 0.12 T the required (1−μ) ≤ 4.6×10⁻⁸, i.e. 4800× below the floor ⟹ no solution (§05)." data-html="1">面外 0.12 T 下所需 (1−μ) ≤ 4.6×10⁻⁸,比地板低 4800 倍 ⟹ 无解(§05)。</td></tr>
+                <tr><td data-zh="⑦ 制冷" data-en="⑦ Cryogenics">⑦ 制冷</td>
+                    <td data-zh="可用的亚开尔文冷量 vs 装置的冷量需求" data-en="Available sub-kelvin cooling capacity vs the device's demand">可用的亚开尔文冷量 vs 装置的冷量需求</td>
+                    <td data-zh="差 3.75×10⁶ 倍,外加卡诺代价从 4.5 K 到 0.5 K 恶化 9.1 倍(§06)。" data-en="A 3.75×10⁶ shortfall, plus a Carnot penalty 9.1× worse going from 4.5 K to 0.5 K (§06).">差 3.75×10⁶ 倍,外加卡诺代价从 4.5 K 到 0.5 K 恶化 9.1 倍(§06)。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="band" id="mf-data">
+          <div class="section-head reveal">
+            <p class="kicker">— 03 · 数据变化</p>
+            <h2 class="section-title" data-zh="把 1° 石墨烯当线圈,数字变成什么" data-en="What the numbers become with a 1° graphene coil">把 1° 石墨烯当线圈,数字变成什么</h2>
+            <p class="section-lede"
+               data-zh="同一台装置几何下,场源天花板不同,能装的功率密度按 B⁴ 拉开:两层面外 0.12 T 只剩十万分之三;两层面内 1.6 T 掉三个量级;三层(10 T)以上才回到同一梯队。压缩档 35 T 之所以数值最高,靠的是脉冲,不是材料。"
+               data-en="In the same device geometry the attainable power density splits as B⁴: the bilayer out of plane (0.12 T) keeps three hundred-thousandths of it; the bilayer in plane (1.6 T) loses three orders of magnitude; only the trilayer (10 T) and up stay in the same tier. The 35 T compression row looks best because it is pulsed, not because the material improved.">同一台装置几何下,场源天花板不同,能装的功率密度按 B⁴ 拉开:两层面外 0.12 T 只剩十万分之三;两层面内 1.6 T 掉三个量级;三层(10 T)以上才回到同一梯队。压缩档 35 T 之所以数值最高,靠的是脉冲,不是材料。</p>
+          </div>
+
+          <div class="table-wrap reveal">
+            <table class="doc">
+              <thead>
+                <tr>
+                  <th data-zh="场源" data-en="Field source">场源</th>
+                  <th data-zh="场天花板" data-en="Ceiling">场天花板</th>
+                  <th data-zh="可约束密度" data-en="Density">可约束密度</th>
+                  <th data-zh="功率密度" data-en="Power density">功率密度</th>
+                  <th data-zh="同功率体积" data-en="Volume">同功率体积</th>
+                  <th data-zh="判决" data-en="Verdict">判决</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td data-zh="魔角双层 · 面外" data-en="Bilayer · out of plane">魔角双层 · 面外</td><td>0.12 T</td><td>1.19×10¹⁸</td><td>3.2×10⁻⁸</td><td>3.2×10⁷</td>
+                    <td data-zh="无解(μ 窗口关闭)" data-en="No solution (μ window closed)">无解(μ 窗口关闭)</td></tr>
+                <tr><td data-zh="魔角双层 · 面内" data-en="Bilayer · in plane">魔角双层 · 面内</td><td>1.6 T</td><td>1.00×10²⁰</td><td>1.0×10⁻³</td><td>1.0×10³</td>
+                    <td data-zh="物理层过门,工程层出局" data-en="Physics passes, engineering fails">物理层过门,工程层出局</td></tr>
+                <tr><td data-zh="魔角三层 · 面内" data-en="Trilayer · in plane">魔角三层 · 面内</td><td>10 T</td><td>1.00×10²⁰</td><td>1.5</td><td>0.66</td>
+                    <td data-zh="物理层过门,工程层出局" data-en="Physics passes, engineering fails">物理层过门,工程层出局</td></tr>
+                <tr><td data-zh="成熟超导磁体(对照)" data-en="Mature superconducting magnet (reference)">成熟超导磁体(对照)</td><td>5.3–12.2 T</td><td>1.00×10²⁰</td><td>0.12–3.4</td><td>8.3–0.30</td>
+                    <td data-zh="现役工程基准" data-en="Today's engineering baseline">现役工程基准</td></tr>
+                <tr><td data-zh="紧凑装置真空场(本账基准)" data-en="Compact-device vacuum field (baseline)">紧凑装置真空场(本账基准)</td><td>9 T</td><td>1.00×10²⁰</td><td>1.00</td><td>1.00</td>
+                    <td data-zh="基准行(数字都相对于它)" data-en="The baseline row">基准行(数字都相对于它)</td></tr>
+                <tr><td data-zh="紧凑装置压缩后场(脉冲)" data-en="Compact-device compressed field (pulsed)">紧凑装置压缩后场(脉冲)</td><td>35 T</td><td>1.00×10²⁰</td><td>2.3×10²</td><td>4.4×10⁻³</td>
+                    <td data-zh="脉冲,不是材料" data-en="Pulsed — not a material">脉冲,不是材料</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <figure class="doc-fig reveal" style="margin-top:clamp(28px,4vw,44px)">
+            <div class="plate">
+              <a class="plate-link" href="assets/art/moire-field-ceiling.png" target="_blank" rel="noopener"><img src="assets/art/moire-field-ceiling.png" width="1350" height="840"
+                   alt="场源天花板标度图:横轴为场源天花板(对数),左轴为可约束密度 n_max ∝ B²,右轴为功率密度相对值 ∝ B⁴;竖线标出魔角两层面外 0.12 T、面内 1.6 T、三层 10 T 与压缩 35 T"></a>
+            </div>
+            <figcaption data-zh="场天花板 → 密度与功率密度 · 密度 ∝ B²(黑线),功率密度 ∝ B⁴(红虚线),同功率体积 ∝ B⁻⁴(蓝点划线)。" data-en="Field ceiling → density and power — density ∝ B² (black), power density ∝ B⁴ (red dashed), volume ∝ B⁻⁴ (blue dash-dot).">场天花板 → 密度与功率密度 · 密度 ∝ B²(黑线),功率密度 ∝ B⁴(红虚线),同功率体积 ∝ B⁻⁴(蓝点划线)。</figcaption>
+          </figure>
+        </section>
+
+        <section class="band" id="mf-threshold">
+          <div class="section-head reveal">
+            <p class="kicker">— 04 · 生死判据</p>
+            <h2 class="section-title" data-zh="两道约 1 T 的门槛,还有一条反比律" data-en="Two thresholds near 1 T, and an inverse law">两道约 1 T 的门槛,还有一条反比律</h2>
+            <p class="section-lede"
+               data-zh="把「场 → 密度 → 约束时间 → 所需 μ」串起来,会解出两个阈值:低于&lt;strong&gt;1.099 T&lt;/strong&gt;,连设计密度都撑不住(约束变得不可能);低于&lt;strong&gt;0.997 T&lt;/strong&gt;,任何密度都无解 —— μ 的可行窗口整个关闭。而阈值随装置尺寸按 &lt;strong&gt;1/a&lt;/strong&gt; 抬高:装置越小,要求的场越强。"
+               data-en="Chaining field → density → confinement time → required μ yields two thresholds: below &lt;strong&gt;1.099 T&lt;/strong&gt; the design density cannot even be held, and below &lt;strong&gt;0.997 T&lt;/strong&gt; no density works at all — the feasible μ window closes. And the threshold scales as &lt;strong&gt;1/a&lt;/strong&gt;: the smaller the device, the stronger the field it demands."
+               data-html="1">把「场 → 密度 → 约束时间 → 所需 μ」串起来,会解出两个阈值:低于<strong>1.099 T</strong>,连设计密度都撑不住(约束变得不可能);低于<strong>0.997 T</strong>,任何密度都无解 —— μ 的可行窗口整个关闭。而阈值随装置尺寸按 <strong>1/a</strong> 抬高:装置越小,要求的场越强。</p>
+          </div>
+
+          <div class="table-wrap reveal">
+            <table class="doc">
+              <thead>
+                <tr>
+                  <th data-zh="装置尺寸 a" data-en="Device size a">装置尺寸 a</th>
+                  <th data-zh="生死阈值 B_death" data-en="Death threshold">生死阈值 B_death</th>
+                  <th data-zh="这一档被关掉的场源" data-en="Sources closed out">这一档被关掉的场源</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>0.05 m</td><td>4.0 T</td><td data-zh="魔角两层(两种取向都关)" data-en="Bilayer, both orientations">魔角两层(两种取向都关)</td></tr>
+                <tr><td>0.10 m</td><td>2.0 T</td><td data-zh="魔角两层(两种取向都关)" data-en="Bilayer, both orientations">魔角两层(两种取向都关)</td></tr>
+                <tr><td>0.15 m</td><td>1.33 T</td><td data-zh="只关面外取向" data-en="Out-of-plane only">只关面外取向</td></tr>
+                <tr><td>0.20 m</td><td>1.00 T</td><td data-zh="只关面外取向" data-en="Out-of-plane only">只关面外取向</td></tr>
+                <tr><td>0.30 m</td><td>0.66 T</td><td data-zh="只关面外取向" data-en="Out-of-plane only">只关面外取向</td></tr>
+                <tr><td>1.00 m</td><td>0.20 T</td><td data-zh="都不关(材料上限都够)" data-en="None — every material ceiling clears">都不关(材料上限都够)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <figure class="doc-fig reveal" style="margin-top:clamp(28px,4vw,44px)">
+            <div class="plate">
+              <a class="plate-link" href="assets/art/moire-bdeath-size.png" target="_blank" rel="noopener"><img src="assets/art/moire-bdeath-size.png" width="1350" height="840"
+                   alt="生死阈值随装置尺寸变化的双对数图:黑线为 B_death ∝ 1/a 下降曲线,三条水平虚线为魔角石墨烯面外 0.12 T、面内 1.6 T 与三层 10 T 的材料上限,阴影区为无解区"></a>
+            </div>
+            <figcaption data-zh="生死阈值 B_death ∝ 1/a 与三条材料天花板 · 曲线落在阴影区的一侧表示该材料在该尺寸下无解。" data-en="Death threshold B_death ∝ 1/a against three material ceilings — a material below the curve at a given size has no solution.">生死阈值 B_death ∝ 1/a 与三条材料天花板 · 曲线落在阴影区的一侧表示该材料在该尺寸下无解。</figcaption>
+          </figure>
+
+          <p class="section-lede reveal" style="margin-top:clamp(22px,3vw,32px)"
+             data-zh="读出的是矛盾:&lt;strong&gt;「1° 家族」和「紧凑装置」两个愿望方向相反&lt;/strong&gt; —— 装置缩到 10 cm,门槛升到 2 T,正好越过两层材料的面内上限 1.6 T。同族里能同时满足的只剩三层以上那一档。"
+             data-en="The tension is plain: &lt;strong&gt;the '1° family' and the 'compact device' wish pull in opposite directions&lt;/strong&gt;. Shrink the device to 10 cm and the threshold rises to 2 T — just past the bilayer's 1.6 T in-plane ceiling. Within the family, only the trilayer and up can satisfy both."
+             data-html="1">读出的是矛盾:<strong>「1° 家族」和「紧凑装置」两个愿望方向相反</strong> —— 装置缩到 10 cm,门槛升到 2 T,正好越过两层材料的面内上限 1.6 T。同族里能同时满足的只剩三层以上那一档。</p>
+        </section>
+
+        <section class="band" id="mf-verdict">
+          <div class="section-head reveal">
+            <p class="kicker">— 05 · μ 窗口判决</p>
+            <h2 class="section-title" data-zh="这里不是更难,是无解" data-en="Not harder — unsolvable">这里不是更难,是无解</h2>
+            <p class="section-lede"
+               data-zh="反引力约束要的是 μ;而 μ 有一个硬地板:RMF 驱动窗口要求 1−μ 大于电子与离子的质量比 m&lt;sub&gt;e&lt;/sub&gt;/m&lt;sub&gt;i&lt;/sub&gt;。把场源天花板代进去,面外 0.12 T 下所需的 (1−μ) 上限是 4.6×10⁻⁸,比地板低 &lt;strong&gt;4800 倍&lt;/strong&gt; —— 需求与窗口根本不相交。这不是「工程上更难做到」,而是&lt;strong&gt;可行集为空&lt;/strong&gt;。"
+               data-en="Anti-gravity confinement wants μ, and μ has a hard floor: the RMF drive window requires 1−μ to exceed the electron-to-ion mass ratio m&lt;sub&gt;e&lt;/sub&gt;/m&lt;sub&gt;i&lt;/sub&gt;. Plug in the field ceiling and at 0.12 T the required (1−μ) ceiling is 4.6×10⁻⁸ — &lt;strong&gt;4800× below the floor&lt;/strong&gt;. Requirement and window do not intersect at all: this is not 'harder to engineer', it is an &lt;strong&gt;empty feasible set&lt;/strong&gt;."
+               data-html="1">反引力约束要的是 μ;而 μ 有一个硬地板:RMF 驱动窗口要求 1−μ 大于电子与离子的质量比 m<sub>e</sub>/m<sub>i</sub>。把场源天花板代进去,面外 0.12 T 下所需的 (1−μ) 上限是 4.6×10⁻⁸,比地板低 <strong>4800 倍</strong> —— 需求与窗口根本不相交。这不是「工程上更难做到」,而是<strong>可行集为空</strong>。</p>
+          </div>
+
+          <figure class="doc-fig reveal">
+            <div class="plate">
+              <a class="plate-link" href="assets/art/moire-mu-verdict.png" target="_blank" rel="noopener"><img src="assets/art/moire-mu-verdict.png" width="1350" height="840"
+                   alt="μ 窗口判决图:横轴为场源天花板(对数),红线为所需 (1−μ) 上限 ∝ B⁻⁴ 下降,蓝线为可行窗口的地板 m_e/m_i;红线低于蓝线的区间(浅色阴影)为无解区,并标出魔角两层 0.12 T 落在无解区、1.6 T 与三层 10 T 落在可行区"></a>
+            </div>
+            <figcaption data-zh="μ 窗口判决 · 红线 = 所需 (1−μ) 上限(随场强 ∝ B⁻⁴ 收紧),蓝线 = 硬地板 m_e/m_i;红线在蓝线下方 = 无解。场越弱,对 μ 的要求反而越苛刻。" data-en="μ window verdict — red: required (1−μ) ceiling (tightening as ∝ B⁻⁴), blue: the hard floor m_e/m_i. Red below blue means no solution: the weaker the field, the harsher the μ requirement.">μ 窗口判决 · 红线 = 所需 (1−μ) 上限(随场强 ∝ B⁻⁴ 收紧),蓝线 = 硬地板 m_e/m_i;红线在蓝线下方 = 无解。场越弱,对 μ 的要求反而越苛刻。</figcaption>
+          </figure>
+
+          <dl class="spec-list reveal" style="margin-top:clamp(28px,4vw,46px)">
+            <div><dt data-zh="面外 0.12 T" data-en="0.12 T, out of plane">面外 0.12 T</dt><dd data-zh="所需 (1−μ) ≤ 4.6×10⁻⁸,地板 2.19×10⁻⁴ —— 窗口关闭,可行集为空。" data-en="Required (1−μ) ≤ 4.6×10⁻⁸ against a floor of 2.19×10⁻⁴ — window closed, feasible set empty." data-html="1">所需 (1−μ) ≤ 4.6×10⁻⁸,地板 2.19×10⁻⁴ —— 窗口关闭,可行集为空。</dd></div>
+            <div><dt data-zh="面内 1.6 T 及以上" data-en="1.6 T and above, in plane">面内 1.6 T 及以上</dt><dd data-zh="可行,但余量只有 1.48 倍 —— 需求上限刚好压在地板之上,任何额外的输运损失都会把它推下去。" data-en="Feasible, but with only 1.48× of margin: the required ceiling sits just above the floor, so any extra transport loss pushes it under.">可行,但余量只有 1.48 倍 —— 需求上限刚好压在地板之上,任何额外的输运损失都会把它推下去。</dd></div>
+            <div><dt data-zh="方向感" data-en="Direction">方向感</dt><dd data-zh="直觉是「场弱 ⟹ 约束弱 ⟹ 只要多推一点 μ 就补回来」;实际相反:场弱 ⟹ 密度低 ⟹ 劳森要求的约束时间长 ⟹ 对 μ 的要求更接近 1 —— 而 μ 越靠近 1,可用窗口越窄。所以弱场不是「效率打折」,是「反向挤压」。"
+                    data-en="The intuition says a weaker field means weaker confinement, which a little more μ can compensate. It inverts: a weaker field means lower density, which means a longer required confinement time, which demands μ closer to 1 — and the closer μ gets to 1, the narrower the usable window. A weak field does not discount efficiency; it squeezes from behind.">直觉是「场弱 ⟹ 约束弱 ⟹ 只要多推一点 μ 就补回来」;实际相反:场弱 ⟹ 密度低 ⟹ 劳森要求的约束时间长 ⟹ 对 μ 的要求更接近 1 —— 而 μ 越靠近 1,可用窗口越窄。所以弱场不是「效率打折」,是「反向挤压」。</dd></div>
+          </dl>
+        </section>
+
+        <section class="band" id="mf-gates">
+          <div class="section-head reveal">
+            <p class="kicker">— 06 · 工程两门</p>
+            <h2 class="section-title" data-zh="就算物理层过了,还有两道门" data-en="Even past the physics, two gates remain">就算物理层过了,还有两道门</h2>
+          </div>
+
+          <div class="table-wrap reveal">
+            <table class="doc">
+              <thead>
+                <tr>
+                  <th data-zh="门" data-en="Gate">门</th>
+                  <th data-zh="二维超导体" data-en="2D superconductor">二维超导体</th>
+                  <th data-zh="成熟高温超导带材" data-en="Mature HTS tape">成熟高温超导带材</th>
+                  <th data-zh="缺口" data-en="Gap">缺口</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td data-zh="载流 · 片超流密度" data-en="Current · sheet superfluid density">载流 · 片超流密度</td>
+                    <td>2.9×10¹² cm⁻²</td><td>3.8×10¹⁶ cm⁻²</td>
+                    <td data-zh="1.3×10⁴ 倍" data-en="1.3×10⁴×">1.3×10⁴ 倍</td></tr>
+                <tr><td data-zh="载流 · 片电流" data-en="Current · sheet current">载流 · 片电流</td>
+                    <td>2.5×10⁻³ A/cm</td><td>10³ A/cm</td>
+                    <td data-zh="4.0×10⁵ 倍" data-en="4.0×10⁵×">4.0×10⁵ 倍</td></tr>
+                <tr><td data-zh="制冷 · 冷量" data-en="Cooling · capacity">制冷 · 冷量</td>
+                    <td data-zh="20 mW @ 0.5 K(稀释制冷机量级)" data-en="20 mW @ 0.5 K (dilution-refrigerator scale)">20 mW @ 0.5 K(稀释制冷机量级)</td>
+                    <td data-zh="75 kW @ 4.5 K(大型装置冷量)" data-en="75 kW @ 4.5 K (plant-scale)">75 kW @ 4.5 K(大型装置冷量)</td>
+                    <td data-zh="3.75×10⁶ 倍" data-en="3.75×10⁶×">3.75×10⁶ 倍</td></tr>
+                <tr><td data-zh="制冷 · 卡诺代价" data-en="Cooling · Carnot penalty">制冷 · 卡诺代价</td>
+                    <td data-zh="W/Q = 585 @ 0.5 K" data-en="W/Q = 585 @ 0.5 K">W/Q = 585 @ 0.5 K</td>
+                    <td data-zh="W/Q = 64 @ 4.5 K" data-en="W/Q = 64 @ 4.5 K">W/Q = 64 @ 4.5 K</td>
+                    <td data-zh="9.1 倍" data-en="9.1×">9.1 倍</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <figure class="doc-fig reveal" style="margin-top:clamp(28px,4vw,44px)">
+            <div class="plate">
+              <a class="plate-link" href="assets/art/moire-gate-gaps.png" target="_blank" rel="noopener"><img src="assets/art/moire-gate-gaps.png" width="1350" height="750"
+                   alt="四道门的缺口条形图(对数横轴):场门 9.2 倍、片电流门 4.0×10⁵ 倍、片超流密度门 1.3×10⁴ 倍、制冷容量门 3.75×10⁶ 倍,均在 1 倍线右侧表示未过门"></a>
+            </div>
+            <figcaption data-zh="四道门的缺口(对数刻度)· 1 倍线右侧 = 未过门;物理层与工程层的缺口相差四到五个数量级。" data-en="Gaps of the four gates (log scale) — right of the 1× line means the gate is failed; the physics-layer and engineering-layer gaps differ by four to five orders of magnitude.">四道门的缺口(对数刻度)· 1 倍线右侧 = 未过门;物理层与工程层的缺口相差四到五个数量级。</figcaption>
+          </figure>
+
+          <dl class="spec-list reveal" style="margin-top:clamp(28px,4vw,46px)">
+            <div><dt data-zh="为什么载流差这么多" data-en="Why the current gap is so large">为什么载流差这么多</dt><dd data-zh="聚变磁体要的是安匝数,而二维超导体的载流通道只有约 0.7 nm 厚 —— 每厘米宽度上能流过的电流天然比涂层带材低几个量级。" data-en="A fusion magnet needs ampere-turns, but a 2D superconductor conducts through a channel about 0.7 nm thick: the current per centimetre of width is inherently orders of magnitude below coated tape.">聚变磁体要的是安匝数,而二维超导体的载流通道只有约 0.7 nm 厚 —— 每厘米宽度上能流过的电流天然比涂层带材低几个量级。</dd></div>
+            <div><dt data-zh="还有一项没算" data-en="One cost not counted">还有一项没算</dt><dd data-zh="魔角石墨烯的超导是&lt;strong&gt;栅控&lt;/strong&gt;的:必须逐层加栅极才能把费米面调到平带。把「石墨烯」变成「线圈」要付的工程代价没有计入这本账 —— 方向上只会把缺口再拉大。" data-en="Magic-angle superconductivity is &lt;strong&gt;gate-tuned&lt;/strong&gt;: every layer needs a gate to put the Fermi level on the flat band. The engineering cost of turning graphene into a coil is not in this ledger — and it can only widen the gap." data-html="1">魔角石墨烯的超导是<strong>栅控</strong>的:必须逐层加栅极才能把费米面调到平带。把「石墨烯」变成「线圈」要付的工程代价没有计入这本账 —— 方向上只会把缺口再拉大。</dd></div>
+          </dl>
+        </section>
+
+        <section class="band" id="mf-honesty">
+          <div class="section-head reveal">
+            <p class="kicker">— 07 · 诚实边界</p>
+            <h2 class="section-title" data-zh="这本账算到哪,没算到哪" data-en="Where this ledger stops">这本账算到哪,没算到哪</h2>
+          </div>
+          <dl class="spec-list reveal">
+            <div><dt data-zh="算法本身" data-en="The method">算法本身</dt><dd data-zh="全部结论是代数单调性、幂律与一次否定存在性证明的&lt;strong&gt;直接代入&lt;/strong&gt; —— 真,但平凡;没有新物理预言。唯一的证明性结论是「无解」那一条(可行集为空),它是严格的。" data-en="Every conclusion is a direct substitution into algebraic monotonicity, power laws and one non-existence proof — true but plain; no new physical predictions. The one genuinely proved statement is the 'no solution' verdict, and it is strict." data-html="1">全部结论是代数单调性、幂律与一次否定存在性证明的<strong>直接代入</strong> —— 真,但平凡;没有新物理预言。唯一的证明性结论是「无解」那一条(可行集为空),它是严格的。</dd></div>
+            <div><dt data-zh="外部输入" data-en="External inputs">外部输入</dt><dd data-zh="材料的临界场、临界温度、片电流、制冷容量都取自公开实验报道,并且&lt;strong&gt;取的是乐观上界&lt;/strong&gt;;二维器件之间分散很大,换成中位数只会更差。" data-en="Material critical fields, critical temperatures, sheet currents and cooling capacities come from published measurements, and &lt;strong&gt;the optimistic bound is used&lt;/strong&gt;; spread between 2D devices is large, so medians would only be worse." data-html="1">材料的临界场、临界温度、片电流、制冷容量都取自公开实验报道,并且<strong>取的是乐观上界</strong>;二维器件之间分散很大,换成中位数只会更差。</dd></div>
+            <div><dt data-zh="量级账,不是设计" data-en="Order-of-magnitude, not design">量级账,不是设计</dt><dd data-zh="载流门与制冷门比较的是「片电流 vs 安匝」「毫瓦 vs 千瓦」这类量级,不是线圈设计、热负荷预算或栅控工程。" data-en="The current and cooling gates compare orders of magnitude — sheet current versus ampere-turns, milliwatts versus kilowatts — not coil designs, heat-load budgets or gate engineering.">载流门与制冷门比较的是「片电流 vs 安匝」「毫瓦 vs 千瓦」这类量级,不是线圈设计、热负荷预算或栅控工程。</dd></div>
+            <div><dt class="hl" data-zh="缺口未变" data-en="The gap is unchanged">缺口未变</dt><dd data-zh="μ 的主动产生机制仍是第二输入缺口 —— 这本账只算「需要多少 μ、窗口是否打开」,不算「怎么推 μ」。" data-en="Producing μ on demand is still the second input gap — this ledger computes how much μ is needed and whether the window is open; it says nothing about how to push μ.">μ 的主动产生机制仍是第二输入缺口 —— 这本账只算「需要多少 μ、窗口是否打开」,不算「怎么推 μ」。</dd></div>
+          </dl>
+
+          <p class="cite-links reveal" style="margin-top:clamp(28px,4vw,44px)">
+            <span class="mono" style="color:var(--ink-3);font-size:12px;letter-spacing:1px" data-zh="来源 · 七层账本的形式化与数值验证" data-en="Source · formalisation and numerical checks of the ledger">来源 · 七层账本的形式化与数值验证</span>
+            <a href="https://github.com/logos-42/Hibs-Physics" rel="noopener">github.com/logos-42/Hibs-Physics</a>
+          </p>
+        </section>
+
+      </article>
+
+      </div><!-- /.doc-panes -->
+    </div><!-- /.docs -->
+  </section>
+
+  <!-- ◆ 出处 -->
+  <section class="band" id="source">
+    <div class="section-head reveal">
+      <p class="kicker">— 04 · 出处</p>
+      <h2 class="section-title" data-zh="代码仓库" data-en="Repositories">代码仓库</h2>
+    </div>
+    <p class="cite-links reveal">
+      <span class="mono" style="color:var(--ink-3);font-size:12px;letter-spacing:1px" data-zh="三本账的形式化、数值验证与图纸" data-en="Formalisation, numerical checks and figures for all three ledgers">三本账的形式化、数值验证与图纸</span>
+      <a href="https://github.com/logos-42/Hibs-Physics" rel="noopener">github.com/logos-42/Hibs-Physics</a>
+    </p>
+    <p class="cite-links reveal" style="margin-top:14px">
+      <span class="mono" style="color:var(--ink-3);font-size:12px;letter-spacing:1px" data-zh="本站所属项目" data-en="This site">本站所属项目</span>
+      <a href="https://github.com/logos-42/HushFusion" rel="noopener">github.com/logos-42/HushFusion</a>
+    </p>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <span>HUSHFUSION · 第一阶段 消音计划</span>
+  <span>Controlled Fusion Through the Silence.</span>
+</footer>
+
+<script src="app.js?v=16" defer></script>
+</body>
+</html>

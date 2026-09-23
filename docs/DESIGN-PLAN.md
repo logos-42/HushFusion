@@ -607,3 +607,100 @@ localStorage 记住 / `theme-color` 跟着换 / 切回夜复原),并把「底色
 > 合约、门槛清单、13 条待拍板项在 [`docs/DONATION-FUND-PLAN.md`](./DONATION-FUND-PLAN.md)(设计全文);
 > 口径共识页 [`wiki/donation-open-research-fund.md`](./wiki/donation-open-research-fund.md)。
 > 需方计划原文已登记 raw:`internal_sources/donation-plan/donation-plan-ai-draft-20260922.md`。
+
+### 7.8 2026-09-23 追加:理论页升级为「文档区」——侧边栏切换三本账 + 反引力约束图纸
+
+**任务重述(需方原话)**:「把这个 @anti-gravityconfinement 的图片放在理论页面里面,新建一个侧边栏切换的 docs 栏切换。
+再加一个目前的魔角石墨烯的栏。」
+
+**已核实的真实素材(勿臆造)**
+
+| 素材 | 来源(可核对) | 尺寸 / 字节 | 站内文件 |
+|:--|:--|:--|:--|
+| 反引力约束装置示意图 | Hibs-Physics `artifacts/antigravityconfinement/fig_confinement_ring.png` | 1448×1506 → **1100×1144**, 336 KB | `assets/art/antigravity-ring.png` |
+| μ 工作区间 | 同上 `fig_mu_working_window.png` | 1662×863 → 1400×727, 191 KB | `assets/art/antigravity-mu-window.png` |
+| 轴向磁场 B_z(r,z) | 同上 `fig_field_map.png` | 1348×1101, 173 KB | `assets/art/antigravity-field-map.png` |
+| 磁力线走向 | 同上 `fig_field_line.png` | 1340×1101, 407 KB | `assets/art/antigravity-field-line.png` |
+| 场源天花板标度 / μ 判决 / B_death / 四门缺口 | Hibs-Physics `artifacts/moirefield/fig_*.png`(2026-09-23 生成) | 1350×750–840, 42–127 KB | `assets/art/moire-*.png` |
+
+- 导入脚本 `tools/import_figures.py`(确定性:等比降采样,不裁剪/不改色;`sips` 重放两次逐字节一致已验)
+- 逐文件 sha256 / 尺寸 / 来源与来源提交号 → `assets/figures.manifest.json`(唯一写入者 = 该脚本)
+- **排除项**:`fig_material.png`(材料清单 BOM)含逐件「参考价」——**公开页不放未核实的成本数字**(金额不入站,
+  与 `DONATION-FUND-PLAN` 的口径一致);内部留档在 Hibs-Physics 仓库。理由写进 `figures.manifest.json` 的 `excluded`。
+
+**信息架构(理论页 = 三本账,侧边栏切换)**
+
+| 序 | id | 标题 | 内容 |
+|:--|:--|:--|:--|
+| 01 | `doc-gravity-control` | 控制引力场的代数系统 | 原有 6 节全部保留(基元 / 推导链 / 布尔边界 / 三个类比 / 锁定 = 交换子 / 诚实边界) |
+| 02 | `doc-antigravity` | 反引力约束聚变环 | 新增:三层同心装置 + μ 工作区间 + 场反位形两图 + 三道硬门 + 缺口 |
+| 03 | `doc-moire` | 魔角石墨烯场天花板 | 新增:`1°` 夹角事实 + 七层账本 + 数据变化表 + `B_death ∝ 1/a` + μ 窗口判决 + 工程两门 + 诚实边界 |
+
+- 页级 `h1` 只有一个(`理论`),三本账的标题降为 `h2` —— 满足既有断言「恰好一个 h1」,且切换哪一本都不说谎
+- 侧边栏 = `nav[role=tablist]` + `button.doc-tab`,面板 = `article[role=tabpanel]`;深链 `#doc-moire` 可直达,
+  链接到 GCA 内部小节(如 `#boolean`)时**自动切回 01**(`closest('.doc-pane')`)
+- 窄屏(≤980px):侧边栏折成横向可滑的标签条(与顶栏折叠同一断点纪律)
+
+**组件(只新增两个语义、其余全部复用)**
+
+| 新类 | 用途 | 反模式 |
+|:--|:--|:--|
+| `.docs` / `.doc-nav` / `.doc-tab` / `.doc-pane` | 文档区骨架;选中态 = 左侧 2px 强调线 + 白字,**不用背景色块**(避免卡片感) | 圆角卡片列表、大色块选中态 |
+| `.plate` | 科学图托板(白底图在两个主题下都读得清) | 给图表加阴影/圆角光晕 |
+
+复用:`.band`(面板内的 `section.band` 取消自身版心与左右内边距,交给 `.docs` 的栅格)、`.section-head` ·
+`.lede` · `.cap-list` · `.spec-list` · `.table-wrap > table.doc` · `.kicker` · `.quiet-cta` · `.reveal` · `.foot`。
+
+**动效**:滚动揭示沿用 `.reveal`;切换面板时把新面板内**未揭示**的 `.reveal` 重新挂观察器
+(藏在 `display:none` 里的元素永远不相交,不补这一步就会「切过去一片空白」)。`prefers-reduced-motion` 下直接可见。
+
+**验收增量(`scripts/verify-site.mjs`,只在有文档区的页面跑)**
+
+1. 侧边栏存在且恰好 3 项、恰好 1 项 `aria-selected=true`、恰好 1 个面板可见
+2. 点第 3 项 → 该面板可见 + 前一个隐藏 + `location.hash` 对上
+3. 切换后新面板内的 `.reveal` 全部 `opacity≥.9`(防「切出一片空白」)
+4. 深链 `docs.html#doc-moire` 直接落在第 3 本账
+
+**本轮落哪一态**:三本账 + 8 张图 + 侧边栏切换全部实现;反引力约束的 **BOM/报价图不进站**;
+魔角石墨烯只写「已知结论 + 已算数字 + 缺口」,不写"能做到"。
+
+**版本纪律**:动了 `style.css` / `app.js` → **五页 `?v=15 → 16`**(`config.json` 与 `app.js` 同号)。
+
+### 7.9 2026-09-23 追加(二形态):文档区补齐 doc 产品的标准件 + 公开页改名 `docs.html`
+
+**需方口述**:(a) 把「理论页」做成 doc 产品那种侧边栏文档页;(b) 公开页文件名 `theory.html` → **`docs.html`**。
+
+**按 doc UI 的词表逐条对齐**(来源:需方给的 Doc 侧边栏概念表)
+
+| 概念(英文) | 本轮落地 | 说明 |
+|:--|:--|:--|
+| Sidebar Navigation | ✅ | 左侧栏:上 = 三本账单选标签,下 = 本页目录 |
+| Tree Navigation / Nested Items | ⚠️ 部分 | 层级只到「账 → 小节」两层;三本账是平行关系,不做多级树(站内只有三本,多级树是装饰) |
+| Active State / Selected State | ✅ | 标签:左侧 2px 强调线 + 白字;目录:同款强调线 + 强调色 |
+| Anchor Navigation | ✅ | 本页目录由当前册带 `id` 的小节**生成**(不是写死):页面加一节,目录自动多一项 |
+| Scroll Spy | ✅ | 取「顶部刚越过阅读线(≤170px)」的那一节 —— 多节同屏时相交回调没有正确答案,用矩形反而确定 |
+| Prev / Next Navigation | ✅ | 每册末尾,由标签数据生成;最后一册只有「上一本」 |
+| Breadcrumbs | ✅ | 册头一行:`理论 / 01 · …`(窄屏不折行,`flex-wrap`) |
+| Navigation Persistence | ✅ | `localStorage['hushfusion-doc']` 记住上次读的那一本;**地址栏 hash 优先级更高**(别人分享的链接必须落在被分享的那一本) |
+| Sticky Layout | ✅ | 宽屏侧栏 `position: sticky`;窄屏转静态 |
+| Responsive Navigation | ✅ | ≤980px:侧栏折成横向可滑标签条,目录隐藏,上一本/下一本改纵向堆叠 |
+| Collapsible Navigation Groups | ❌ 不做 | 三本账全展开也就三行;折叠组要配展开箭头与状态记忆,收益不抵复杂度 |
+| Search Trigger / Command Palette / Version Selector / Sidebar Drawer | ❌ 不做 | 三本账的体量下,搜索与命令面板是纯装饰;移动端已有横向标签条,不需要抽屉 |
+
+**同时修掉一个真 bug(窄屏正文被裁)**
+
+```text
+症状  390px 下第 03 册正文比视口宽、右侧被切掉(截图里字断在半截)
+根因  .docs 的栅格子项是 .doc-panes(不是 .doc-pane),没设 min-width:0;
+      窄屏写 `grid-template-columns: 1fr`(= minmax(auto,1fr)),列宽被最宽那张表
+      (六列「数据变化总表」)的 min-content 顶开;body 的 overflow-x 把溢出部分切掉。
+为什么旧断言看不见: 「移动端 390px 无横向溢出」量的是 documentElement.scrollWidth,
+      被裁掉时它仍然是 0 —— 门是绿的,页面是坏的。
+改法  ① 窄屏 `minmax(0,1fr)`;② `.doc-panes{min-width:0}`;③ 新增断言**逐册量块右边缘**
+      (面板 / .plate / .fig-grid / .cap-list / .spec-list / .table-wrap / .doc-pager)。
+      **门齿验证**:把 ①② 改回有 bug 的写法跑一遍 —— 第一版断言(只量当时露着的那一本)照样全绿,
+      说明门是空的;改成逐册量之后才真正会红。
+```
+
+**改名纪律**:只改文件名与引用,不改可见文案 —— 导航空中仍写「理论 / Theory」;历史 `log.md` 条目保持原样(当时确实叫 `theory.html`),
+新条目记录改名;`docs/screenshots/theory.png` 下线,由验收重新产出 `docs.png`。

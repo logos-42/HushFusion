@@ -19,7 +19,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 
 const BASE = (process.argv[2] || 'http://127.0.0.1:8898').replace(/\/$/, '');
-const PAGES = ['index.html', 'about.html', 'hibs.html', 'progress.html', 'theory.html'];
+const PAGES = ['index.html', 'about.html', 'hibs.html', 'progress.html', 'docs.html'];
 const SHOT_DIR = path.join(process.cwd(), 'docs', 'screenshots');
 const PORT = 9333 + Math.floor(Math.random() * 500);
 
@@ -228,6 +228,9 @@ for (const page of PAGES) {
     let pending = [];
     while (Date.now() - t0 < 4000) {
       pending = [...document.querySelectorAll('.reveal')]
+        // 文档区里没被切到的那几册按设计不揭示(藏在 [hidden] 里,滚不到),
+        // 所以这一项只验「当前可见的册」—— 切换后新册的内容由 9.2 单独验。
+        .filter(el => !el.closest('.doc-pane[hidden]'))
         .filter(el => parseFloat(getComputedStyle(el).opacity) < 0.9)
         .map(el => el.className);
       if (!pending.length) break;
@@ -267,6 +270,127 @@ for (const page of PAGES) {
     // 截图就不再是页面的默认样子了(这是个会骗人的假象)。
     await evaluate(sessionId, 'document.querySelectorAll(".tab")[0].click()');
     await sleep(100);
+  }
+
+  /* 9.2 文档区(理论页:侧边栏切换三本账)。只在真有侧边栏的页面上跑 ——
+     断言的是「单选 + 单面板可见 + 地址栏跟上 + 新册不是一片空白」,
+     最后切回第一本,免得后面的全页截图停在第 03 册(那是个会骗人的假象)。 */
+  const docTabCount = await evaluate(sessionId, 'document.querySelectorAll(".doc-tab").length');
+  if (docTabCount > 1) {
+    const docStructure = await evaluate(sessionId, `(() => {
+      const tabs = [...document.querySelectorAll('.doc-tab')];
+      const panes = [...document.querySelectorAll('.doc-pane')];
+      return {
+        tabs: tabs.length, panes: panes.length,
+        selected: tabs.filter(t => t.getAttribute('aria-selected') === 'true').length,
+        visible: panes.filter(p => !p.hasAttribute('hidden')).length,
+        keyed: tabs.every(t => !!t.getAttribute('data-doc')) &&
+               panes.every(p => !!p.getAttribute('data-doc-pane'))
+      };
+    })()`);
+    check(page, `文档区:${docTabCount} 本账、单选、单面板可见`,
+      docStructure.tabs === docTabCount && docStructure.panes === docTabCount &&
+      docStructure.selected === 1 && docStructure.visible === 1 && docStructure.keyed === true,
+      JSON.stringify(docStructure));
+
+    /* 本页目录(Anchor Navigation):项数 = 当前册小节数,且每个锚点都能落到元素上 */
+    const shownPaneExpr = `[...document.querySelectorAll('.doc-pane')].filter(p => !p.hasAttribute('hidden'))[0]`;
+    const secsExpr = `(pane => [...pane.querySelectorAll('section.band[id]')].filter(s => {
+      const h = s.querySelector('h2'); return h && !h.classList.contains('display');
+    }))(${shownPaneExpr})`;
+    const tocProbe = await evaluate(sessionId, `(() => {
+      const secs = ${secsExpr};
+      const links = [...document.querySelectorAll('.toc-link')];
+      return { secs: secs.length, links: links.length,
+               dangling: links.filter(a => !document.getElementById(a.getAttribute('href').slice(1)))
+                              .map(a => a.getAttribute('href')) };
+    })()`);
+    check(page, '文档区:本页目录项数 = 当前册小节数,锚点无悬空',
+      tocProbe.links > 0 && tocProbe.links === tocProbe.secs && tocProbe.dangling.length === 0,
+      JSON.stringify(tocProbe));
+
+    /* 滚动高亮(Scroll Spy):滚到当前册第三节,该项应亮 */
+    const spyProbe = await evaluate(sessionId, `(async () => {
+      const secs = ${secsExpr};
+      const target = secs[Math.min(2, secs.length - 1)];
+      // 页面开了 scroll-behavior: smooth —— 不关掉的话这一跳要动画几百毫秒,
+      // 量到的会是「半路」那一节(这正是第一次跑出来的假失败)。
+      const prev = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = 'auto';
+      window.scrollTo(0, target.getBoundingClientRect().top + window.scrollY - 8);
+      await new Promise(r => setTimeout(r, 420));
+      const active = [...document.querySelectorAll('.toc-link.is-active')].map(a => a.getAttribute('href'));
+      document.documentElement.style.scrollBehavior = prev;
+      return { want: '#' + target.id, active, n: active.length };
+    })()`);
+    check(page, '文档区:滚动高亮跟到当前小节',
+      spyProbe.n === 1 && spyProbe.active[0] === spyProbe.want, JSON.stringify(spyProbe));
+
+    /* 上一本 / 下一本(Prev / Next Navigation):本册末尾有指向邻册的入口,点了真的换册 */
+    const pagerProbe = await evaluate(sessionId, `(() => {
+      const pane = ${shownPaneExpr};
+      const links = [...pane.querySelectorAll('.doc-pager .pager-link')];
+      return { n: links.length, hrefs: links.map(a => a.getAttribute('href')),
+               last: pane.lastElementChild && pane.lastElementChild.className };
+    })()`);
+    check(page, '文档区:册末有上一本/下一本',
+      pagerProbe.n >= 1 && pagerProbe.hrefs.every(h => /^#doc-/.test(h)) &&
+      pagerProbe.last === 'doc-pager', JSON.stringify(pagerProbe));
+
+    const pagerJump = await evaluate(sessionId, `(async () => {
+      const pane = ${shownPaneExpr};
+      const link = pane.querySelector('.doc-pager .pager-next') || pane.querySelector('.doc-pager .pager-link');
+      const want = link.getAttribute('href').slice(1);
+      link.click();
+      await new Promise(r => setTimeout(r, 500));
+      const shown = [...document.querySelectorAll('.doc-pane')].filter(p => !p.hasAttribute('hidden'))[0];
+      return { want, got: shown ? shown.getAttribute('data-doc-pane') : '' };
+    })()`);
+    check(page, '文档区:点「下一本」真的换册',
+      pagerJump.got === pagerJump.want, JSON.stringify(pagerJump));
+
+    /* 记住上一次读的那一本(Navigation Persistence) */
+    const docPersist = await evaluate(sessionId, `(() => {
+      const shown = [...document.querySelectorAll('.doc-pane')].filter(p => !p.hasAttribute('hidden'))[0];
+      return { id: shown ? shown.getAttribute('data-doc-pane') : '', saved: localStorage.getItem('hushfusion-doc') };
+    })()`);
+    check(page, '文档区:记住当前册',
+      docPersist.saved === docPersist.id && !!docPersist.id, JSON.stringify(docPersist));
+
+    const lastIdx = docTabCount - 1;
+    await evaluate(sessionId, `document.querySelectorAll('.doc-tab')[${lastIdx}].click()`);
+    await sleep(900);   // 揭示动画约 0.7s,等它走完再量 opacity
+    const docSwitch = await evaluate(sessionId, `(() => {
+      const shown = [...document.querySelectorAll('.doc-pane')].filter(p => !p.hasAttribute('hidden'));
+      const first = shown.length ? shown[0].querySelector('.reveal') : null;
+      return {
+        visible: shown.length,
+        id: shown.length ? shown[0].getAttribute('data-doc-pane') : '',
+        selected: document.querySelectorAll('.doc-tab[aria-selected="true"]').length,
+        hash: location.hash,
+        height: shown.length ? Math.round(shown[0].getBoundingClientRect().height) : 0,
+        firstOpacity: first ? parseFloat(getComputedStyle(first).opacity) : -1,
+        toc: document.querySelectorAll('.toc-link').length
+      };
+    })()`);
+    check(page, '文档区:切到最后一本,只露一册且地址栏跟上',
+      docSwitch.visible === 1 && docSwitch.selected === 1 &&
+      docSwitch.hash === '#' + docSwitch.id, JSON.stringify(docSwitch));
+    check(page, '文档区:新册真的显示出来(不是一片空白)',
+      docSwitch.height > 200 && docSwitch.firstOpacity >= 0.9,
+      `height=${docSwitch.height} firstOpacity=${docSwitch.firstOpacity}`);
+    check(page, '文档区:目录跟着册重建(每本账小节不同)',
+      docSwitch.toc > 0 && docSwitch.toc !== tocProbe.links,
+      `第 1 本 ${tocProbe.links} 项 → 最后一本 ${docSwitch.toc} 项`);
+
+    await evaluate(sessionId, `document.querySelectorAll('.doc-tab')[0].click()`);
+    await sleep(200);
+    const docBack = await evaluate(sessionId, `(() => {
+      const shown = [...document.querySelectorAll('.doc-pane')].filter(p => !p.hasAttribute('hidden'));
+      return { id: shown.length ? shown[0].getAttribute('data-doc-pane') : '', n: shown.length };
+    })()`);
+    check(page, '文档区:切回第一本(默认态)',
+      docBack.n === 1 && docBack.id === 'doc-gravity-control', JSON.stringify(docBack));
   }
 
   /* 9.1 主题切换:夜 → 昼 → 夜(颜色真的换、选择真的存、按钮跟着走) */
@@ -344,6 +468,36 @@ for (const page of PAGES) {
   const mobOverflow = await evaluate(sessionId,
     'document.documentElement.scrollWidth - window.innerWidth');
   check(page, '移动端 390px 无横向溢出', mobOverflow <= 1, `溢出 ${mobOverflow}px`);
+
+  /* 10.1 文档区在窄屏的「被裁掉」检查:页面级 scrollWidth 是 0 也照样可能被裁 ——
+     只要某个块比视口宽,body 的 overflow-x 就把它切掉,而文档本身不滚。
+     所以量的是块自己的右边缘,而且**三本账都要量**:第一次只量了当时露着的那一本
+     (01 册的表最窄),结果把门开成了空的 —— 反向验过:把 CSS 改回 `1fr` 它也照样绿。
+     表格的横滑框(.table-wrap)算在内:它比视口宽同样是裁。 */
+  const docNarrowAll = await evaluate(sessionId, `(async () => {
+    const tabs = [...document.querySelectorAll('.doc-tab')];
+    if (!tabs.length) return { skip: true };
+    const rows = [];
+    for (const tab of tabs) {
+      tab.click();
+      await new Promise(r => setTimeout(r, 320));
+      const shown = [...document.querySelectorAll('.doc-pane')].filter(p => !p.hasAttribute('hidden'))[0];
+      const blocks = [shown, ...shown.querySelectorAll('.plate, .fig-grid, .cap-list, .spec-list, .table-wrap, .doc-pager')];
+      const over = blocks.filter(el => el.getBoundingClientRect().right > window.innerWidth + 1)
+        .map(el => el.tagName + '.' + String(el.className || '').split(' ')[0]);
+      rows.push({ id: shown.getAttribute('data-doc-pane'),
+                  paneW: Math.round(shown.getBoundingClientRect().width),
+                  over: over.slice(0, 4) });
+    }
+    tabs[0].click();
+    await new Promise(r => setTimeout(r, 320));
+    return { vw: window.innerWidth, rows };
+  })()`);
+  if (!docNarrowAll.skip) {
+    const bad = docNarrowAll.rows.filter(r => r.over.length || r.paneW > docNarrowAll.vw);
+    check(page, '文档区:三本账在窄屏都没被裁',
+      bad.length === 0, JSON.stringify(bad.length ? bad : docNarrowAll.rows));
+  }
 
   /* 9.6 窄屏导航折叠:390px 汉堡出现 → 点开 → Esc 收起 */
   const nav390 = await evaluate(sessionId, `(() => {
@@ -500,6 +654,56 @@ for (const page of PAGES) {
 
   await cdp.send('Emulation.setEmulatedMedia', { features: [] }, sessionId);
   stopCollect();
+  await cdp.send('Target.closeTarget', { targetId });
+}
+
+/* ── 文档区深链:单独一趟导航(放在截图之后,免得改掉别的页面状态) ──────
+   ① #doc-moire 应直接落在第 03 册;② 链到 01 册内部的小节(#boolean)
+   应自动切回 01 册 —— 否则从别处分享过来的小节链接会落在一片空白上。 */
+{
+  const { targetId } = await cdp.send('Target.createTarget', { url: 'about:blank' });
+  const { sessionId } = await cdp.send('Target.attachToTarget', { targetId, flatten: true });
+  await cdp.send('Page.enable', {}, sessionId);
+  await cdp.send('Runtime.enable', {}, sessionId);
+  await cdp.send('Emulation.setDeviceMetricsOverride',
+    { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false }, sessionId);
+
+  const probe = `(() => {
+    const shown = [...document.querySelectorAll('.doc-pane')].filter(p => !p.hasAttribute('hidden'));
+    return { n: shown.length, id: shown.length ? shown[0].getAttribute('data-doc-pane') : '',
+             selected: document.querySelectorAll('.doc-tab[aria-selected="true"]').length,
+             hash: location.hash };
+  })()`;
+
+  const deepLoaded = cdp.waitFor('Page.loadEventFired', sessionId);
+  await cdp.send('Page.navigate', { url: `${BASE}/docs.html#doc-moire` }, sessionId);
+  await deepLoaded;
+  await sleep(420);
+  const deep = await evaluate(sessionId, probe);
+  check('docs.html', '文档区:深链 #doc-moire 直达第 03 册',
+    deep.n === 1 && deep.id === 'doc-moire' && deep.selected === 1, JSON.stringify(deep));
+
+  // 同文档换 hash 不会再触发 load —— 用 hashchange + 等一拍
+  await cdp.send('Page.navigate', { url: `${BASE}/docs.html#boolean` }, sessionId);
+  await sleep(520);
+  const section = await evaluate(sessionId, probe);
+  check('docs.html', '文档区:链到 01 册内小节自动切回 01 册',
+    section.n === 1 && section.id === 'doc-gravity-control', JSON.stringify(section));
+
+  /* 记住上一次读的那一本(Navigation Persistence):点第 03 册 → **去掉哈希重开** → 还在第 03 册。
+     这条要用带 query 的 URL 打开,否则只换/去哈希属同文档导航,根本不会重新加载 —— 那样测个寂寞。 */
+  await evaluate(sessionId, `document.querySelectorAll('.doc-tab')[2].click()`);
+  await sleep(500);
+  const savedBefore = await evaluate(sessionId, `localStorage.getItem('hushfusion-doc')`);
+  const reloaded = cdp.waitFor('Page.loadEventFired', sessionId);
+  await cdp.send('Page.navigate', { url: `${BASE}/docs.html?remember=1` }, sessionId);
+  await reloaded;
+  await sleep(520);
+  const remembered = await evaluate(sessionId, probe);
+  check('docs.html', `文档区:记住上一次读的那一本(云端无哈希也落对)`,
+    savedBefore === 'doc-moire' && remembered.n === 1 && remembered.id === 'doc-moire',
+    `saved=${savedBefore} ${JSON.stringify(remembered)}`);
+
   await cdp.send('Target.closeTarget', { targetId });
 }
 

@@ -1,7 +1,7 @@
 /* ============================================================================
    HUSHFUSION · 交互(零依赖原生 JS)
-   职责:语言切换(data-zh/data-en + localStorage) · 标签切换 · 复制反馈 ·
-        滚动揭示 · 移动端导航
+   职责:语言切换(data-zh/data-en + localStorage) · 标签切换 · 文档区(侧栏三本账 +
+        本页目录 + 滚动高亮 + 上一本/下一本) · 复制反馈 · 滚动揭示 · 移动端导航
    纪律:第一行加 .js;任何依赖 JS 的东西在没有 JS 时必须优雅退化
    ========================================================================== */
 document.documentElement.classList.add('js');
@@ -208,6 +208,218 @@ document.documentElement.classList.add('js');
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
     revealables.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ── 文档区切换(理论页:侧边栏 → 面板) ─────────────────────────────────
+     一次切换要做三件事,少一件就出错:
+       ① tab 的 aria-selected / 面板的 [hidden] 同步 —— 无障碍状态与显隐一致;
+       ② 深链:每个面板有自己的 id,可以直接分享 #doc-moire;反向也成立 ——
+          链到 01 册内部的小节(如 #boolean)时,自动切回它所属的那一册;
+       ③ 补揭示:藏在 [hidden] 里的 .reveal 永远不与视口相交,不补这一步,
+          切过去会是一片空白(opacity:0)—— 看着像内容没加载,其实是没触发。 */
+  var docsBox = document.querySelector('[data-docs]');
+  if (docsBox) {
+    var docTabs = Array.prototype.slice.call(docsBox.querySelectorAll('.doc-tab'));
+    var docPanes = Array.prototype.slice.call(docsBox.querySelectorAll('.doc-pane'));
+    var docIds = docTabs.map(function (t) { return t.getAttribute('data-doc'); });
+
+    // 记住上一次读的那一本(与主题 / 语言同一种 localStorage 口径)。
+    // 地址栏里的 #doc-* 优先级更高 —— 别人分享的链接一定落在被分享的那一本。
+    var DOC_KEY = 'hushfusion-doc';
+    var savedDoc = null;
+    try { savedDoc = localStorage.getItem(DOC_KEY); } catch (e) { savedDoc = null; }
+
+    /* ── 本页目录(Anchor Navigation)+ 滚动高亮(Scroll Spy) ────────────
+       目录不写死:从当前册带 id 的小节生成 —— 页面上加一节,目录自动多一项。
+       高亮用「顶部刚越过阅读线的那一节」而不是 IntersectionObserver:
+       多节同时可见时,相交回调里没有正确答案,比矩形反而更确定。 */
+    var tocBox = docsBox.querySelector('[data-doc-toc]');
+    var tocLinks = [];
+    var tocSecs = [];
+
+    var spyTick = function () {
+      if (!tocSecs.length) return;
+      var pick = tocSecs[0].id, best = -1e9;
+      tocSecs.forEach(function (sec) {
+        var top = sec.getBoundingClientRect().top;
+        if (top <= 170 && top > best) { best = top; pick = sec.id; }
+      });
+      tocLinks.forEach(function (a) {
+        a.classList.toggle('is-active', a.getAttribute('href') === '#' + pick);
+      });
+    };
+
+    var buildToc = function (pane) {
+      tocLinks = []; tocSecs = [];
+      if (!tocBox) return;
+      tocBox.innerHTML = '';
+      var secs = Array.prototype.slice.call(pane.querySelectorAll('section.band[id]'))
+        .filter(function (sec) {
+          var h = sec.querySelector('h2');
+          return h && !h.classList.contains('display');   // 册标题本身不进目录
+        });
+      if (!secs.length) return;
+      var title = document.createElement('p');
+      title.className = 'toc-title';
+      title.setAttribute('data-zh', '本页目录');
+      title.setAttribute('data-en', 'On this page');
+      title.textContent = currentLang === 'en' ? 'On this page' : '本页目录';
+      var ul = document.createElement('ul');
+      ul.className = 'toc-list';
+      secs.forEach(function (sec) {
+        var h = sec.querySelector('h2');
+        var zh = h.getAttribute('data-zh') || h.textContent.trim();
+        var en = h.getAttribute('data-en') || h.textContent.trim();
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.className = 'toc-link';
+        a.href = '#' + sec.id;
+        a.setAttribute('data-zh', zh);
+        a.setAttribute('data-en', en);
+        a.textContent = currentLang === 'en' ? en : zh;
+        li.appendChild(a); ul.appendChild(li);
+        tocLinks.push(a); tocSecs.push(sec);
+      });
+      tocBox.appendChild(title); tocBox.appendChild(ul);
+      spyTick();
+    };
+
+    var spyQueued = false;
+    window.addEventListener('scroll', function () {
+      if (spyQueued) return;
+      spyQueued = true;
+      window.requestAnimationFrame(function () { spyQueued = false; spyTick(); });
+    }, { passive: true });
+
+    /* ── 上一本 / 下一本(Prev / Next Navigation) ───────────────────────
+       由三本账的标签数据生成,放在每册末尾 —— 读到底不用回头找侧栏。 */
+    docPanes.forEach(function (p) {
+      var idx = docIds.indexOf(p.getAttribute('data-doc-pane'));
+      if (idx < 0 || docIds.length < 2) return;
+      var prevTab = idx > 0 ? docTabs[idx - 1] : null;
+      var nextTab = idx < docTabs.length - 1 ? docTabs[idx + 1] : null;
+      if (!prevTab && !nextTab) return;
+      var nav = document.createElement('nav');
+      nav.className = 'doc-pager';
+      nav.setAttribute('aria-label', '相邻文档');
+      var mk = function (tab, dir) {
+        var name = tab.querySelector('.doc-name');
+        var zh = name.getAttribute('data-zh') || name.textContent.trim();
+        var en = name.getAttribute('data-en') || name.textContent.trim();
+        var a = document.createElement('a');
+        a.className = 'pager-link pager-' + dir;
+        a.href = '#' + tab.getAttribute('data-doc');
+        var d = document.createElement('span');
+        d.className = 'pager-dir';
+        var dzh = dir === 'prev' ? '← 上一本' : '下一本 →';
+        var den = dir === 'prev' ? '← Previous' : 'Next →';
+        d.setAttribute('data-zh', dzh); d.setAttribute('data-en', den);
+        d.textContent = currentLang === 'en' ? den : dzh;
+        var n = document.createElement('span');
+        n.className = 'pager-name';
+        n.setAttribute('data-zh', zh); n.setAttribute('data-en', en);
+        n.textContent = currentLang === 'en' ? en : zh;
+        a.appendChild(d); a.appendChild(n);
+        return a;
+      };
+      if (prevTab) nav.appendChild(mk(prevTab, 'prev'));
+      if (nextTab) nav.appendChild(mk(nextTab, 'next'));
+      p.appendChild(nav);
+    });
+
+    var revealIn = function (pane) {
+      var pending = Array.prototype.slice.call(pane.querySelectorAll('.reveal:not(.is-in)'));
+      if (!pending.length) return;
+      if (reduce || !('IntersectionObserver' in window)) {
+        pending.forEach(function (el) { el.classList.add('is-in'); });
+        return;
+      }
+      var io2 = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { entry.target.classList.add('is-in'); io2.unobserve(entry.target); }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+      pending.forEach(function (el) { io2.observe(el); });
+    };
+
+    var showDoc = function (id, focusTab) {
+      if (docIds.indexOf(id) < 0) return;
+      try { localStorage.setItem(DOC_KEY, id); } catch (e) { /* 隐私模式忽略 */ }
+      docIds.forEach(function (each) {
+        var on = each === id;
+        docTabs.forEach(function (t) {
+          if (t.getAttribute('data-doc') !== each) return;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.classList.toggle('is-active', on);
+          t.tabIndex = on ? 0 : -1;          // 单选标签:Tab 只停在选中项上
+          if (on && focusTab) t.focus();
+        });
+        docPanes.forEach(function (p) {
+          if (p.getAttribute('data-doc-pane') !== each) return;
+          if (on) {
+            var wasHidden = p.hasAttribute('hidden');
+            p.removeAttribute('hidden');
+            p.classList.add('is-active');
+            buildToc(p);                     // 每本账的小节不同,目录跟着册重建
+            if (wasHidden) revealIn(p);      // 初次显示的那一册由主观察器负责
+          } else {
+            p.setAttribute('hidden', '');
+            p.classList.remove('is-active');
+          }
+        });
+      });
+    };
+
+    // 地址栏 → 册:hash 命中册 id 直接切;命中册内某小节则切到它所属的册
+    var docFromHash = function (hash) {
+      var id = (hash || '').replace(/^#/, '');
+      if (!id) return null;
+      if (docIds.indexOf(id) >= 0) return id;
+      var el = document.getElementById(id);
+      var pane = el && el.closest ? el.closest('.doc-pane') : null;
+      return pane ? pane.getAttribute('data-doc-pane') : null;
+    };
+
+    var setHash = function (id) {
+      if (history.replaceState) history.replaceState(null, '', '#' + id);
+      else location.hash = id;
+    };
+
+    docTabs.forEach(function (t, i) {
+      t.addEventListener('click', function () {
+        var id = t.getAttribute('data-doc');
+        showDoc(id);
+        setHash(id);
+        // 侧栏滚出视口了才带回册首,否则原地换内容(别打断正在读的人)
+        if (docsBox.getBoundingClientRect().top < 0) {
+          docsBox.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+        }
+      });
+      // 竖排(宽屏)用上下键,横排(窄屏)用左右键 —— 与看到的排列方向一致
+      t.addEventListener('keydown', function (e) {
+        var row = window.matchMedia && window.matchMedia('(max-width: 980px)').matches;
+        var next = null;
+        if (e.key === (row ? 'ArrowRight' : 'ArrowDown')) next = docTabs[(i + 1) % docTabs.length];
+        else if (e.key === (row ? 'ArrowLeft' : 'ArrowUp')) next = docTabs[(i - 1 + docTabs.length) % docTabs.length];
+        else if (e.key === 'Home') next = docTabs[0];
+        else if (e.key === 'End') next = docTabs[docTabs.length - 1];
+        if (!next) return;
+        e.preventDefault();
+        var id = next.getAttribute('data-doc');
+        showDoc(id, true);
+        setHash(id);
+      });
+    });
+
+    var wantedDoc = docFromHash(location.hash)
+      || (savedDoc && docIds.indexOf(savedDoc) >= 0 ? savedDoc : null)
+      || docIds[0];
+    if (wantedDoc) showDoc(wantedDoc);
+
+    window.addEventListener('hashchange', function () {
+      var id = docFromHash(location.hash);
+      if (id) showDoc(id);
+    });
   }
 
   /* ── 高亮当前页 ─────────────────────────────────────────────────────── */
