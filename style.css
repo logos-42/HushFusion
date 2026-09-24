@@ -564,6 +564,9 @@ table.doc td:first-child { color: var(--ink); }
                      color: var(--ink-3); margin-bottom: 3px; }
 .doc-tab .doc-name { display: block; color: var(--ink-2); font-size: 1.06rem; font-weight: 600;
                      line-height: 1.35; letter-spacing: .01em; transition: color .18s ease; }
+.doc-time td:first-child,
+.doc-time th:first-child { white-space: nowrap; }
+
 .doc-tab .doc-meta { display: block; margin-top: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: 1.1px;
                      color: var(--ink-3); opacity: .7; }
 .doc-tab:hover .doc-name { color: var(--ink-2); }

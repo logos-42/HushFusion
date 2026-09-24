@@ -150,6 +150,30 @@ const HISTORIC_PAGES = ['theory.html', 'theory'];
     uniq.length === 1 && uniq[0] > 0, JSON.stringify(rows.filter((r) => r.v !== uniq[0])));
 }
 
+/* ── 双语属性完整性(文件级):data-zh / data-en 的值里不许出现裸的双引号 ─────
+   值里一旦有裸 `"`,浏览器就在那儿把属性截断,后面半句变成**垃圾属性名**:
+   页面默认(静态正文)看起来一切正常,一切到另一种语言才吐垃圾 —— 最难发现的那一类。
+   2026-09-24 实测:docs.html 12 处(本轮新写的引号)+ about.html 4 处(内嵌 `class="hl"` 的老写法)
+   都是这个病;正确写法是 `&quot;`(值由 data-html=1 走 innerHTML,解码一次再解析,正好)。
+   判据写成「值的开引号之后、到下一个 `xx="` 之前」:合法的 `Q=10` / `TBR≥1.05` 都不会命中。 */
+{
+  const broken = [];
+  for (const f of PAGES) {
+    const html = readFileSync(path.join(process.cwd(), f), 'utf8');
+    /* (a) 值里不许出现引号实体:`&quot;` 一旦出现在属性值里,浏览器读到的值是对的,
+           但我(写文件的人)已经分不清「这个引号是值的边界还是内容」——2026-09-24 实测就是这么翻车的:
+           一句 `class=&quot;mono\"` 让属性在 mono 后截断,后面半句变成**元素正文**泄漏到页面上,
+           而当时的门(只查裸引号)一路绿灯。约定:值里要写标记就用不引号的 `class=mono`(HTML5 合法)。
+       (b) 仍然拦住裸引号:`data-zh="…xx="…"` 这种形状。 */
+    if (html.includes('&quot;')) broken.push(`${f}: 属性值里出现 &quot;(改用不引号的 class=mono)`);
+    for (const m of html.matchAll(/data-(?:zh|en)="[^"]*[A-Za-z-]+="/g)) {
+      broken.push(`${f}: …${m[0].slice(-46)}`);
+    }
+  }
+  check('双语属性', '五页里不出现 &quot;,且属性值里没有裸引号(两者都会让属性在中间截断)',
+    broken.length === 0, broken.slice(0, 4).join(' | '));
+}
+
 {
   const redPath = path.join(process.cwd(), '_redirects');
   const rules = existsSync(redPath)
@@ -434,6 +458,7 @@ for (const page of PAGES) {
       const secs = ${secsExpr};
       const links = [...document.querySelectorAll('.toc-link')];
       return { secs: secs.length, links: links.length,
+               first: links.length ? links[0].textContent.trim() : '',
                dangling: links.filter(a => !document.getElementById(a.getAttribute('href').slice(1)))
                               .map(a => a.getAttribute('href')) };
     })()`);
@@ -503,7 +528,27 @@ for (const page of PAGES) {
         hash: location.hash,
         height: shown.length ? Math.round(shown[0].getBoundingClientRect().height) : 0,
         firstOpacity: first ? parseFloat(getComputedStyle(first).opacity) : -1,
-        toc: document.querySelectorAll('.toc-link').length
+        toc: document.querySelectorAll('.toc-link').length,
+        /* 目录的「正确」不是「和第一本不同」——两本账小节数相同是合法的(第 06 项就是 6 项对 6 项)。
+           真正的判据是**逐实例**:本页目录必须等于**当前这一册**里那些「h2 不是 .display」的小节,
+           而且第一条的标题就是那一册的第一节标题。 */
+        sections: shown.length ? (function () {
+          var n = 0;
+          shown[0].querySelectorAll('section.band[id]').forEach(function (sec) {
+            var h = sec.querySelector('h2');
+            if (h && !h.classList.contains('display')) n++;
+          });
+          return n;
+        })() : 0,
+        tocFirst: document.querySelector('.toc-link')
+          ? document.querySelector('.toc-link').textContent.trim() : '',
+        headFirst: shown.length ? (function () {
+          var sec = shown[0].querySelector('section.band[id]');
+          if (!sec) return '';
+          var h = sec.querySelector('h2');
+          if (!h || h.classList.contains('display')) return '';
+          return (h.getAttribute('data-zh') || h.textContent).trim();
+        })() : ''
       };
     })()`;
     let docSwitch = null;
@@ -518,9 +563,13 @@ for (const page of PAGES) {
     check(page, '文档区:新册真的显示出来(不是一片空白)',
       docSwitch.height > 200 && docSwitch.firstOpacity >= 0.9,
       `height=${docSwitch.height} firstOpacity=${docSwitch.firstOpacity}`);
-    check(page, '文档区:目录跟着册重建(每本账小节不同)',
-      docSwitch.toc > 0 && docSwitch.toc !== tocProbe.links,
-      `第 1 本 ${tocProbe.links} 项 → 最后一本 ${docSwitch.toc} 项`);
+    check(page, '文档区:本页目录 = 当前册的小节(逐实例:条目数 + 第一条标题)',
+      docSwitch.toc > 0 && docSwitch.toc === docSwitch.sections &&
+      docSwitch.tocFirst === docSwitch.headFirst,
+      `目录 ${docSwitch.toc} 项 vs 本册小节 ${docSwitch.sections} 项;第一条目录「${docSwitch.tocFirst}」vs 本册第一节「${docSwitch.headFirst}」`);
+    check(page, '文档区:换册之后目录跟着换(不是停在第一册)',
+      docSwitch.tocFirst !== tocProbe.first,
+      `第 1 本首条「${tocProbe.first}」→ 最后一本首条「${docSwitch.tocFirst}」`);
 
     await evaluate(sessionId, `document.querySelectorAll('.doc-tab')[0].click()`);
     await sleep(200);
@@ -838,24 +887,31 @@ for (const page of PAGES) {
              hash: location.hash };
   })()`;
 
-  const deepLoaded = cdp.waitFor('Page.loadEventFired', sessionId);
-  await cdp.send('Page.navigate', { url: `${BASE}/docs.html#doc-moire` }, sessionId);
-  await deepLoaded;
-  await sleep(420);
-  const deep = await evaluate(sessionId, probe);
-  check('docs.html', '文档区:深链 #doc-moire 直达第 03 册',
-    deep.n === 1 && deep.id === 'doc-moire' && deep.selected === 1, JSON.stringify(deep));
-
-  /* 新增的第 04 本账也必须「有自己的地址」—— 深链直达它。
+  /* 每一册都必须「有自己的地址」—— 逐册深链,不是只测某一册。
+     逐实例量(第 11 条):写成定死的两个 id,新加一册就悄悄漏测;这里从 DOM 里取全册列表,
+     有几册就测几册,以后再加册也自动被覆盖。
      带 query 才是**真加载**:只换哈希属同文档导航,浏览器不会把焦点交给片段目标,
      那样测「深链不画焦点框」就测了个寂寞(第一次就是这么假失败的)。 */
-  const deepNewLoad = cdp.waitFor('Page.loadEventFired', sessionId);
-  await cdp.send('Page.navigate', { url: `${BASE}/docs.html?deep=1#doc-phonon` }, sessionId);
-  await deepNewLoad;
-  await sleep(700);
-  const deepNew = await evaluate(sessionId, probe);
-  check('docs.html', '文档区:深链 #doc-phonon 直达第 04 册(新账本自己也有地址)',
-    deepNew.n === 1 && deepNew.id === 'doc-phonon' && deepNew.selected === 1, JSON.stringify(deepNew));
+  /* 前置:必须先真加载一次 docs.html —— 在 about:blank 上读 DOM 会读到空数组,
+     于是「逐册循环」变成一次都不跑,**一条断言都不产生却显示通过**(空门比坏门更糟)。
+     所以读完之后立刻把「读到了几册」单独点亮。 */
+  const idsLoad = cdp.waitFor('Page.loadEventFired', sessionId);
+  await cdp.send('Page.navigate', { url: `${BASE}/docs.html` }, sessionId);
+  await idsLoad;
+  await sleep(420);
+  const deepIds = await evaluate(sessionId,
+    `(() => [...document.querySelectorAll('.doc-tab')].map(t => t.getAttribute('data-doc')))()`);
+  check('docs.html', '文档区:读得到册列表(逐册深链门的前置:空列表 = 一条都不跑却显示通过)',
+    Array.isArray(deepIds) && deepIds.length >= 4, JSON.stringify(deepIds));
+  for (let i = 0; i < deepIds.length; i++) {
+    const deepLoad = cdp.waitFor('Page.loadEventFired', sessionId);
+    await cdp.send('Page.navigate', { url: `${BASE}/docs.html?deep=${i + 1}#${deepIds[i]}` }, sessionId);
+    await deepLoad;
+    await sleep(i === deepIds.length - 1 ? 700 : 420);
+    const deep = await evaluate(sessionId, probe);
+    check('docs.html', `文档区:深链 #${deepIds[i]} 直达第 0${i + 1} 册(每一册都有自己的地址)`,
+      deep.n === 1 && deep.id === deepIds[i] && deep.selected === 1, JSON.stringify(deep));
+  }
 
   /* 焦点框:片段导航会把面板程序聚焦,但不该给它画框(浏览器把片段导航也算 focus-visible);
      真的按 Tab 进来时必须看得见 —— 两条是一对,只测一条的话「把框全关掉」也能过。 */

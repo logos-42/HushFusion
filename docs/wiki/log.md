@@ -1,5 +1,19 @@
 # Wiki 日志
 
+## [2026-09-24] 行动方法 | 从路径依赖转向可证伪证据链
+
+| 日期 | 类别 | 变更 | 说明 |
+|------|------|------|------|
+| 2026-09-24 | docs | 新增 `docs/PATH-ACTION-PLAYBOOK.md` | 建立 A 基线控制 / B 受约束 AI 控制 / C 反引力新物理假设三条机制不同的路径；定义 30 天最小证据、淘汰门、路径重置协议与外部复核问题 |
+| 2026-09-24 | decision | 路线状态调整 | 反引力约束聚变环继续保留，但只能作为待证假设；当前行动目标改为低风险、可独立复核的等离子体/控制证据，不启动高能核实验装置 |
+
+## [2026-09-24] 修订 | 以 ProjectionPhysics 计算图纸驱动行动
+
+| 日期 | 类别 | 变更 | 说明 |
+|------|------|------|------|
+| 2026-09-24 | correction | 修订 `docs/PATH-ACTION-PLAYBOOK.md` | 需方指出 Lean 计算项目不在 HushFusion 文件内；行动方式改为沿 `/Users/apple/Downloads/lean/ProjectionPhysics` 的统一计算链迭代，不再预先把主线拆成 A/B/C 竞争路径 |
+| 2026-09-24 | verification | 外部项目基线通过 | `lake build` 成功；`verify_fusion_roadmap.py`、`verify_gravity_control.py`、`verify_plasma_fusion.py`、`verify_plasma_dynamics.py`、`verify_plasma_antigravity.py`、`verify_frc_compact.py`、`verify_moire_field.py` 均完成运行；下一缺口聚焦 μ 主动产生与 GravityControl → PlasmaDynamics 的连接 |
+
 ## [2026-09-23] 理论页升级为「三本账」| 侧边栏切换 + 反引力约束 / 魔角石墨烯两本新账
 
 | 日期 | 类别 | 变更 | 说明 |
@@ -207,3 +221,9 @@
 | 2026-09-23 | fix | **补门**:五页 `?v=` 同号 —— 我这一轮自己把 `docs.html` 落在 17、其余四页到 18,当时没有门管这件事 | 载荷点名是哪一页哪个文件 |
 
 > 口径:第 04 项**不是**本仓形式化的产物 —— 数字来自教科书公式与实测文献,页面导语与节 05 都写明;逐条出处见 `docs/CONTENT-SOURCES.md` §六。
+| 2026-09-24 | feat | 目录加第 05 项「近十年聚变地图」(`#doc-landscape`,8 节 / 3 表 / 11 条外链):2016–2026 的关键节点、共识三档(含四条反共识)、八个未知量、**本项目的落点与四条差异化** | 需方「把这张知识地图写成文档背景,说清与本项目的关联和差异化,发布上线」 |
+| 2026-09-24 | chore | 写作纪律:只写核到一手出处的数字;`[公告]`/`[论文]` 分开;归纳类写明「本页归纳」;末节自报缺口并列出**被剔除的断言** | 逐条出处 `docs/CONTENT-SOURCES.md §七` |
+| 2026-09-24 | test | 深链断言改为**逐册循环**(从 DOM 取全部 `data-doc`),不再写死两个 id;时间线表时间列 `nowrap` | 写死 id 时新加册会静默漏测 |
+| 2026-09-24 | feat | 目录加第 06 项「μ 动力学」(`#doc-mu-dynamics`,6 节 / 5 表 / 1 图):状态方程 TD1–TD10、场控制桥 TD11–TD18、顺序不可交换 TD15–TD17、接 FRC 的窗口关闭步 TD19–TD21 | 需方「这些内容也要新建一个栏,写入文档页,更新到网站」 |
+| 2026-09-24 | chore | 图仍走导入:`artifacts/mudynamics/fig_mu_dynamics.png` → `assets/art/mu-dynamics.png`(`import_figures.py --check` 幂等) | 站点是消费者,形式化仓库是生产者 |
+

@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" data-icon="apple">
 <meta name="theme-color" content="#0E1E05" id="theme-color">
 <script>/* 主题先定再上色:避免加载瞬间闪另一种主题(默认夜,显式选过就按存的来) */try{if(localStorage.getItem('hushfusion-theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
-<link rel="stylesheet" href="style.css?v=18">
+<link rel="stylesheet" href="style.css?v=19">
 </head>
 <body>
 
@@ -48,9 +48,9 @@
       <p class="kicker" data-zh="— Docs · 文档区" data-en="— Docs · Documents">— Docs · 文档区</p>
       <h1 class="display" data-zh="文档" data-en="Docs">文档</h1>
       <p class="lede"
-         data-zh="这里是目录:左侧切换,每一项都有自己的地址,可以直接分享。前三项来自本仓的形式化与数值验证,第四项&lt;strong&gt;声子&lt;/strong&gt;是量级换算 —— 两类内容的证据强度不一样,每一项开头都写明了。"
-         data-en="Four ledgers live here. Switch on the left; each ledger has its own URL and can be shared directly. The first three come from this repository's formalisation and numerical checks; the fourth — &lt;strong&gt;phonons&lt;/strong&gt; — is order-of-magnitude arithmetic; the two kinds of evidence differ, and each entry says so at the top."
-         data-html="1">这里是目录:左侧切换,每一项都有自己的地址,可以直接分享。前三项来自本仓的形式化与数值验证,第四项<strong>声子</strong>是量级换算 —— 两类内容的证据强度不一样,每一项开头都写明了。</p>
+         data-zh="这里是目录:左侧切换,每一项都有自己的地址,可以直接分享。前三项来自本仓的形式化与数值验证,第四项&lt;strong&gt;声子&lt;/strong&gt;是量级换算,第五项是&lt;strong&gt;外部文献地图&lt;/strong&gt;,第六项&lt;strong&gt;μ 动力学&lt;/strong&gt;回到形式化 + 数值验证 —— 三类内容的证据强度不一样,每一项开头都写明了。"
+         data-en="Four ledgers live here. Switch on the left; each ledger has its own URL and can be shared directly. The first three come from this repository's formalisation and numerical checks; the fourth — &lt;strong&gt;phonons&lt;/strong&gt; — is order-of-magnitude arithmetic, the fifth is an &lt;strong&gt;external literature map&lt;/strong&gt;, and the sixth — &lt;strong&gt;μ dynamics&lt;/strong&gt; — returns to formalisation plus numerical checks; the three kinds of evidence differ, and each entry says so at the top."
+         data-html="1">这里是目录:左侧切换,每一项都有自己的地址,可以直接分享。前三项来自本仓的形式化与数值验证,第四项<strong>声子</strong>是量级换算,第五项是<strong>外部文献地图</strong>,第六项<strong>μ 动力学</strong>回到形式化 + 数值验证 —— 三类内容的证据强度不一样,每一项开头都写明了。</p>
     </div>
 
     <div class="docs" data-docs>
@@ -83,6 +83,18 @@
           <span class="doc-no">04</span>
           <span class="doc-name" data-zh="声子能帮上什么" data-en="What Phonons Can Buy">声子能帮上什么</span>
           <span class="doc-meta" data-zh="机制候选 · 1 表" data-en="Mechanism candidate · 1 table">机制候选 · 1 表</span>
+        </button>
+        <button class="doc-tab" type="button" role="tab" id="tab-landscape"
+                aria-selected="false" aria-controls="doc-landscape" data-doc="doc-landscape">
+          <span class="doc-no">05</span>
+          <span class="doc-name" data-zh="近十年聚变地图" data-en="A Decade of Fusion">近十年聚变地图</span>
+          <span class="doc-meta" data-zh="外部地图 · 8 节" data-en="External map · 8 sections">外部地图 · 8 节</span>
+        </button>
+        <button class="doc-tab" type="button" role="tab" id="tab-mu-dynamics"
+                aria-selected="false" aria-controls="doc-mu-dynamics" data-doc="doc-mu-dynamics">
+          <span class="doc-no">06</span>
+          <span class="doc-name" data-zh="μ 动力学" data-en="μ Dynamics">μ 动力学</span>
+          <span class="doc-meta" data-zh="TD1–TD21 · 2 表" data-en="TD1–TD21 · 2 tables">TD1–TD21 · 2 表</span>
         </button>
         </nav>
         </div><!-- /.doc-ledgers -->
@@ -817,6 +829,304 @@
           </p>
       </article>
 
+      <article class="doc-pane" id="doc-landscape" data-doc-pane="doc-landscape"
+               role="tabpanel" aria-labelledby="tab-landscape" tabindex="0" hidden>
+
+        <section class="band">
+          <nav class="crumbs reveal" aria-label="面包屑">
+            <a href="docs.html" data-zh="文档" data-en="Docs">文档</a>
+            <span class="crumbs-sep" aria-hidden="true">/</span>
+            <span data-zh="05 · 近十年聚变地图" data-en="05 · A Decade of Fusion">05 · 近十年聚变地图</span>
+          </nav>
+<div class="section-head reveal">
+            <p class="kicker">— Doc 05 · 外部文献地图</p>
+            <h2 class="display" data-zh="近十年聚变地图" data-en="A Decade of Fusion">近十年聚变地图</h2>
+            <p class="lede" data-html="1"
+               data-zh="2016–2026:把近十年的高价值综述、关键实验、工程瓶颈与国际路线图压成一张可核对的地图 —— 重点是&lt;strong&gt;脉络与依赖关系&lt;/strong&gt;,不是堆论文。数字全部来自公开来源,逐条给出处。"
+               data-en="2016–2026: a checkable map compressing the decade reviews, key experiments, engineering bottlenecks and national roadmaps. The point is &lt;strong&gt;structure and dependencies&lt;/strong&gt;, not a paper pile. Every number comes from a public source and carries one.">2016–2026:把近十年的高价值综述、关键实验、工程瓶颈与国际路线图压成一张可核对的地图 —— 重点是<strong>脉络与依赖关系</strong>,不是堆论文。数字全部来自公开来源,逐条给出处。</p>
+            <p class="lede" style="margin-top:12px" data-html="1"
+               data-zh="这一项的性质与前面四项不同:它是&lt;strong&gt;外部文献地图&lt;/strong&gt;,不含本仓的形式化结论;这一轮核不到一手出处的数字,一律没有写进来。"
+               data-en="This entry differs in kind from the others: it is an &lt;strong&gt;external literature map&lt;/strong&gt; and contains no formalisation of ours. Anything we could not trace to a primary public source was left out.">这一项的性质与前面四项不同:它是<strong>外部文献地图</strong>,不含本仓的形式化结论;这一轮核不到一手出处的数字,一律没有写进来。</p>
+          </div>
+        </section>
+
+        <section class="band" id="lm-conclusion">
+          <div class="section-head reveal">
+            <p class="kicker">— 01 · 结论</p>
+            <h2 class="section-title" data-zh="问题已经从「能不能聚变」换成了「能不能长期运行」" data-en="The Question Moved from Fusing to Running">问题已经从「能不能聚变」换成了「能不能长期运行」</h2>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="近十年最大的变化不是证明了「聚变反应能发生」,而是把问题从<strong>等离子体能不能做到</strong>推向<strong>一个聚变电站能不能长期、自持、可维护、可负担地运行</strong>。" data-en="The biggest change of the past decade is not that fusion was shown to happen, but that the question moved from <strong>can the plasma do it</strong> to <strong>can a plant run long, fuel itself, be maintained, and be affordable</strong>.">近十年最大的变化不是证明了「聚变反应能发生」,而是把问题从<strong>等离子体能不能做到</strong>推向<strong>一个聚变电站能不能长期、自持、可维护、可负担地运行</strong>。</p>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="一个具体的标志是:<strong>Q&gt;1 已经从终点变成中间节点</strong>。NIF 在 2022-12-05 首次做到靶增益 &gt;1(3.15 MJ / 2.05 MJ),2025-04-07 推到 8.6 MJ / 2.08 MJ(靶增益 4.13,第 8 次点火);JET 在末轮 D-T 里稳定产生 69 MJ(约 5 秒)。这些都不是「向电网输出净电力」—— 靶增益不是墙插增益,两件事必须分开。" data-en="One concrete marker: <strong>Q&gt;1 has moved from the finish line to an intermediate node</strong>. NIF first exceeded target gain 1 on 5 Dec 2022 (3.15 MJ from 2.05 MJ of laser), and on 7 Apr 2025 reached 8.6 MJ from 2.08 MJ (target gain 4.13, its eighth ignition). JET steadily produced 69 MJ over about five seconds in its final D-T run. None of these is net electricity to the grid — target gain is not wall-plug gain, and the two must be kept apart.">一个具体的标志是:<strong>Q&gt;1 已经从终点变成中间节点</strong>。NIF 在 2022-12-05 首次做到靶增益 &gt;1(3.15 MJ / 2.05 MJ),2025-04-07 推到 8.6 MJ / 2.08 MJ(靶增益 4.13,第 8 次点火);JET 在末轮 D-T 里稳定产生 69 MJ(约 5 秒)。这些都不是「向电网输出净电力」—— 靶增益不是墙插增益,两件事必须分开。</p>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="于是真正的链条变成了:聚变条件 → 燃烧等离子体 → 稳定/长脉冲 → 热与粒子排出 → 第一壁/偏滤器 → 增殖包层 → 氚自持 → 热电转换 → 远程维护 → 可用率 → <strong>经济性</strong>。" data-en="The real chain is now: fusion conditions → burning plasma → stability and long pulses → heat and particle exhaust → first wall and divertor → breeding blanket → tritium self-sufficiency → thermal conversion → remote maintenance → availability → <strong>economics</strong>.">于是真正的链条变成了:聚变条件 → 燃烧等离子体 → 稳定/长脉冲 → 热与粒子排出 → 第一壁/偏滤器 → 增殖包层 → 氚自持 → 热电转换 → 远程维护 → 可用率 → <strong>经济性</strong>。</p>
+        </section>
+
+        <section class="band" id="lm-generations">
+          <div class="section-head reveal">
+            <p class="kicker">— 02 · 知识脉络</p>
+            <h2 class="section-title" data-zh="九个问题世代:聚变前沿是怎么一步步往后挪的" data-en="Nine Generations of Questions">九个问题世代:聚变前沿是怎么一步步往后挪的</h2>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="把 2016–2026 的文献按「当时大家在解决哪一个问题」排序,会得到一条很干净的下移线。这不是某个文献的结论,是<strong>我们对文献的归纳</strong>(每一代都能在上面的时间线里找到对应的实验或报告)。" data-en="Sorting the 2016–2026 literature by the question people were actually working on gives a clean downward shift. This is <strong>our reading of the literature</strong>, not a single paper result — each generation maps to an experiment or report on the timeline below.">把 2016–2026 的文献按「当时大家在解决哪一个问题」排序,会得到一条很干净的下移线。这不是某个文献的结论,是<strong>我们对文献的归纳</strong>(每一代都能在上面的时间线里找到对应的实验或报告)。</p>
+          <div class="table-wrap reveal" style="margin-top:clamp(24px,3.4vw,38px)">
+            <table class="doc">
+              <caption data-zh="九个问题世代(本页归纳)" data-en="Nine generations of questions (our synthesis)">九个问题世代(本页归纳)</caption>
+              <thead><tr><th>代</th><th>问题</th><th>标志性回答</th></tr></thead>
+              <tbody><tr><td>1</td><td>能不能产生高温等离子体</td><td>托卡马克时代</td></tr><tr><td>2</td><td>能不能达到高约束、高三重积</td><td>H-mode 成为基准工作状态</td></tr><tr><td>3</td><td>能不能产生燃烧等离子体</td><td>α 自热,2021 NIF 首现燃烧等离子体</td></tr><tr><td>4</td><td>能不能长期稳定运行</td><td>EAST 1066 s · WEST 1337 s</td></tr><tr><td>5</td><td>能不能把热和中子排出去而不毁装置</td><td>偏滤器成为核心不确定项</td></tr><tr><td>6</td><td>能不能自己生产氚</td><td>TBR 的「必需/可达/目标」三档口径</td></tr><tr><td>7</td><td>能不能维护</td><td>远程维护、机器人</td></tr><tr><td>8</td><td>能不能高可用率运行</td><td>可用率进入设计指标</td></tr><tr><td>9</td><td>能不能经济地发电</td><td>经验率与 LCOE 之争</td></tr></tbody>
+            </table>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="一句话:<strong>聚变前沿 = 等离子体物理 → 反应堆物理 → 系统工程 → 经济学</strong>。" data-en="In one line: <strong>the frontier ran plasma physics → reactor physics → systems engineering → economics</strong>.">一句话:<strong>聚变前沿 = 等离子体物理 → 反应堆物理 → 系统工程 → 经济学</strong>。</p>
+        </section>
+
+        <section class="band" id="lm-timeline">
+          <div class="section-head reveal">
+            <p class="kicker">— 03 · 时间线</p>
+            <h2 class="section-title" data-zh="2016–2026:能点开核对的那些节点" data-en="2016–2026: The Checkable Nodes">2016–2026:能点开核对的那些节点</h2>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="每一行都给出处,读者可自查。机构公告与同行评议分开标注 —— 这是<strong>外部文献地图</strong>,不是本仓的形式化结论。" data-en="Every row carries a source so it can be checked. Agency announcements and peer-reviewed results are marked separately: this is an <strong>external literature map</strong>, not a result of our own formalisation.">每一行都给出处,读者可自查。机构公告与同行评议分开标注 —— 这是<strong>外部文献地图</strong>,不是本仓的形式化结论。</p>
+          <div class="table-wrap reveal" style="margin-top:clamp(24px,3.4vw,38px)">
+            <table class="doc doc-time">
+              <caption data-zh="关键节点(2016–2026)" data-en="Key nodes (2016–2026)">关键节点(2016–2026)</caption>
+              <thead><tr><th>时间</th><th>发生了什么</th><th>出处</th></tr></thead>
+              <tbody><tr><td>2020-06</td><td>欧洲 DEMO 把 TBR 拆成「必需 / 可达 / 目标」三档口径</td><td>Fischer et al., <em>Fusion Eng. Des.</em> 155 (2020), doi:10.1016/j.fusengdes.2020.111553</td></tr><tr><td>2021-09-05</td><td>MIT/CFS 大孔径高温超导磁体首次升到 20 T</td><td>CFS/MIT 新闻稿(2021-09-08)</td></tr><tr><td>2022</td><td>深度强化学习直接控制托卡马克全部磁线圈(TCV)</td><td>Degrave et al., <em>Nature</em> 602, 414–419 (2022), doi:10.1038/s41586-021-04301-9</td></tr><tr><td>2022-12-05</td><td>NIF 首次 ignition:3.15 MJ / 2.05 MJ(靶增益 ≈1.5)</td><td>Abu-Shawareb et al., <em>Phys. Rev. Lett.</em> 132, 065102 (2024);LLNL</td></tr><tr><td>2023-08-31 → 10-14</td><td>JET 末轮 D-T(DTE3),记录脉冲 69 MJ / 约 5 秒</td><td>UKAEA/GOV.UK(2024-02-08)</td></tr><tr><td>2024-02-22</td><td>RL 主动规避撕裂不稳定性</td><td>Seo et al., <em>Nature</em> 626, 746–751 (2024), doi:10.1038/s41586-024-07024-9</td></tr><tr><td>2024-06/07</td><td>ITER 新基线:研究运行 2034、满磁能 2036、D-T 2039;第一壁 Be → W</td><td>ITER(2024-07-03);IPP 评述(2024-07-03)</td></tr><tr><td>2025-01-20</td><td>EAST:1066 秒高约束模(2023 年为 403 秒)</td><td>EAST 团队综述,<em>Front. Eng. Manag.</em> (2025)</td></tr><tr><td>2025-02-12</td><td>WEST:1337 秒,注入/排出 2.6 GJ</td><td>CEA-IRFM(2025-02-12)</td></tr><tr><td>2025-04-07</td><td>NIF:8.6 MJ / 2.08 MJ,靶增益 4.13(第 8 次点火)</td><td>LLNL 年度报告 FY2025</td></tr><tr><td>2025-05-22</td><td>W7-X:三重积 &gt;3×10²¹ m⁻³·keV·s 维持 43 秒</td><td>IPP / EUROfusion(2025-06)</td></tr><tr><td>2026-03</td><td>英国新聚变战略 + UKAEA 2026–2030 战略:四挑战;2050 年前不太可能显著贡献全球能源</td><td>GOV.UK: UKAEA Strategy 2026–2030</td></tr><tr><td>2026-03-23</td><td>经验率之争:聚变经验率被高估(2–8%,业界假设 8–20%)</td><td>Tang, Noll &amp; Schmidt, <em>Nat. Energy</em> 11, 926 (2026), doi:10.1038/s41560-026-02023-8</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="band" id="lm-consensus">
+          <div class="section-head reveal">
+            <p class="kicker">— 04 · 共识分层</p>
+            <h2 class="section-title" data-zh="哪些已经形成共识,哪些还在吵" data-en="What Is Settled, What Is Not">哪些已经形成共识,哪些还在吵</h2>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="把共识分三档比列一张「共识清单」诚实:已经形成的、方向一致但答案未定的、以及<strong>挑战默认优化目标</strong>的反共识。" data-en="Sorting the consensus into three tiers is more honest than one list: settled, direction-agreed but answer-open, and counter-consensus that <strong>challenges the default objective</strong>.">把共识分三档比列一张「共识清单」诚实:已经形成的、方向一致但答案未定的、以及<strong>挑战默认优化目标</strong>的反共识。</p>
+          <dl class="spec-list reveal">
+            <div><dt data-zh="A 级 · 基本共识" data-en="Tier A · settled">A 级 · 基本共识</dt><dd data-zh="D-T 仍是主力燃料;只有 Q&gt;1 不够;电站必须长期运行;氚自持必须解决;包层是核心设备;材料是核心瓶颈;排热是核心瓶颈;远程维护必须;系统集成是最终问题。<br><span class=mono>依据:UKAEA 把四大挑战写成「有效聚变芯 / 燃料自持 / 集成 / 可负担与吸引力」,与上述判断一一对应。</span>" data-en="D-T stays the main fuel; Q&gt;1 alone is not enough; a plant must run long; tritium self-sufficiency is mandatory; the blanket is core equipment; materials are a core bottleneck; exhaust is a core bottleneck; remote maintenance is mandatory; systems integration is the final problem.<br><span class=mono>Basis: UKAEA states four interlocking challenges — effective fusion core / fuel self-sufficiency / integration / affordability and attractiveness.</span>">D-T 仍是主力燃料;只有 Q&gt;1 不够;电站必须长期运行;氚自持必须解决;包层是核心设备;材料是核心瓶颈;排热是核心瓶颈;远程维护必须;系统集成是最终问题。<br><span class=mono>依据:UKAEA 把四大挑战写成「有效聚变芯 / 燃料自持 / 集成 / 可负担与吸引力」,与上述判断一一对应。</span></dd></div>
+            <div><dt data-zh="B 级 · 方向一致" data-en="Tier B · agreed direction">B 级 · 方向一致</dt><dd data-zh="①托卡马克是最成熟的磁约束路线,但「它是最终商业赢家」没有证据;②仿星器的长脉冲潜力被 W7-X 的 43 秒明显加强,但线圈复杂度、制造、对准、维护、屏蔽仍待工程验证;③HTS 很重要 —— 但它改变的是「磁场 → 装置尺寸 → 设计空间」,<strong>不等于</strong>解决包层、氚、排热、材料、维护。" data-en="① The tokamak is the most mature magnetic route, but there is no evidence that it is the final commercial winner; ② the stellarator long-pulse potential was strengthened by W7-X 43 s, yet coil complexity, manufacturing, alignment, maintenance and shielding remain open; ③ HTS matters — but what it changes is field → device size → design space, and it does <strong>not</strong> solve blanket, tritium, exhaust, materials or maintenance.">①托卡马克是最成熟的磁约束路线,但「它是最终商业赢家」没有证据;②仿星器的长脉冲潜力被 W7-X 的 43 秒明显加强,但线圈复杂度、制造、对准、维护、屏蔽仍待工程验证;③HTS 很重要 —— 但它改变的是「磁场 → 装置尺寸 → 设计空间」,<strong>不等于</strong>解决包层、氚、排热、材料、维护。</dd></div>
+            <div><dt data-zh="C1 · 反共识:Q 不是第一指标" data-en="C1 · counter-consensus: Q is the wrong first metric">C1 · 反共识:Q 不是第一指标</dt><dd data-zh="电站关心的是 <span class=mono>Q_plant = 电出 / 电入</span>,中间要扣磁体、低温、泵、电流驱动、氚处理、真空、加热、辅助系统。所以 Q&gt;10 仍可能不是有经济价值的电站 —— NIF 的 8.6 MJ 与 JET 的 69 MJ 正好说明这个区别。" data-en="A plant cares about <span class=mono>Q_plant = electricity out / electricity in</span>, net of magnets, cryogenics, pumps, current drive, tritium processing, vacuum, heating and balance of plant. So Q&gt;10 can still fail economically — NIF 8.6 MJ and JET 69 MJ are exactly the illustration.">电站关心的是 <span class=mono>Q_plant = 电出 / 电入</span>,中间要扣磁体、低温、泵、电流驱动、氚处理、真空、加热、辅助系统。所以 Q&gt;10 仍可能不是有经济价值的电站 —— NIF 的 8.6 MJ 与 JET 的 69 MJ 正好说明这个区别。</dd></div>
+            <div><dt data-zh="C2 · 反共识:更小不等于更好" data-en="C2 · counter-consensus: smaller is not automatically better">C2 · 反共识:更小不等于更好</dt><dd data-zh="高场让装置变小,同时把功率密度推上去 —— 表面热流密度与排热难度一起上升。这条 trade-off 我们自己在 03 项里算过(场地板与密度上限的同一根链条)。" data-en="High field shrinks the device and raises power density, which pushes surface heat load and exhaust difficulty up with it. We ran that trade-off ourselves in ledger 03 (the same chain as the field floor and the density ceiling).">高场让装置变小,同时把功率密度推上去 —— 表面热流密度与排热难度一起上升。这条 trade-off 我们自己在 03 项里算过(场地板与密度上限的同一根链条)。</dd></div>
+            <div><dt data-zh="C3 · 反共识:2030 年代商业聚变不是共识" data-en="C3 · counter-consensus: 2030s commercial fusion is not a consensus">C3 · 反共识:2030 年代商业聚变不是共识</dt><dd data-zh="一边是私营公司、DOE 与 STEP 的 2030 年代目标;另一边是 UKAEA 战略原文:<em>「在各类技术路径与历史产业化经验下,聚变在 2050 年前不太可能对全球能源供应形成显著贡献。」</em>两者不矛盾 —— 工程演示 ≠ 规模化部署。看到「2030s fusion」必须追问它指哪一步:first plasma / 增益 / 点火 / 净聚变功率 / 电 / 试点电站 / 商业机组 / 批量部署。" data-en="On one side, private companies, DOE and STEP target the 2030s; on the other, the UKAEA strategy says in its own words that under all technical pathways and historic precedence for market penetration, it is unlikely that fusion will make any significant contribution to global energy supply before 2050. The two do not contradict — engineering demonstration is not deployment at scale. Whenever the 2030s are quoted, ask which step is meant: first plasma / gain / ignition / net fusion power / electricity / pilot plant / commercial unit / fleet.">一边是私营公司、DOE 与 STEP 的 2030 年代目标;另一边是 UKAEA 战略原文:<em>「在各类技术路径与历史产业化经验下,聚变在 2050 年前不太可能对全球能源供应形成显著贡献。」</em>两者不矛盾 —— 工程演示 ≠ 规模化部署。看到「2030s fusion」必须追问它指哪一步:first plasma / 增益 / 点火 / 净聚变功率 / 电 / 试点电站 / 商业机组 / 批量部署。</dd></div>
+            <div><dt data-zh="C4 · 反共识:经济性还没有定论" data-en="C4 · counter-consensus: the economics are open">C4 · 反共识:经济性还没有定论</dt><dd data-zh="2026 年 Nature Energy 的一篇分析把两个数字摆在一起:首堆(FOAK)CAPEX 的估计区间约 <strong>1,400–43,000 美元/kW</strong>,而按同类复杂技术的经验,聚变的经验率约为 <strong>2–8%</strong>(业界常假设 8–20%)—— 结论是聚变很可能在净零能源系统里缺乏竞争力。这不是坏消息,它把问题变成了一道可研究的设计题:<span class=mono>反应堆设计 = 物理优化 + 制造优化 + 运维优化 + 经济优化</span>。" data-en="A 2026 Nature Energy analysis puts two numbers side by side: first-of-a-kind CAPEX estimates span about <strong>US$1,400–43,000 per kW</strong>, while technologies with fusion characteristics historically show experience rates of <strong>2–8%</strong> (industry projections often assume 8–20%) — concluding that fusion is likely to remain uncompetitive in net-zero energy systems. That is not bad news so much as a researchable design problem: <span class=mono>reactor design = physics + manufacturing + operations + economics</span>.">2026 年 Nature Energy 的一篇分析把两个数字摆在一起:首堆(FOAK)CAPEX 的估计区间约 <strong>1,400–43,000 美元/kW</strong>,而按同类复杂技术的经验,聚变的经验率约为 <strong>2–8%</strong>(业界常假设 8–20%)—— 结论是聚变很可能在净零能源系统里缺乏竞争力。这不是坏消息,它把问题变成了一道可研究的设计题:<span class=mono>反应堆设计 = 物理优化 + 制造优化 + 运维优化 + 经济优化</span>。</dd></div>
+          </dl>
+        </section>
+
+        <section class="band" id="lm-unknowns">
+          <div class="section-head reveal">
+            <p class="kicker">— 05 · 八个未知量</p>
+            <h2 class="section-title" data-zh="2026 年以后真正值得押注的八个未知量" data-en="Eight Unknowns Worth Betting On">2026 年以后真正值得押注的八个未知量</h2>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="把 DOE、UKAEA、ITER 与工程文献的交集压成八项 —— 这是<strong>我们的归纳</strong>,每项背后都能找到对应的机构口径或实验。" data-en="Compressing the intersection of DOE, UKAEA, ITER and engineering literature gives eight items. This is <strong>our synthesis</strong>, and each one has agency language or experiment behind it.">把 DOE、UKAEA、ITER 与工程文献的交集压成八项 —— 这是<strong>我们的归纳</strong>,每项背后都能找到对应的机构口径或实验。</p>
+          <div class="table-wrap reveal" style="margin-top:clamp(24px,3.4vw,38px)">
+            <table class="doc">
+              <caption data-zh="八个核心未知量(本页归纳)" data-en="Eight core unknowns (our synthesis)">八个核心未知量(本页归纳)</caption>
+              <thead><tr><th>未知量</th><th>本质问题</th></tr></thead>
+              <tbody><tr><td>① 燃烧等离子体</td><td>α 自热能否形成可靠运行区</td></tr><tr><td>② 等离子体控制</td><td>能否实时控制强非线性等离子体,且环境本身在变</td></tr><tr><td>③ 排热</td><td>能否长期排热而不毁坏偏滤器</td></tr><tr><td>④ 材料</td><td>能否同时承受中子 + 热 + 等离子体</td></tr><tr><td>⑤ 包层</td><td>能否同时完成增殖、屏蔽与高效取热</td></tr><tr><td>⑥ 氚</td><td>能否实现真正闭环与自持</td></tr><tr><td>⑦ 维护</td><td>能否在高辐射环境下快速远程更换</td></tr><tr><td>⑧ 经济性</td><td>能否把 CAPEX + 可用率 + LCOE 做到可部署</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="band" id="lm-position">
+          <div class="section-head reveal">
+            <p class="kicker">— 06 · 本项目的落点</p>
+            <h2 class="section-title" data-zh="我们不押参数最高,我们押「哪一块账能算死」" data-en="We Do Not Bet on the Highest Parameter — We Bet on What Can Be Closed">我们不押参数最高,我们押「哪一块账能算死」</h2>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="把上面这张地图和本仓的四项工作叠在一起,落点很清楚:我们不在「等离子体物理」这一层,也不做包层、氚工厂、材料辐照、远程维护与整堆工程 —— 那些是 A 级共识指向国家级设施的方向。我们做的是<strong>「场源」这一端把账算死</strong>,以及<strong>控制层里「环境本身在变」那一问</strong>。" data-en="Overlaying that map on this repository work makes the position clear: we are not in the plasma-physics layer, and we do not do blankets, tritium plants, materials irradiation, remote maintenance or whole-plant engineering — those point to national facilities. What we do is <strong>close the books at the field-source end</strong>, and work the control-layer question of <strong>an environment that keeps changing</strong>.">把上面这张地图和本仓的四项工作叠在一起,落点很清楚:我们不在「等离子体物理」这一层,也不做包层、氚工厂、材料辐照、远程维护与整堆工程 —— 那些是 A 级共识指向国家级设施的方向。我们做的是<strong>「场源」这一端把账算死</strong>,以及<strong>控制层里「环境本身在变」那一问</strong>。</p>
+          <dl class="spec-list reveal">
+            <div><dt data-zh="差异化 ① · 从场源这一端切,而不是从等离子体参数切" data-en="Differentiator ① · start at the field source, not at plasma parameters">差异化 ① · 从场源这一端切,而不是从等离子体参数切</dt><dd data-zh="01 项把「控制引力场的代数系统」写成逻辑基元(起伏能量二次型 + 层状区域族),03 项把「把 1° 石墨烯当线圈用」变成可以逐项算的场地板、密度上限与 μ 窗口。地图上第 5–6 层(排热、氚)我们不动,但<strong>第 1 层的场源侧</strong>我们给的是账,不是口号。" data-en="Ledger 01 writes the algebra of gravity control as logic primitives (a quadratic form of fluctuating energy plus a family of layered regions); ledger 03 turns using 1° graphene as a coil into a field floor, a density ceiling and a μ window that can be computed item by item. We stay out of layers 5–6 (exhaust, tritium), but at the field-source end of layer 1 we deliver books, not slogans.">01 项把「控制引力场的代数系统」写成逻辑基元(起伏能量二次型 + 层状区域族),03 项把「把 1° 石墨烯当线圈用」变成可以逐项算的场地板、密度上限与 μ 窗口。地图上第 5–6 层(排热、氚)我们不动,但<strong>第 1 层的场源侧</strong>我们给的是账,不是口号。</dd></div>
+            <div><dt data-zh="差异化 ② · 结论形态是死证,不是「能做到」" data-en="Differentiator ② · conclusions take the form of death certificates">差异化 ② · 结论形态是死证,不是「能做到」</dt><dd data-zh="我们最硬的产出是<strong>否定性结论</strong>:在给定参数下可行 μ 集为空(Lean 里 ¬∃μ)、场地板随尺寸 B_death ∝ 1/a、以及两道数量级的工程否决门。地图上大量工作写的是「目标值」,我们写的是「哪些区间被排除」——这两件事的证据强度不一样。" data-en="Our hardest outputs are <strong>negative results</strong>: for given parameters the feasible μ set is empty (¬∃μ in Lean), the field floor scales as B_death ∝ 1/a, and two order-of-magnitude engineering gates veto the design. Much of the map states target values; we state which regions are excluded — and the two differ in evidential strength.">我们最硬的产出是<strong>否定性结论</strong>:在给定参数下可行 μ 集为空(Lean 里 ¬∃μ)、场地板随尺寸 B_death ∝ 1/a、以及两道数量级的工程否决门。地图上大量工作写的是「目标值」,我们写的是「哪些区间被排除」——这两件事的证据强度不一样。</dd></div>
+            <div><dt data-zh="差异化 ③ · 证据分层,自报强度" data-en="Differentiator ③ · evidence is layered and self-declared">差异化 ③ · 证据分层,自报强度</dt><dd data-zh="每一本账开头都写明它是什么:01–03 是形式化 + 数值验证(0 sorry);第 04 项(声子)只有教科书公式与实测文献的量级换算;第 05 项(本页)是外部文献地图。算不出来的明说、没核实的数字不写 —— 这份地图里凡是这一轮没能在公开来源核到的数字,一律没有进页面。" data-en="Every ledger says up front what it is: 01–03 are formalisation plus numerical checks (0 sorry); entry 04 (phonons) is order-of-magnitude arithmetic on textbook formulae and measured literature; entry 05 (this page) is an external literature map. What cannot be computed is said so, and unverified numbers are left out — anything on this page we could not confirm against a public source was dropped.">每一本账开头都写明它是什么:01–03 是形式化 + 数值验证(0 sorry);第 04 项(声子)只有教科书公式与实测文献的量级换算;第 05 项(本页)是外部文献地图。算不出来的明说、没核实的数字不写 —— 这份地图里凡是这一轮没能在公开来源核到的数字,一律没有进页面。</dd></div>
+            <div><dt data-zh="差异化 ④ · 控制层:非平稳,而不是单场景最优" data-en="Differentiator ④ · control under non-stationarity, not single-scenario optimality">差异化 ④ · 控制层:非平稳,而不是单场景最优</dt><dd data-zh="地图第 9 层已经有两篇 Nature 证明 RL 能控制托卡马克(2022)与规避撕裂(2024)。我们的问题更靠后一步:<strong>当环境本身在变(设备老化、工况漂移、目标切换),策略怎样持续适应而不遗忘</strong>。这正好对上一句话:<em>如何让一个非线性系统在可行运行包络内保持运行,而环境本身在变。</em>" data-en="Two Nature papers already show RL controlling a tokamak (2022) and avoiding tearing (2024). Our question sits one step further out: <strong>when the environment itself drifts — ageing hardware, shifting regimes, changing objectives — how does a policy keep adapting without forgetting?</strong> Which is the same sentence as: how do you keep a nonlinear system inside a viable operating envelope while the environment changes.">地图第 9 层已经有两篇 Nature 证明 RL 能控制托卡马克(2022)与规避撕裂(2024)。我们的问题更靠后一步:<strong>当环境本身在变(设备老化、工况漂移、目标切换),策略怎样持续适应而不遗忘</strong>。这正好对上一句话:<em>如何让一个非线性系统在可行运行包络内保持运行,而环境本身在变。</em></dd></div>
+          </dl>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="一句话总结本项目的选择:<strong>不押「谁的等离子体参数最高」,押「哪一块账能算死、哪一道门先咬人」</strong>。" data-en="In one line, our bet: <strong>not on the highest plasma parameter, but on which book can be closed and which gate bites first</strong>.">一句话总结本项目的选择:<strong>不押「谁的等离子体参数最高」,押「哪一块账能算死、哪一道门先咬人」</strong>。</p>
+        </section>
+
+        <section class="band" id="lm-reading">
+          <div class="section-head reveal">
+            <p class="kicker">— 07 · 阅读顺序</p>
+            <h2 class="section-title" data-zh="按依赖关系读,不按发表时间读" data-en="Read by Dependency, Not by Date">按依赖关系读,不按发表时间读</h2>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="只列这一轮在公开来源核对过的。同行评议与机构公告分开 —— 前者是结论,后者是状态。" data-en="Only items verified against public sources this round. Peer-reviewed results and agency statements are kept apart: the former are conclusions, the latter are status.">只列这一轮在公开来源核对过的。同行评议与机构公告分开 —— 前者是结论,后者是状态。</p>
+          <dl class="spec-list reveal">
+            <div><dt data-zh="第一组 · 物理主干" data-en="Group 1 · physics backbone">第一组 · 物理主干</dt><dd data-zh="Lawson 判据与三重积仍是统一比较不同装置的框架;W7-X 的 43 秒是长脉冲下三重积这一维度上最新的硬数据(IPP/EUROfusion 2025-06)。" data-en="The Lawson criterion and triple product remain the frame for comparing devices; W7-X 43 seconds is the latest hard number on triple product at long pulse (IPP/EUROfusion, June 2025).">Lawson 判据与三重积仍是统一比较不同装置的框架;W7-X 的 43 秒是长脉冲下三重积这一维度上最新的硬数据(IPP/EUROfusion 2025-06)。</dd></div>
+            <div><dt data-zh="第二组 · 控制" data-en="Group 2 · control">第二组 · 控制</dt><dd data-zh="Degrave et al., <em>Nature</em> 602, 414–419 (2022);Seo et al., <em>Nature</em> 626, 746–751 (2024)。前者是 sim-to-real 的全线圈磁控制,后者是主动规避撕裂不稳定性。" data-en="Degrave et al., <em>Nature</em> 602, 414–419 (2022); Seo et al., <em>Nature</em> 626, 746–751 (2024). The first is sim-to-real control of the full coil set; the second actively avoids tearing instability.">Degrave et al., <em>Nature</em> 602, 414–419 (2022);Seo et al., <em>Nature</em> 626, 746–751 (2024)。前者是 sim-to-real 的全线圈磁控制,后者是主动规避撕裂不稳定性。</dd></div>
+            <div><dt data-zh="第三组 · 工程瓶颈" data-en="Group 3 · engineering bottlenecks">第三组 · 工程瓶颈</dt><dd data-zh="Fischer et al., <em>Fusion Eng. Des.</em> 155 (2020) —— TBR 的「必需 / 可达 / 目标」三档口径,是氚自持这条线的入口。" data-en="Fischer et al., <em>Fusion Eng. Des.</em> 155 (2020) — the required / achievable / target framing of TBR is the entry point to tritium self-sufficiency.">Fischer et al., <em>Fusion Eng. Des.</em> 155 (2020) —— TBR 的「必需 / 可达 / 目标」三档口径,是氚自持这条线的入口。</dd></div>
+            <div><dt data-zh="第四组 · 里程碑实验" data-en="Group 4 · milestone experiments">第四组 · 里程碑实验</dt><dd data-zh="NIF(2022 首次点火;2025 8.6 MJ)· JET DTE3(69 MJ / 约 5 秒)· EAST(1066 秒)· WEST(1337 秒)· W7-X(43 秒三重积)。" data-en="NIF (first ignition 2022; 8.6 MJ in 2025) · JET DTE3 (69 MJ over ~5 s) · EAST (1066 s) · WEST (1337 s) · W7-X (43 s triple product).">NIF(2022 首次点火;2025 8.6 MJ)· JET DTE3(69 MJ / 约 5 秒)· EAST(1066 秒)· WEST(1337 秒)· W7-X(43 秒三重积)。</dd></div>
+            <div><dt data-zh="第五组 · 别被产业叙事带偏" data-en="Group 5 · against the industry narrative">第五组 · 别被产业叙事带偏</dt><dd data-zh="UKAEA Strategy 2026–2030(四挑战 + 2050 年的原话);Tang, Noll &amp; Schmidt, <em>Nat. Energy</em> 11, 926 (2026)(经验率 2–8%,首堆 CAPEX 1,400–43,000 美元/kW)。这两份要对着产业预测读。" data-en="UKAEA Strategy 2026–2030 (four challenges plus the 2050 sentence); Tang, Noll &amp; Schmidt, <em>Nat. Energy</em> 11, 926 (2026) (experience rates 2–8%, FOAK CAPEX US$1,400–43,000/kW). Read both against industry projections.">UKAEA Strategy 2026–2030(四挑战 + 2050 年的原话);Tang, Noll &amp; Schmidt, <em>Nat. Energy</em> 11, 926 (2026)(经验率 2–8%,首堆 CAPEX 1,400–43,000 美元/kW)。这两份要对着产业预测读。</dd></div>
+          </dl>
+        </section>
+
+        <section class="band" id="lm-gaps">
+          <div class="section-head reveal">
+            <p class="kicker">— 08 · 缺口</p>
+            <h2 class="section-title" data-zh="这一项是外部地图,不是我们的结论" data-en="An External Map, Not Our Result">这一项是外部地图,不是我们的结论</h2>
+          </div>
+          <dl class="spec-list reveal">
+            <div><dt data-zh="性质" data-en="Nature">性质</dt><dd data-zh="本页的每一条都是公开来源的转述,不是本仓的形式化产物,也没有经过我们的数值验证。逐条出处见 <span class=mono>docs/CONTENT-SOURCES.md</span> 第七节。" data-en="Every line here restates a public source. Nothing here is a product of our formalisation and none of it passed our numerical checks. Item-by-item sourcing lives in <span class=mono>docs/CONTENT-SOURCES.md</span>, section 7.">本页的每一条都是公开来源的转述,不是本仓的形式化产物,也没有经过我们的数值验证。逐条出处见 <span class=mono>docs/CONTENT-SOURCES.md</span> 第七节。</dd></div>
+            <div><dt data-zh="没有进页面的数字" data-en="Numbers left out">没有进页面的数字</dt><dd data-zh="这一轮在公开来源里核对不到一手出处的断言,一律没有写进页面 —— 包括某些 TBR 具体数值、某些紧凑装置的未缓解平行热流预测、某些 LCOE 区间。宁可少写,不写没核过的。" data-en="Claims we could not trace to a primary public source this round are absent — including specific TBR values, unmitigated parallel heat-flux predictions for some compact devices, and several LCOE ranges. Fewer numbers, none unverified.">这一轮在公开来源里核对不到一手出处的断言,一律没有写进页面 —— 包括某些 TBR 具体数值、某些紧凑装置的未缓解平行热流预测、某些 LCOE 区间。宁可少写,不写没核过的。</dd></div>
+            <div><dt data-zh="状态 vs 结论" data-en="Status vs conclusion">状态 vs 结论</dt><dd data-zh="时间线里的机构公告(ITER 新基线、UKAEA 战略、EAST/WEST/W7-X/NIF 纪录)是<strong>状态</strong>:它们会被下一次公告改写。同行评议条目(两篇 Nature、Nature Energy、FED)才是<strong>结论</strong>。" data-en="The agency announcements on the timeline (ITER new baseline, UKAEA strategy, the EAST/WEST/W7-X/NIF records) are <strong>status</strong>: the next announcement can change them. The peer-reviewed entries (two Nature papers, Nature Energy, FED) are <strong>conclusions</strong>.">时间线里的机构公告(ITER 新基线、UKAEA 战略、EAST/WEST/W7-X/NIF 纪录)是<strong>状态</strong>:它们会被下一次公告改写。同行评议条目(两篇 Nature、Nature Energy、FED)才是<strong>结论</strong>。</dd></div>
+            <div><dt data-zh="下一步三步" data-en="Next three steps">下一步三步</dt><dd data-zh="① 把时间线做成可更新表(加一列「下一次该看什么」);② 把「八个未知量」映射到本仓四项的覆盖矩阵(已覆盖/不可能覆盖/待算);③ 单独起草「目前仍可被小团队切入的研究空白」清单,一行一条,每条给出可判定的判据。" data-en="① Turn the timeline into an updatable table with a what-to-watch-next column; ② map the eight unknowns onto our ledgers (covered / out of reach / to be computed); ③ draft the list of research gaps a small team can still enter, one line each, with a decidable criterion per line.">① 把时间线做成可更新表(加一列「下一次该看什么」);② 把「八个未知量」映射到本仓四项的覆盖矩阵(已覆盖/不可能覆盖/待算);③ 单独起草「目前仍可被小团队切入的研究空白」清单,一行一条,每条给出可判定的判据。</dd></div>
+          </dl>
+        </section>
+
+          <p class="cite-links reveal" style="margin-top:clamp(28px,4vw,44px)">
+            <span class=mono style="color:var(--ink-3);font-size:12px;letter-spacing:1px" data-zh="来源 · 公开文献与机构公告(逐条见 docs/CONTENT-SOURCES.md 第七节)" data-en="Source · public literature and agency statements (item-by-item in docs/CONTENT-SOURCES.md, section 7)">来源 · 公开文献与机构公告(逐条见 docs/CONTENT-SOURCES.md 第七节)</span>
+            <a href="https://doi.org/10.1038/s41586-021-04301-9" rel="noopener">Degrave 2022</a>
+            <a href="https://doi.org/10.1038/s41586-024-07024-9" rel="noopener">Seo 2024</a>
+            <a href="https://doi.org/10.1103/PhysRevLett.132.065102" rel="noopener">NIF ignition</a>
+            <a href="https://doi.org/10.1016/j.fusengdes.2020.111553" rel="noopener">DEMO TBR</a>
+            <a href="https://doi.org/10.1038/s41560-026-02023-8" rel="noopener">Nat. Energy 2026</a>
+            <a href="https://www.gov.uk/government/publications/ukaea-strategy/uk-atomic-energy-authority-strategy-2026-to-2030" rel="noopener">UKAEA 2026–2030</a>
+            <a href="https://www.iter.org/node/20687/new-baseline-prioritize-robust-start-exploitation" rel="noopener">ITER new baseline</a>
+            <a href="https://cfs.energy/news-and-media/cfs-commercial-fusion-power-with-hts-magnet" rel="noopener">20 T HTS</a>
+            <a href="https://irfm.cea.fr/en/2025/02/west-sets-a-new-plasma-duration-record/" rel="noopener">WEST 1337 s</a>
+            <a href="https://www.ipp.mpg.de/5585948/10jahre_w7x" rel="noopener">W7-X 43 s</a>
+            <a href="https://lasers.llnl.gov/science/achieving-fusion-ignition" rel="noopener">NIF 8.6 MJ</a>
+          </p>
+      </article>
+
+      <article class="doc-pane" id="doc-mu-dynamics" data-doc-pane="doc-mu-dynamics"
+               role="tabpanel" aria-labelledby="tab-mu-dynamics" tabindex="0" hidden>
+
+        <section class="band">
+          <nav class="crumbs reveal" aria-label="面包屑">
+            <a href="docs.html" data-zh="文档" data-en="Docs">文档</a>
+            <span class="crumbs-sep" aria-hidden="true">/</span>
+            <span data-zh="06 · μ 动力学" data-en="06 · μ Dynamics">06 · μ 动力学</span>
+          </nav>
+<div class="section-head reveal">
+            <p class="kicker">— Doc 06 · 形式化 + 数值验证</p>
+            <h2 class="display" data-zh="μ 动力学" data-en="μ Dynamics">μ 动力学</h2>
+            <p class="lede" data-html="1"
+               data-zh="把 μ 从&lt;strong&gt;静态参数&lt;/strong&gt;升级成&lt;strong&gt;状态变量&lt;/strong&gt;:给 μ 自己一条演化方程(TD1–TD10),把「抹平」接进它的增益(TD11–TD18),算清控制顺序的交换子(TD15–TD17),最后把 μ 的轨道代进 FRC 的窗口判定(TD19–TD21)。Lean 零 sorry,数值脚本挂门。"
+               data-en="Upgrading μ from a &lt;strong&gt;static parameter&lt;/strong&gt; to a &lt;strong&gt;state variable&lt;/strong&gt;: an equation of motion for μ itself (TD1–TD10), the flattening operator wired into its gain (TD11–TD18), the commutator of control order (TD15–TD17), and the μ trajectory substituted into the FRC window condition (TD19–TD21). Zero sorry in Lean, numerics gated.">把 μ 从<strong>静态参数</strong>升级成<strong>状态变量</strong>:给 μ 自己一条演化方程(TD1–TD10),把「抹平」接进它的增益(TD11–TD18),算清控制顺序的交换子(TD15–TD17),最后把 μ 的轨道代进 FRC 的窗口判定(TD19–TD21)。Lean 零 sorry,数值脚本挂门。</p>
+            <p class="lede" style="margin-top:12px" data-html="1"
+               data-zh="证据强度与前三项同级:&lt;strong&gt;本仓的形式化 + 数值验证&lt;/strong&gt;(不是外部文献,也不是量级换算);下面每条定理都写着它到底证了什么,以及它没证什么。"
+               data-en="Evidence strength matches the first three entries: &lt;strong&gt;formalisation plus numerical checks&lt;/strong&gt; in this repository — not external literature, not order-of-magnitude arithmetic. Each theorem below says what it does prove and what it does not.">证据强度与前三项同级:<strong>本仓的形式化 + 数值验证</strong>(不是外部文献,也不是量级换算);下面每条定理都写着它到底证了什么,以及它没证什么。</p>
+          </div>
+        </section>
+
+        <section class="band" id="mu-why">
+          <div class="section-head reveal">
+            <p class="kicker">— 01 · 为什么</p>
+            <h2 class="section-title" data-zh="把 μ 从静态参数升级成状态变量" data-en="Turning μ From a Parameter Into a State">把 μ 从静态参数升级成状态变量</h2>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="前三本账里 μ 一直是<strong>静态参数</strong>:一句「若 μ 如此,则质量那样」,缺的是 μ 自己的演化方程。这一项补的正是那一格:取<strong>饱和增长</strong>作为最小形式 —— <span class=mono>μ(t+Δt) = μ(t) + η·(1 − μ(t))</span>,闭式 <span class=mono>μ_n = 1 − (1−η)ⁿ(1−μ₀)</span>。" data-en="In the first three ledgers μ was always a <strong>static parameter</strong>: given μ, the mass follows. What was missing is μ own equation of motion, and that is what this entry adds: <strong>saturating growth</strong> as the minimal form, <span class=mono>μ(t+Δt) = μ(t) + η·(1 − μ(t))</span>, closed form <span class=mono>μ_n = 1 − (1−η)ⁿ(1−μ₀)</span>.">前三本账里 μ 一直是<strong>静态参数</strong>:一句「若 μ 如此,则质量那样」,缺的是 μ 自己的演化方程。这一项补的正是那一格:取<strong>饱和增长</strong>作为最小形式 —— <span class=mono>μ(t+Δt) = μ(t) + η·(1 − μ(t))</span>,闭式 <span class=mono>μ_n = 1 − (1−η)ⁿ(1−μ₀)</span>。</p>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="<strong>先说清楚:这是模型选择,不是物理定律。</strong>选它只有三条理由:①单调、不超调(TM1);②<span class=mono>μ=1</span> 是不动点,但有限增益下走不到(TD3/TD8);③增量正比于剩余容量,不需要人为截断。" data-en="<strong>Up front: this is a model choice, not a law of physics.</strong> Three reasons only: ① it is monotone and does not overshoot (TM1); ② <span class=mono>μ=1</span> is a fixed point but unreachable at finite gain (TD3/TD8); ③ the increment is proportional to the remaining capacity, so no artificial cut-off is needed."><strong>先说清楚:这是模型选择,不是物理定律。</strong>选它只有三条理由:①单调、不超调(TM1);②<span class=mono>μ=1</span> 是不动点,但有限增益下走不到(TD3/TD8);③增量正比于剩余容量,不需要人为截断。</p>
+        </section>
+
+        <section class="band" id="mu-state">
+          <div class="section-head reveal">
+            <p class="kicker">— 02 · 状态方程</p>
+            <h2 class="section-title" data-zh="两个临界值:η=1 无超调上界,η=2 收敛上界" data-en="Two Critical Values: η=1 for Overshoot, η=2 for Convergence">两个临界值:η=1 无超调上界,η=2 收敛上界</h2>
+          </div>
+          <div class="table-wrap reveal" style="margin-top:clamp(24px,3.4vw,38px)">
+            <table class="doc">
+              <caption data-zh="TD1–TD10:状态方程的定理(全部在 Lean 里,0 sorry)" data-en="TD1–TD10: theorems of the state equation (all in Lean, 0 sorry)">TD1–TD10:状态方程的定理(全部在 Lean 里,0 sorry)</caption>
+              <thead><tr><th>定理</th><th>内容</th></tr></thead>
+              <tbody><tr><td>TD1a</td><td>μ, η ∈ [0,1] ⟹ 更新后仍在 [0,1](不超调)</td></tr><tr><td>TD2</td><td>μ&lt;1 且 η&gt;0 ⟹ 严格推进</td></tr><tr><td>TD3</td><td>0&lt;η&lt;1 ⟹ μ=1 一步不可达</td></tr><tr><td><strong>TD3b</strong></td><td><strong>η&gt;1 ⟹ 一步越过 1(稳定区边界 = 1)</strong></td></tr><tr><td>TD4 / TD5</td><td>μ=1 是不动点;η=1 一步到 1</td></tr><tr><td>TD7</td><td>闭式解 μ_n = 1 − (1−η)ⁿ(1−μ₀)</td></tr><tr><td><strong>TD8</strong></td><td><strong>0&lt;η&lt;1 ⟹ 任意有限步 μ_n &lt; 1</strong></td></tr><tr><td>TD9</td><td>轨道单调递增</td></tr><tr><td><strong>TD10</strong></td><td><strong>μ_n &lt; 1 ⟹ 质量永不归零(TM2b 的动力学版)</strong></td></tr></tbody>
+            </table>
+          </div>
+          <div class="table-wrap reveal" style="margin-top:clamp(24px,3.4vw,38px)">
+            <table class="doc">
+              <caption data-zh="数值验证(N1–N5、N10;脚本 scripts/verify_mu_dynamics.py)" data-en="Numerical checks (N1–N5, N10)">数值验证(N1–N5、N10;脚本 scripts/verify_mu_dynamics.py)</caption>
+              <thead><tr><th>检查</th><th>结果</th></tr></thead>
+              <tbody><tr><td>有界不超调</td><td>μ×η ∈ [0,1]² 共 441 个网格点,越界 <span class=mono>0.0e+00</span></td></tr><tr><td>严格推进</td><td>2000 个样本,最小增量 <span class=mono>6.351e-05</span></td></tr><tr><td>闭式解 vs 递推</td><td>60 组 (μ₀, η, n),最大差 <span class=mono>7.77e-16</span></td></tr><tr><td>300 步不可达</td><td><span class=mono>1 − μ_N = 2.075e-07 &gt; 0</span>;轨道最大值 &lt; 1</td></tr><tr><td>质量永不归零</td><td><span class=mono>min m_eff² = 4.307e-14 &gt; 0</span></td></tr><tr><td>收敛三区</td><td>η ≤ 1 无超调 / 1 &lt; η &lt; 2 超调但收敛 / η ≥ 2 不收敛(η=2.0 时 300 步后 μ=0.1,η=2.2 时 −5.1e23)</td></tr></tbody>
+            </table>
+          </div>
+<figure class="doc-fig reveal">
+            <div class="plate">
+              <a class="plate-link" href="assets/art/mu-dynamics.png" target="_blank" rel="noopener"><img src="assets/art/mu-dynamics.png" width="1400" height="969"
+                   alt="μ 动力学 2×2:左上 μ_n 沿 η 的轨道(逼近 1 而不达);右上 η 与增益的收敛三区(无超调 ≤1 / 超调但收敛 1..2 / 发散 ≥2);左下 TD17 顺序见证柱状图(1.00 vs 0.00);右下 m_eff² 随步数指数衰减但恒大于 0"></a>
+            </div>
+            <figcaption data-zh="四格图:①轨道(逼近 1 而不达)②收敛三区 ③顺序不可交换(1.00 vs 0.00)④m_eff² 指数衰减但恒 &gt; 0。图由 Hibs-Physics 仓库的数值脚本生成,本站只做导入。" data-en="Four panels: ① trajectory (approaches 1, never reaches) ② the three convergence bands ③ order dependence (1.00 vs 0.00) ④ m_eff² decays but stays above zero. Generated by the numerical script in the Hibs-Physics repository; this site only imports it.">四格图:①轨道(逼近 1 而不达)②收敛三区 ③顺序不可交换(1.00 vs 0.00)④m_eff² 指数衰减但恒 &gt; 0。图由 Hibs-Physics 仓库的数值脚本生成,本站只做导入。</figcaption>
+          </figure>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="一句话:<strong>μ 无限逼近 1,但有限步走不到 —— 质量永不归零</strong>。这是 TM2b 那条静态结论的动力学版本。" data-en="In one line: <strong>μ approaches 1 forever without reaching it in finitely many steps, so the mass never reaches zero</strong> — the dynamical version of the static TM2b result.">一句话:<strong>μ 无限逼近 1,但有限步走不到 —— 质量永不归零</strong>。这是 TM2b 那条静态结论的动力学版本。</p>
+        </section>
+
+        <section class="band" id="mu-bridge">
+          <div class="section-head reveal">
+            <p class="kicker">— 03 · 增益从哪来</p>
+            <h2 class="section-title" data-zh="增益不从天上掉:η 就是抹平进展" data-en="Gain Comes From Somewhere: η Is the Flattening Progress">增益不从天上掉:η 就是抹平进展</h2>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="状态方程里多出来的那个 η 不能是自由参数,否则等于把缺口藏起来。这一项把它<strong>定义</strong>成 GravityControl 里「抹平」的进展:<span class=mono>η = flattenProgress = 1 − Q_A(v)/Q_A(v₀)</span>。" data-en="The η in the state equation cannot be a free parameter, or the gap is just hidden. This entry <strong>defines</strong> it as the progress of the flattening operator in GravityControl: <span class=mono>η = flattenProgress = 1 − Q_A(v)/Q_A(v₀)</span>.">状态方程里多出来的那个 η 不能是自由参数,否则等于把缺口藏起来。这一项把它<strong>定义</strong>成 GravityControl 里「抹平」的进展:<span class=mono>η = flattenProgress = 1 − Q_A(v)/Q_A(v₀)</span>。</p>
+          <div class="table-wrap reveal" style="margin-top:clamp(24px,3.4vw,38px)">
+            <table class="doc">
+              <caption data-zh="TD11–TD18:桥与它的后果" data-en="TD11–TD18: the bridge and its consequences">TD11–TD18:桥与它的后果</caption>
+              <thead><tr><th>定理</th><th>内容</th></tr></thead>
+              <tbody><tr><td>TD11a / TD11b</td><td>未抹平 ⟹ η=0;已平坦 ⟹ η=1</td></tr><tr><td><strong>TD12</strong></td><td><strong>抹平一次 ⟹ η=1 ⟹ μ 一步到 1(复用 GCA2c)</strong></td></tr><tr><td>TD13</td><td>起伏越小 ⟹ 进展越大(Q 与 η 反向)</td></tr><tr><td>TD14a</td><td>先抹平 ⟹ μ 一步到 1(与初值无关)</td></tr><tr><td><strong>TD18</strong></td><td><strong>满增益 ⟺ 零代价 ⟺ 区域已平坦</strong></td></tr></tbody>
+            </table>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="TD18 是这一节真正的结论:<strong>缺口没有被填掉,它移动了</strong> —— 从「η 是哪来的」变成「抹平功率是哪来的」。这跟上一本账里「场地板 / μ 窗口」的处理方式一致:把问题换成一个<strong>能算的</strong>问题,而不是宣布它不存在。" data-en="TD18 is the real result here: <strong>the gap was not filled, it moved</strong> — from where does η come from to where does the flattening power come from. That matches how the previous ledger handled the field floor and the μ window: turn the question into one that can be computed, rather than declaring it settled.">TD18 是这一节真正的结论:<strong>缺口没有被填掉,它移动了</strong> —— 从「η 是哪来的」变成「抹平功率是哪来的」。这跟上一本账里「场地板 / μ 窗口」的处理方式一致:把问题换成一个<strong>能算的</strong>问题,而不是宣布它不存在。</p>
+        </section>
+
+        <section class="band" id="mu-order">
+          <div class="section-head reveal">
+            <p class="kicker">— 04 · 顺序</p>
+            <h2 class="section-title" data-zh="顺序改了结果:非交换性来自「μ 更新读场」" data-en="Order Changes the Result">顺序改了结果:非交换性来自「μ 更新读场」</h2>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="把两个算子(抹平、μ 更新)按不同顺序作用,结果不同:<span class=mono>顺序差 = (1−μ)(1−η_before)</span>,<strong>只来自增益的差</strong> —— 增益不读场(常数 η)时差为零、可交换。" data-en="Apply the two operators (flatten, μ-update) in different orders and the result differs: <span class=mono>difference = (1−μ)(1−η_before)</span>, driven <strong>only by the difference in gain</strong> — with a field-independent (constant) η the difference vanishes and the operators commute.">把两个算子(抹平、μ 更新)按不同顺序作用,结果不同:<span class=mono>顺序差 = (1−μ)(1−η_before)</span>,<strong>只来自增益的差</strong> —— 增益不读场(常数 η)时差为零、可交换。</p>
+          <div class="table-wrap reveal" style="margin-top:clamp(24px,3.4vw,38px)">
+            <table class="doc">
+              <caption data-zh="TD15–TD17:顺序与见证" data-en="TD15–TD17: order and the witness">TD15–TD17:顺序与见证</caption>
+              <thead><tr><th>定理</th><th>内容</th></tr></thead>
+              <tbody><tr><td>TD15</td><td>顺序差 = (η_after − η_before)(1 − μ)</td></tr><tr><td>TD16</td><td>显式顺序差 = (1−μ)(1−η_before)</td></tr><tr><td><strong>TD17</strong></td><td><strong>不可交换见证(Fin 2):先抹平后更新 ⟹ μ′=1;先更新后抹平 ⟹ μ′=0</strong></td></tr></tbody>
+            </table>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="一个容易混的地方:<strong>GCA6 与本模块说的不是同一件事</strong>。GCA6 是两个<em>抹平</em>算子部分重叠 ⟹ 不可交换(两个都在改场);这里是抹平与 <em>μ 更新</em>的顺序依赖 ⟺ <strong>反馈耦合</strong>。两者都叫「不可交换」,来源不同。" data-en="One easy confusion: <strong>this is not the same statement as GCA6</strong>. GCA6 says two <em>flattening</em> operators partially overlap and therefore fail to commute (both act on the field). Here it is the order dependence between flattening and the <em>μ update</em>, i.e. <strong>feedback coupling</strong>. Both are called non-commutativity; the sources differ.">一个容易混的地方:<strong>GCA6 与本模块说的不是同一件事</strong>。GCA6 是两个<em>抹平</em>算子部分重叠 ⟹ 不可交换(两个都在改场);这里是抹平与 <em>μ 更新</em>的顺序依赖 ⟺ <strong>反馈耦合</strong>。两者都叫「不可交换」,来源不同。</p>
+        </section>
+
+        <section class="band" id="mu-frc">
+          <div class="section-head reveal">
+            <p class="kicker">— 05 · 接 FRC</p>
+            <h2 class="section-title" data-zh="窗口有上界:第 165 步关闭" data-en="The Window Has an Upper Bound: It Closes at Step 165">窗口有上界:第 165 步关闭</h2>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="把 μ 的<strong>轨道</strong>代进 FRC 已证的两条结论(FC11b 的窗口存在条件、FC5b 的 μ 标度因子 1/√(1−μ)),窗口就不只是「存在/不存在」,而是<strong>有一个关闭的步数</strong>。" data-en="Feeding the μ <strong>trajectory</strong> into two results already proved for the FRC (FC11b window condition, FC5b μ scaling factor 1/√(1−μ)) turns the window from a yes/no into <strong>a step count at which it closes</strong>.">把 μ 的<strong>轨道</strong>代进 FRC 已证的两条结论(FC11b 的窗口存在条件、FC5b 的 μ 标度因子 1/√(1−μ)),窗口就不只是「存在/不存在」,而是<strong>有一个关闭的步数</strong>。</p>
+          <div class="table-wrap reveal" style="margin-top:clamp(24px,3.4vw,38px)">
+            <table class="doc">
+              <caption data-zh="TD19–TD21:轨道与 FRC 的接缝" data-en="TD19–TD21: where the trajectory meets the FRC">TD19–TD21:轨道与 FRC 的接缝</caption>
+              <thead><tr><th>定理</th><th>内容</th></tr></thead>
+              <tbody><tr><td><strong>TD19</strong></td><td><strong>窗口余量 m_i(1−μ_n) 沿轨道严格递减 —— 不会自行恢复</strong>(要重开只能反向控制)</td></tr><tr><td><strong>TD20</strong></td><td><strong>锁定因子 1/√(1−μ_n) 分母恒正(良定义)—— TD8 的直接后果</strong></td></tr><tr><td>TD20b</td><td>锁定因子单调递增:逼近发散点,但每步都有限</td></tr><tr><td><strong>TD21</strong></td><td><strong>窗口关闭步判据 1 − m_e/m_i ≤ μ_n ⟺ (1−η)ⁿ(1−μ₀) ≤ m_e/m_i</strong></td></tr></tbody>
+            </table>
+          </div>
+          <p class="section-lede reveal" data-html="1"
+             data-zh="TD21 把「第几步窗口关闭」变成<strong>纯代数式</strong>(工程可算):数值例 η = 0.05、D-T 的 <span class=mono>m_e/m_i = 2.194e-4</span> ⟹ <strong>第 165 步</strong>窗口关闭。所以 μ 的主动产生,除了「怎么产生」,还得回答<strong>「在哪一步停」</strong>。" data-en="TD21 makes which step closes the window a <strong>pure algebraic expression</strong> that engineering can evaluate: with η = 0.05 and the D-T ratio <span class=mono>m_e/m_i = 2.194e-4</span>, the window closes at <strong>step 165</strong>. So producing μ on purpose raises, besides how, the question of <strong>where to stop</strong>.">TD21 把「第几步窗口关闭」变成<strong>纯代数式</strong>(工程可算):数值例 η = 0.05、D-T 的 <span class=mono>m_e/m_i = 2.194e-4</span> ⟹ <strong>第 165 步</strong>窗口关闭。所以 μ 的主动产生,除了「怎么产生」,还得回答<strong>「在哪一步停」</strong>。</p>
+        </section>
+
+        <section class="band" id="mu-limits">
+          <div class="section-head reveal">
+            <p class="kicker">— 06 · 边界</p>
+            <h2 class="section-title" data-zh="这一项能说什么,不能说什么" data-en="What This Entry Does and Does Not Say">这一项能说什么,不能说什么</h2>
+          </div>
+          <dl class="spec-list reveal">
+            <div><dt data-zh="状态方程是模型选择" data-en="The state equation is a model choice">状态方程是模型选择</dt><dd data-zh="μ ↦ μ + η(1−μ) 不是从物理推出的;把 η 定义成抹平进展同样是模型选择。缺口位置移动了(TD18),<strong>缺口本身还在</strong>。" data-en="μ ↦ μ + η(1−μ) is not derived from physics, and defining η as the flattening progress is equally a model choice. The gap moved (TD18); <strong>the gap itself is still open</strong>.">μ ↦ μ + η(1−μ) 不是从物理推出的;把 η 定义成抹平进展同样是模型选择。缺口位置移动了(TD18),<strong>缺口本身还在</strong>。</dd></div>
+            <div><dt data-zh="定理的强度" data-en="Strength of the theorems">定理的强度</dt><dd data-zh="TD1–TD21 = 代数恒等 + 序关系 + 有限维见证(真但平凡)。收敛域(η 与 1、2 的比较)在数值层,Lean 侧形式化的只是超调边界。" data-en="TD1–TD21 are algebraic identities, order relations and finite-dimensional witnesses: true but plain. The convergence domain (η against 1 and 2) lives in the numerical layer; on the Lean side only the overshoot boundary is formalised.">TD1–TD21 = 代数恒等 + 序关系 + 有限维见证(真但平凡)。收敛域(η 与 1、2 的比较)在数值层,Lean 侧形式化的只是超调边界。</dd></div>
+            <div><dt data-zh="没有新的物理机制" data-en="No new physical mechanism">没有新的物理机制</dt><dd data-zh="FRC 接缝是把 μ 轨道代入 FC11b / FC5b 的单调性与良定义性结论,不是新机制。环流 MHD 与等离子体动理学没有建模,<strong>没有新的物理预言</strong>。" data-en="The FRC seam substitutes the μ trajectory into the monotonicity and well-definedness results of FC11b / FC5b; it is not a new mechanism. Rotating-flow MHD and plasma kinetics are not modelled, and <strong>no new physical prediction is made</strong>.">FRC 接缝是把 μ 轨道代入 FC11b / FC5b 的单调性与良定义性结论,不是新机制。环流 MHD 与等离子体动理学没有建模,<strong>没有新的物理预言</strong>。</dd></div>
+            <div><dt data-zh="交付与门" data-en="Deliverables and gates">交付与门</dt><dd data-zh="Lean:<span class=mono>PlasmaDynamics.lean</span>(新增 ④ 节)+ <span class=mono>MuFieldCoupling.lean</span>(新模块),零 sorry 零 warning,挂入聚合根;数值:<span class=mono>scripts/verify_mu_dynamics.py</span>(N1–N15 → <span class=mono>artifacts/mudynamics/</span>),挂进 <span class=mono>make test</span> 的 MUD-TD1a … TD21 断言。" data-en="Lean: <span class=mono>PlasmaDynamics.lean</span> (new section ④) plus <span class=mono>MuFieldCoupling.lean</span> (new module), zero sorry, zero warnings, wired into the aggregate root. Numerics: <span class=mono>scripts/verify_mu_dynamics.py</span> (N1–N15 → <span class=mono>artifacts/mudynamics/</span>), asserted by <span class=mono>make test</span> as MUD-TD1a … TD21.">Lean:<span class=mono>PlasmaDynamics.lean</span>(新增 ④ 节)+ <span class=mono>MuFieldCoupling.lean</span>(新模块),零 sorry 零 warning,挂入聚合根;数值:<span class=mono>scripts/verify_mu_dynamics.py</span>(N1–N15 → <span class=mono>artifacts/mudynamics/</span>),挂进 <span class=mono>make test</span> 的 MUD-TD1a … TD21 断言。</dd></div>
+          </dl>
+        </section>
+
+          <p class="cite-links reveal" style="margin-top:clamp(28px,4vw,44px)">
+            <span class=mono style="color:var(--ink-3);font-size:12px;letter-spacing:1px" data-zh="来源 · 本仓形式化 + 数值验证(Hibs-Physics:PlasmaDynamics.lean / MuFieldCoupling.lean / verify_mu_dynamics.py)" data-en="Source · our formalisation plus numerical checks (Hibs-Physics: PlasmaDynamics.lean / MuFieldCoupling.lean / verify_mu_dynamics.py)">来源 · 本仓形式化 + 数值验证(Hibs-Physics:PlasmaDynamics.lean / MuFieldCoupling.lean / verify_mu_dynamics.py)</span>
+            <a href="https://github.com/logos-42/Hibs-Physics" rel="noopener">Hibs-Physics</a>
+          </p>
+      </article>
+
       </div><!-- /.doc-panes -->
     </div><!-- /.docs -->
   </section>
@@ -844,6 +1154,6 @@
   <span>Controlled Fusion Through the Silence.</span>
 </footer>
 
-<script src="app.js?v=18" defer></script>
+<script src="app.js?v=19" defer></script>
 </body>
 </html>

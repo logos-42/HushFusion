@@ -11,6 +11,8 @@ status: current
 
 ## 最近更新
 
+- **修订行动手册 `docs/PATH-ACTION-PLAYBOOK.md`**：按外部 Lean 项目 `/Users/apple/Downloads/lean/ProjectionPhysics` 的计算图纸推进，不再把主线预先拆成竞争路线。当前行动循环是“计算图纸 → Lean/数值运行 → 缺口或反例 → 补连接定理 → 更新图纸”；首要缺口是把 μ 的主动产生写成状态方程，并将 `GravityControl` 的 `flatten` 接入 `PlasmaDynamics`。
+
 - **新增设计稿 `docs/DONATION-FUND-PLAN.md`(公开支持 / Open Research Fund)**:需方 AI 计划 → 可实施规范。
   裁决 = **非托管金库**:捐款在同一笔交易内原样转给多签金库(Safe 3/5),合约只记账 + 发 `DonationReceived` + 可暂停
   ⇒ 合约里没有钱、没有 admin 改址函数、不需要可升级代理;计划的「ReentrancyGuard」在无币合约里不需要(守 CEI 即可)
@@ -67,6 +69,8 @@ status: current
 - 合作与资助(合作机构 / 资助来源):`about.html#timeline`
 - 文档区(`docs.html`)是**目录切换**的文档区:①`#doc-gravity-control` 控制引力场的代数系统 ②`#doc-antigravity` 反引力约束聚变环 ③`#doc-moire` 魔角石墨烯场天花板 ④`#doc-phonon` 声子能帮上什么 —— 每一项都有独立地址,可直接分享
 - 第 ④ 项的证据强度与前三项**不同**:它是教科书公式 + 实测文献的量级换算,不是本仓形式化产物(逐条出处:`docs/CONTENT-SOURCES.md` §六)
+- 第 ⑥ 项 `#doc-mu-dynamics`「μ 动力学」是**本仓形式化 + 数值验证**(与前三项同级):状态方程 TD1–TD10 / 场控制桥 TD11–TD18 / 顺序不可交换 TD15–TD17 / 接 FRC 的窗口关闭步 TD19–TD21(η=0.05、D-T ⟹ 第 165 步);页面正文写明「模型选择」与「无新物理预言」(出处见 `docs/CONTENT-SOURCES.md` §八)
+- 第 ⑤ 项 `#doc-landscape`「近十年聚变地图」是**外部文献地图**(2016–2026):关键节点时间线、共识三档、八个未知量、**本项目的落点与四条差异化** —— 不含本仓形式化结论,数字只保留核到一手出处的(逐条出处:`docs/CONTENT-SOURCES.md` §七;被剔除的断言同页列明)
 - 时变引力场的「公开细节」与关键指标数值:`progress.html#tech`
 - 岗位参数(级别 / 人数 / 地点 / 待遇,措辞已改「待定」):`hibs.html#join`
 - 三条回路的职责说明(各一句话):`hibs.html#team`

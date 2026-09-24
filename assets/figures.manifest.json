@@ -1,7 +1,7 @@
 {
   "generated_by": "tools/import_figures.py",
   "source_repo": "https://github.com/logos-42/Hibs-Physics",
-  "source_commit": "fea6a3eec55faa1fea40de74741e2d85a962dbce",
+  "source_commit": "d28cd417b3f4d22c01d233204b0f8a70765ef5d1",
   "max_width": 1400,
   "replay": "python3 tools/import_figures.py",
   "excluded": [
@@ -21,7 +21,7 @@
       "sha256": "b1f959a3116d2271051047ae2f860f7e41d79355172e62285e1ac2eee7bc620a",
       "source": "artifacts/antigravityconfinement/fig_confinement_ring.png",
       "source_repo": "https://github.com/logos-42/Hibs-Physics",
-      "source_commit": "fea6a3eec55faa1fea40de74741e2d85a962dbce",
+      "source_commit": "d28cd417b3f4d22c01d233204b0f8a70765ef5d1",
       "source_sha256": "fc59e5ef8aae5dfc69348086ad174910b03ea4a249c6af04d014153200b8ae50",
       "note_zh": "反引力约束聚变环 · 装置系统示意图（三层同心:燃料区 / 双流环 / RMF 线圈）",
       "note_en": "Anti-gravity confinement ring — three concentric layers (fuel / twin flow rings / RMF coil)"
@@ -36,7 +36,7 @@
       "sha256": "a22c995565486e26faa6e80bb73dd420247dc1e5f670822b2cc04eedfec062d0",
       "source": "artifacts/antigravityconfinement/fig_mu_working_window.png",
       "source_repo": "https://github.com/logos-42/Hibs-Physics",
-      "source_commit": "fea6a3eec55faa1fea40de74741e2d85a962dbce",
+      "source_commit": "d28cd417b3f4d22c01d233204b0f8a70765ef5d1",
       "source_sha256": "bd1a6073161a109f7bf00a89b48e3b25d605054954e7f50db4ec1b883a222cf6",
       "note_zh": "反引力约束的 μ 工作区间：τ_E 提升（FC4）与 RMF 天花板 0.99978（FC11）之间",
       "note_en": "μ working window: τ_E gain (FC4) against the RMF ceiling 0.99978 (FC11)"
@@ -51,7 +51,7 @@
       "sha256": "1e22a111cc66c943153e22c92e21a76cebcf02975ea59e93135b109d96ed0732",
       "source": "artifacts/antigravityconfinement/fig_field_map.png",
       "source_repo": "https://github.com/logos-42/Hibs-Physics",
-      "source_commit": "fea6a3eec55faa1fea40de74741e2d85a962dbce",
+      "source_commit": "d28cd417b3f4d22c01d233204b0f8a70765ef5d1",
       "source_sha256": "1e22a111cc66c943153e22c92e21a76cebcf02975ea59e93135b109d96ed0732",
       "note_zh": "轴向磁场 B_z(r,z)：完全反转场反位形（内部反向 → 分离面归零 → 边缘正向）",
       "note_en": "Axial field B_z(r,z): fully reversed field-reversed configuration"
@@ -66,10 +66,25 @@
       "sha256": "08ad30b8818a08c6d21a60927149b2b34735eee37f3b3861ef627daaea2c8379",
       "source": "artifacts/antigravityconfinement/fig_field_line.png",
       "source_repo": "https://github.com/logos-42/Hibs-Physics",
-      "source_commit": "fea6a3eec55faa1fea40de74741e2d85a962dbce",
+      "source_commit": "d28cd417b3f4d22c01d233204b0f8a70765ef5d1",
       "source_sha256": "08ad30b8818a08c6d21a60927149b2b34735eee37f3b3861ef627daaea2c8379",
       "note_zh": "磁力线走向：分离面内闭合（场反位形）/ 外部开放（轴向场）",
       "note_en": "Field-line topology: closed inside the separatrix, open outside"
+    },
+    {
+      "file": "assets/art/mu-dynamics.png",
+      "size": [
+        1400,
+        969
+      ],
+      "bytes": 259212,
+      "sha256": "93d7b96ff80634d355f17fd65d309d287b2f20691bbd0fb250fe52b86c497802",
+      "source": "artifacts/mudynamics/fig_mu_dynamics.png",
+      "source_repo": "https://github.com/logos-42/Hibs-Physics",
+      "source_commit": "d28cd417b3f4d22c01d233204b0f8a70765ef5d1",
+      "source_sha256": "2038943d58cf3c6bc72759d38592535c18242270b1c98f87caca18dcf7c0d7c1",
+      "note_zh": "μ 动力学 2×2:轨道(逼近 1 而不达)· 收敛三区(η≤1 / 1<η<2 / η≥2)· 顺序不可交换(1.00 vs 0.00)· m_eff² 指数衰减恒 > 0",
+      "note_en": "μ dynamics, 2×2: trajectory (approaches 1, never reaches) · three convergence bands · order dependence (1.00 vs 0.00) · m_eff² decays but stays > 0"
     },
     {
       "file": "assets/art/moire-field-ceiling.png",
@@ -81,7 +96,7 @@
       "sha256": "d2cabd4312746279a12f736bb2befc697a6cc62629f9b12ef57a6f5c3a22179e",
       "source": "artifacts/moirefield/fig_field_ceiling_scaling.png",
       "source_repo": "https://github.com/logos-42/Hibs-Physics",
-      "source_commit": "fea6a3eec55faa1fea40de74741e2d85a962dbce",
+      "source_commit": "d28cd417b3f4d22c01d233204b0f8a70765ef5d1",
       "source_sha256": "d2cabd4312746279a12f736bb2befc697a6cc62629f9b12ef57a6f5c3a22179e",
       "note_zh": "场源天花板 → 密度上限与功率密度（n ∝ B², P ∝ B⁴, 体积 ∝ B⁻⁴）",
       "note_en": "Field-source ceiling → density and power density (n ∝ B², P ∝ B⁴, volume ∝ B⁻⁴)"
@@ -96,7 +111,7 @@
       "sha256": "6fc952df662415760e206f7327d76cf3117e043743d67f9d6231b9e1dfd2a79a",
       "source": "artifacts/moirefield/fig_mu_window_verdict.png",
       "source_repo": "https://github.com/logos-42/Hibs-Physics",
-      "source_commit": "fea6a3eec55faa1fea40de74741e2d85a962dbce",
+      "source_commit": "d28cd417b3f4d22c01d233204b0f8a70765ef5d1",
       "source_sha256": "6fc952df662415760e206f7327d76cf3117e043743d67f9d6231b9e1dfd2a79a",
       "note_zh": "μ 窗口判决：所需 (1−μ) 上限 vs 硬地板 m_e/m_i（曲线低于地板 = 无解）",
       "note_en": "μ window verdict: required (1−μ) ceiling vs the hard floor m_e/m_i"
@@ -111,7 +126,7 @@
       "sha256": "c1170f012856b277a2e9a5c16d30a60e04964687472644f0bc8d1a613dbf5ef9",
       "source": "artifacts/moirefield/fig_Bdeath_vs_size.png",
       "source_repo": "https://github.com/logos-42/Hibs-Physics",
-      "source_commit": "fea6a3eec55faa1fea40de74741e2d85a962dbce",
+      "source_commit": "d28cd417b3f4d22c01d233204b0f8a70765ef5d1",
       "source_sha256": "c1170f012856b277a2e9a5c16d30a60e04964687472644f0bc8d1a613dbf5ef9",
       "note_zh": "生死判据 B_death ∝ 1/a：装置越小，要求的场越强（附三条材料天花板）",
       "note_en": "Death threshold B_death ∝ 1/a against three material ceilings"
@@ -126,7 +141,7 @@
       "sha256": "f6ba5c2e7cb253199170e87fd016595661ea21a98ad55b9cdb3e8f34ac208fc6",
       "source": "artifacts/moirefield/fig_gate_gaps.png",
       "source_repo": "https://github.com/logos-42/Hibs-Physics",
-      "source_commit": "fea6a3eec55faa1fea40de74741e2d85a962dbce",
+      "source_commit": "d28cd417b3f4d22c01d233204b0f8a70765ef5d1",
       "source_sha256": "f6ba5c2e7cb253199170e87fd016595661ea21a98ad55b9cdb3e8f34ac208fc6",
       "note_zh": "四道门的缺口：场门 / 载流门 / 片超流密度门 / 制冷门",
       "note_en": "Gaps of the four gates: field / sheet current / superfluid density / cryogenics"
