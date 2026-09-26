@@ -251,6 +251,7 @@ sha256    bb25bf8911fa095ae3ef06a6348525b9f91fb96724ca050e8cb0bb341dc116e5
 | `assets/art/moire-mu-verdict.png` | 1350×840 | 87 KB | `6fc952df66241576…` | `artifacts/moirefield/fig_mu_window_verdict.png` |
 | `assets/art/moire-bdeath-size.png` | 1350×840 | 78 KB | `c1170f012856b277…` | `artifacts/moirefield/fig_Bdeath_vs_size.png` |
 | `assets/art/moire-gate-gaps.png` | 1350×750 | 41 KB | `f6ba5c2e7cb25319…` | `artifacts/moirefield/fig_gate_gaps.png` |
+| `assets/art/mu-dynamics.png` | 1400×969 | 253 KB | `93d7b96ff80634d3…` | `artifacts/mudynamics/fig_mu_dynamics.png` |
 
 **规则**
 
