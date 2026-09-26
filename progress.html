@@ -62,6 +62,36 @@
     <p><span class="status">Not built yet · device</span> <span class="status">Running · FORGE v0.1.0</span></p>
   </section>
 
+  <!-- ◆ 判决漏斗:装置侧唯一已经写死的东西不是参数,是判据 -->
+  <section class="band" id="funnel">
+    <div class="section-head reveal">
+      <p class="kicker" data-zh="— 判决漏斗" data-en="— Verdict funnel">— 判决漏斗</p>
+      <h2 class="section-title" data-html="1" data-zh="&lt;strong&gt;3 个判决量 + 8 道门 + 1 条 μ 数量级阶梯&lt;/strong&gt;:先把判决条件写死,再动采购" data-en="&lt;strong&gt;3 verdict quantities + 8 gates + 1 μ order-of-magnitude ladder&lt;/strong&gt;: fix the verdict conditions first, buy things later">3 个判决量 + 8 道门 + 1 条 μ 数量级阶梯:先把判决条件写死,再动采购</h2>
+      <p class="section-lede" data-html="1"
+         data-zh="装置侧现在的位置就是这张表的第一行。&lt;strong&gt;前 6 个月&lt;/strong&gt;只花 &lt;strong&gt;15 人·月&lt;/strong&gt;(五年计划的 &lt;strong&gt;1.29%&lt;/strong&gt;),而 &lt;strong&gt;G1(M6)是全计划最便宜也最决定性的一步 —— 生死门:μ 签名在不在&lt;/strong&gt;。每个阶段要碰到的 μ 量级是预先写死的:~1e−4(G0,桌面,无装置)→ 1e−3(G1)→ 1e−2(G2 / G3 复现)→ 1e−1(G4);前 18 个月合起来 93 人·月,占五年 8.0%;全周期 60 个月。每一道门的失败处置都在立项前写好了 —— 这是这张表最要紧的部分。"
+         data-en="The device side currently sits on the first row of this table. The &lt;strong&gt;first six months&lt;/strong&gt; cost &lt;strong&gt;15 person-months&lt;/strong&gt; (1.29% of the five-year plan), and &lt;strong&gt;G1 (M6) is the cheapest and most decisive step in the whole plan — the life-or-death gate: is there a μ signature or not&lt;/strong&gt;. The order of magnitude each stage has to reach is fixed in advance: ~1e−4 (G0, bench, no device) → 1e−3 (G1) → 1e−2 (G2 / G3 reproduction) → 1e−1 (G4); the first 18 months together are 93 person-months, 8.0% of the five years; the full cycle is 60 months. Every gate has its failure handling written before the project starts — the most important part of this table.">装置侧现在的位置就是这张表的第一行。<strong>前 6 个月</strong>只花 <strong>15 人·月</strong>(五年计划的 <strong>1.29%</strong>),而 <strong>G1(M6)是全计划最便宜也最决定性的一步 —— 生死门:μ 签名在不在</strong>。每个阶段要碰到的 μ 量级是预先写死的:~1e−4(G0,桌面,无装置)→ 1e−3(G1)→ 1e−2(G2 / G3 复现)→ 1e−1(G4);前 18 个月合起来 93 人·月,占五年 8.0%;全周期 60 个月。每一道门的失败处置都在立项前写好了 —— 这是这张表最要紧的部分。</p>
+    </div>
+
+      <div class="table-wrap reveal">
+        <table class="doc">
+          <thead>
+            <tr><th data-zh="门" data-en="Gate">门</th><th data-zh="月" data-en="Month">月</th><th data-zh="交付物" data-en="Deliverable">交付物</th><th data-zh="通过条件" data-en="Pass condition">通过条件</th><th data-zh="失败处置(预写)" data-en="Pre-written failure handling">失败处置(预写)</th></tr>
+          </thead>
+          <tbody>
+                <tr><td data-zh="G0 · 2 人" data-en="G0 · 2 people">G0 · 2 人</td><td data-zh="3" data-en="3">3</td><td data-zh="判据规范 + 零假设基准 + 预注册协议(论文 1)" data-en="Criteria spec + null-hypothesis baseline + pre-registration protocol (paper 1)">判据规范 + 零假设基准 + 预注册协议(论文 1)</td><td data-zh="标准 MHD 预测 R_ci = 0 的解析 / 数值基准 + 诊断方案定标" data-en="Analytic and numerical benchmarks for the standard-MHD prediction R_ci = 0, plus diagnostics calibrated">标准 MHD 预测 R_ci = 0 的解析 / 数值基准 + 诊断方案定标</td><td data-zh="继续(无实验)" data-en="Continue (no experiment)">继续(无实验)</td></tr>
+                <tr><td data-zh="G1 · 3 人" data-en="G1 · 3 people">G1 · 3 人</td><td data-zh="6" data-en="6">6</td><td data-zh="<strong>D1 判决实验 v1</strong>(桌面判据台)" data-en="<strong>D1 verdict experiment v1</strong> (bench-top criteria rig)"><strong>D1 判决实验 v1</strong>(桌面判据台)</td><td data-zh="R_ci 实测 &gt; 3σ,且零假设预测 &lt; 分辨率" data-en="Measured R_ci &gt; 3σ, with the null-hypothesis prediction &lt; resolution">R_ci 实测 &gt; 3σ,且零假设预测 &lt; 分辨率</td><td data-zh="R_ci = 0 ⟹ 停装置线,转纯理论(负结果可发表)" data-en="R_ci = 0 ⟹ halt the device line, go pure theory (a negative result is publishable)">R_ci = 0 ⟹ 停装置线,转纯理论(负结果可发表)</td></tr>
+                <tr><td data-zh="G2 · 5 人" data-en="G2 · 5 people">G2 · 5 人</td><td data-zh="12" data-en="12">12</td><td data-zh="D3 标度初值 k + μ(B, f, 配比)标定曲线" data-en="D3 scaling seed k + a calibration curve for μ(B, f, mix)">D3 标度初值 k + μ(B, f, 配比)标定曲线</td><td data-zh="k 拟合带置信区间;μ 达 1e−2" data-en="k fitted with a confidence interval; μ reaching 1e−2">k 拟合带置信区间;μ 达 1e−2</td><td data-zh="k &lt; 0.5 ⟹ 转 B 计划(μ 降级为辅助输运层)" data-en="k &lt; 0.5 ⟹ switch to plan B (μ demoted to an auxiliary transport layer)">k &lt; 0.5 ⟹ 转 B 计划(μ 降级为辅助输运层)</td></tr>
+                <tr><td data-zh="G3 · 8 人" data-en="G3 · 8 people">G3 · 8 人</td><td data-zh="18" data-en="18">18</td><td data-zh="外部实验室独立复现(≥2 装置 / ≥3 批次)" data-en="Independent reproduction in external labs (≥2 rigs / ≥3 batches)">外部实验室独立复现(≥2 装置 / ≥3 批次)</td><td data-zh="复现包齐全,第三方数据同号同量级" data-en="Reproduction package complete; third-party data same sign, same order of magnitude">复现包齐全,第三方数据同号同量级</td><td data-zh="复现失败 ⟹ 回 G1 重设诊断" data-en="Reproduction fails ⟹ return to G1 and re-spec the diagnostics">复现失败 ⟹ 回 G1 重设诊断</td></tr>
+                <tr><td data-zh="G4 · 12 人" data-en="G4 · 12 people">G4 · 12 人</td><td data-zh="24" data-en="24">24</td><td data-zh="D2 锁定判决(Λ)+ τ_E 标度律(FC4)" data-en="D2 locking verdict (Λ) + the τ_E scaling law (FC4)">D2 锁定判决(Λ)+ τ_E 标度律(FC4)</td><td data-zh="同 μ 下 τ_E 增益与 s 惩罚的实测比 + 1/√(1−μ) 拟合" data-en="Measured ratio of τ_E gain to s penalty at equal μ, plus a 1/√(1−μ) fit">同 μ 下 τ_E 增益与 s 惩罚的实测比 + 1/√(1−μ) 拟合</td><td data-zh="Λ = 1 ⟹ 反引力不可作主约束,并入 FRC / CFR2 路线" data-en="Λ = 1 ⟹ anti-gravity cannot be the primary constraint; merge into FRC / CFR2">Λ = 1 ⟹ 反引力不可作主约束,并入 FRC / CFR2 路线</td></tr>
+                <tr><td data-zh="G5 · 20 人" data-en="G5 · 20 people">G5 · 20 人</td><td data-zh="36" data-en="36">36</td><td data-zh="D-D 产额标度 + μ–⟨σv⟩ 耦合闭合" data-en="D-D yield scaling + closing the μ–⟨σv⟩ coupling">D-D 产额标度 + μ–⟨σv⟩ 耦合闭合</td><td data-zh="中子产额对约束参数的标度律;反应率随 μ 的实测修正" data-en="A scaling law of neutron yield against confinement parameters; measured correction of reactivity with μ">中子产额对约束参数的标度律;反应率随 μ 的实测修正</td><td data-zh="产额不随约束提升 ⟹ 回 G4" data-en="Yield does not rise with confinement ⟹ return to G4">产额不随约束提升 ⟹ 回 G4</td></tr>
+                <tr><td data-zh="G6 · 28 人" data-en="G6 · 28 people">G6 · 28 人</td><td data-zh="48" data-en="48">48</td><td data-zh="D-T / 等效高性能燃烧路线评估" data-en="D-T / equivalent high-performance burn route assessment">D-T / 等效高性能燃烧路线评估</td><td data-zh="完成 D-D / 替代实验、屏蔽与许可设计工程门;D-T Q&gt;1 只是外部合作或极限情形,不作五年承诺" data-en="Close the D-D / alternative experiments, shielding and licensing engineering gates; D-T Q&gt;1 is only an external-collaboration or limiting case, never a five-year promise">完成 D-D / 替代实验、屏蔽与许可设计工程门;D-T Q&gt;1 只是外部合作或极限情形,不作五年承诺</td><td data-zh="未达燃烧条件 ⟹ 保留 D-D / 脉冲实验主线" data-en="Burn conditions not reached ⟹ keep the D-D / pulsed experiment main line">未达燃烧条件 ⟹ 保留 D-D / 脉冲实验主线</td></tr>
+                <tr><td data-zh="G7 · 35 人" data-en="G7 · 35 people">G7 · 35 人</td><td data-zh="60" data-en="60">60</td><td data-zh="系统级可重复运行 + 路线裁决" data-en="System-level repeatable operation + route arbitration">系统级可重复运行 + 路线裁决</td><td data-zh="可审计能量账本、长脉冲 / 高重复率数据、独立复核与下一阶段放大方案" data-en="An auditable energy ledger, long-pulse / high-repetition data, independent review and a next-stage scale-up plan">可审计能量账本、长脉冲 / 高重复率数据、独立复核与下一阶段放大方案</td><td data-zh="—" data-en="—">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    <p style="color:var(--ink-3);font-size:.875rem;margin-top:16px" data-zh="数目字是排程假设,不是承诺;货币成本按约定不写进这份账。出处:上游 Hibs-Physics 的判决漏斗页(原标记 audience: self,经需方 2026-09-26 决定公开)。" data-en="The numbers are scheduling assumptions, not promises; monetary cost is by convention kept out of this ledger. Source: the verdict-funnel page in the upstream Hibs-Physics repository (originally marked audience: self, released by the owner on 2026-09-26).">数目字是排程假设,不是承诺;货币成本按约定不写进这份账。出处:上游 Hibs-Physics 的判决漏斗页(原标记 audience: self,经需方 2026-09-26 决定公开)。</p>
+  </section>
+
   <!-- ◆ 技术(原 technology.html 已并入本节) -->
   <section class="band" id="tech">
     <div class="section-head reveal">
@@ -133,6 +163,7 @@
     <p style="margin-top:26px">
       <a class="see-all" href="https://github.com/logos-42/hushfusion-forge" target="_blank" rel="noopener"
          data-zh="代码仓库:github.com/logos-42/hushfusion-forge →" data-en="Repository: github.com/logos-42/hushfusion-forge →">代码仓库:github.com/logos-42/hushfusion-forge →</a>
+      <a class="see-all" href="https://github.com/logos-42/hushfusion-forge/blob/master/docs/design-layer.md" target="_blank" rel="noopener",          style="margin-left:18px",          data-zh="判决层契约(冻结文本) →" data-en="Verdict-layer contract (frozen text) →">判决层契约(冻结文本) →</a>
     </p>
   </section>
 
