@@ -74,6 +74,25 @@ if [ "${VERIFY:-1}" = "1" ]; then
   echo "→ 线上真浏览器验收"
   # 截图写到临时目录:线上复验的证据和本地证据分开,别把 docs/screenshots 重写掉
   LIVE_SHOTS="$(mktemp -d)/live-shots"
-  SHOT_DIR="$LIVE_SHOTS" node scripts/verify-site.mjs "https://$PROJECT.pages.dev" 2>&1 | tail -4
+  LIVE_LOG="$(mktemp)"
+  # 发布刚落地时线上验收偶发抖动(CDP 连上但页面还没就绪)。重试到判据,
+  # 但**不许把真红也吃成绿**:三次都不过就明说这是真红。
+  attempt=0; live_ok=0
+  while [ "$attempt" -lt 3 ]; do
+    attempt=$((attempt + 1))
+    if SHOT_DIR="$LIVE_SHOTS" node scripts/verify-site.mjs "https://$PROJECT.pages.dev" > "$LIVE_LOG" 2>&1; then
+      live_ok=1; break
+    fi
+    echo "   ! 第 $attempt 次线上验收未通过(发布刚落地时偶发),重试"
+    sleep 5
+  done
+  tail -4 "$LIVE_LOG"
+  if [ "$live_ok" = "1" ]; then
+    echo "→ 线上验收通过(第 $attempt 次)"
+  else
+    echo "→ 线上验收失败:发布已落地,但真浏览器验收连续 3 次未通过 —— 这是真红,不是抖动"
+    echo "   (完整输出:$LIVE_LOG)"
+    exit 1
+  fi
   echo "   (线上截图:$LIVE_SHOTS —— 本地证据 docs/screenshots 未被覆盖)"
 fi
